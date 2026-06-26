@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cklkmsbg5qhpt"]
+
+[ext_resource type="PackedScene" uid="uid://djk5qjamu8c4d" path="res://scenes/level_01.tscn" id="1_xjjcu"]
+
+[node name="MechBrawl" type="Node3D" unique_id=64331073]
+
+[node name="Level01" parent="." unique_id=153374081 instance=ExtResource("1_xjjcu")]

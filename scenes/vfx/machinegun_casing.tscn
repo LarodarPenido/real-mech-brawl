@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://uq71o42hr2bx"]
+
+[ext_resource type="Script" uid="uid://ckn8js28o2yma" path="res://scripts/vfx/machinegun_casing.gd" id="1_due7g"]
+[ext_resource type="Material" uid="uid://dqe41521mr5vi" path="res://assets/materials/brass.tres" id="2_vqjby"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4b3kd"]
+material = ExtResource("2_vqjby")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 1.0
+radial_segments = 9
+cap_bottom = false
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7fw7d"]
+
+[node name="MachinegunCasing" type="RigidBody3D" unique_id=151541643]
+collision_layer = 16
+gravity_scale = 1.5
+script = ExtResource("1_due7g")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1408106186]
+mesh = SubResource("CylinderMesh_4b3kd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=841758676]
+shape = SubResource("CylinderShape3D_7fw7d")

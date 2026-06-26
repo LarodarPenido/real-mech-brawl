@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cpjr4hvhpuear"]
+
+[resource]
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+disable_specular_occlusion = true
+albedo_color = Color(0.3180198, 0.31801978, 0.31801975, 1)
+use_point_size = true
+point_size = 3.2
+stencil_flags = 2
+stencil_outline_thickness = 0.188

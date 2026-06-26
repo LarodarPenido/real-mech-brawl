@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bh7d6r12bkerm"]
+
+[ext_resource type="Material" uid="uid://dxmc54lcve54c" path="res://assets/materials/glowing.tres" id="1_1mba8"]
+[ext_resource type="Script" uid="uid://c57400h16gpqg" path="res://scRIPTs/vfx/machinegun_muzzle_flare.gd" id="1_2vlw6"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_7fw7d"]
+
+[node name="MachinegunMuzzleFlare" type="Node3D" unique_id=755853634]
+script = ExtResource("1_2vlw6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=629208610]
+mesh = SubResource("PrismMesh_7fw7d")
+surface_material_override/0 = ExtResource("1_1mba8")

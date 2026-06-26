@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://gcjlq2bm2ucw"]
+
+[ext_resource type="Script" uid="uid://c3ssvk3nifanm" path="res://scripts/vfx/machinegun_impact.gd" id="1_8wylu"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_mp1yv"]
+
+[node name="MachinegunImpact" type="Node3D"]
+script = ExtResource("1_8wylu")
+lifetime = 3.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_mp1yv")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21368, 0, -0.397203)
+mesh = SubResource("SphereMesh_mp1yv")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.535872, 0, 0.510123)
+mesh = SubResource("SphereMesh_mp1yv")

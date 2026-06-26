@@ -1,0 +1,106 @@
+[gd_scene load_steps=10 format=3 uid="uid://bgst2hffuvfpo"]
+
+[ext_resource type="Script" uid="uid://b5e7vfb4exyy6" path="res://scripts/player.gd" id="1_dqkch"]
+[ext_resource type="Script" uid="uid://bym6v5scqiwp5" path="res://scripts/camera.gd" id="2_qlg0r"]
+[ext_resource type="PackedScene" uid="uid://dblvqlplbyfdk" path="res://assets/models/mechs/mechtorso.tscn" id="3_dqkch"]
+[ext_resource type="PackedScene" uid="uid://cvy386hn6tkrh" path="res://assets/models/mechs/mechlegs.tscn" id="4_qlg0r"]
+[ext_resource type="Script" uid="uid://d2v28gxl3w055" path="res://scripts/player/aim_assist.gd" id="5_tuyoq"]
+[ext_resource type="Script" uid="uid://e4ejbmw146ya" path="res://scripts/player/weapon_manager.gd" id="6_fjrip"]
+[ext_resource type="PackedScene" uid="uid://dbswuwxkhvgep" path="res://scenes/weapons/submachineguns.tscn" id="7_fjrip"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4lj41"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_7fw7d"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("torso", "legs", "torso_animation_player", "legs_animation_player") groups=["player"]]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_dqkch")
+torso = NodePath("Torso")
+legs = NodePath("Legs")
+use_eight_way_rotation = false
+rotation_speed = 4.0
+dash_speed = 20.0
+dash_cooldown = 1.0
+torso_animation_player = NodePath("Torso/MECHTORSO/AnimationPlayer")
+legs_animation_player = NodePath("Legs/MECHLEGS/AnimationPlayer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_4lj41")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" groups=["camera"]]
+script = ExtResource("2_qlg0r")
+follow_offset = Vector3(22.685, 14.52, 0)
+
+[node name="Torso" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00537252, 0.241316, 0)
+
+[node name="MECHTORSO" parent="Torso" instance=ExtResource("3_dqkch")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.882855, 0, 0)
+
+[node name="Skeleton3D" parent="Torso/MECHTORSO/Armature_001" index="0"]
+bones/0/position = Vector3(0, 0, 0)
+bones/0/rotation = Quaternion(0, -0.707107, 0, 0.707107)
+bones/2/rotation = Quaternion(0.094537, 0.0544938, 0.178002, 0.977961)
+bones/3/rotation = Quaternion(-0.628035, -0.393856, 0.410609, 0.530895)
+bones/4/rotation = Quaternion(-0.730342, -4.94733e-09, 1.64037e-10, 0.683082)
+bones/5/rotation = Quaternion(1.24952e-08, 3.56391e-08, -0.79955, 0.6006)
+bones/6/rotation = Quaternion(-9.04966e-09, 5.62968e-08, 0.459768, 0.888039)
+bones/7/rotation = Quaternion(-2.15052e-08, 0.682203, 0.731163, -5.15049e-08)
+bones/9/rotation = Quaternion(-0.628035, 0.393857, -0.410609, 0.530895)
+bones/10/rotation = Quaternion(-0.730342, -2.30782e-08, -1.92212e-08, 0.683082)
+
+[node name="Submachineguns" parent="Torso/MECHTORSO/Armature_001/Skeleton3D/Cube_012/Outline" index="0" instance=ExtResource("7_fjrip")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -0.873174, -3.72377, 0.580778)
+fire_rate = 10.0
+screen_shake_strength = 0.2
+
+[node name="align" type="MeshInstance3D" parent="Torso"]
+visible = false
+mesh = SubResource("SphereMesh_7fw7d")
+
+[node name="Legs" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.017911, 0.078759, 0.021305)
+
+[node name="MECHLEGS" parent="Legs" instance=ExtResource("4_qlg0r")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.867025, 0, 0)
+
+[node name="Skeleton3D" parent="Legs/MECHLEGS/Armature" index="0"]
+bones/0/position = Vector3(0, 0, 0)
+bones/1/position = Vector3(0, -0.0636375, 0)
+bones/1/rotation = Quaternion(0.494179, 0.508139, 0.547205, -0.445139)
+bones/2/rotation = Quaternion(0.483604, 0.585169, -0.442798, -0.477111)
+bones/3/rotation = Quaternion(0.0861496, 0.68749, 0.0963892, 0.714595)
+bones/6/position = Vector3(0, -0.0636375, 0)
+bones/7/rotation = Quaternion(-0.483604, 0.585169, -0.442798, 0.477111)
+bones/8/rotation = Quaternion(0.0861496, -0.68749, -0.0963892, 0.714595)
+
+[node name="AnimationPlayer" parent="Legs/MECHLEGS" index="1"]
+autoplay = "LegsIdle"
+
+[node name="align2" type="MeshInstance3D" parent="Legs"]
+visible = false
+mesh = SubResource("SphereMesh_7fw7d")
+
+[node name="AimAssist" type="Node" parent="." node_paths=PackedStringArray("player", "camera")]
+script = ExtResource("5_tuyoq")
+player = NodePath("..")
+camera = NodePath("../CameraPivot/Camera3D")
+
+[node name="WeaponManager" type="Node" parent="." node_paths=PackedStringArray("aim_assist", "camera", "primary_weapons")]
+script = ExtResource("6_fjrip")
+aim_assist = NodePath("../AimAssist")
+camera = NodePath("../CameraPivot/Camera3D")
+primary_weapons = [NodePath("../Torso/MECHTORSO/Armature_001/Skeleton3D/Cube_012/Outline/Submachineguns")]
+
+[node name="StateLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.35164, 0)
+visible = false
+billboard = 1
+text = "AAAAAA"
+font_size = 256
+
+[editable path="Torso/MECHTORSO"]
+[editable path="Legs/MECHLEGS"]

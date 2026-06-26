@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b2estxbq2wb7m"]
+
+[ext_resource type="Shader" uid="uid://bd17itjkckq2w" path="res://assets/shader/pixelator.gdshader" id="1_ou2og"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vrcmr"]
+shader = ExtResource("1_ou2og")
+shader_parameter/pixelSize = 3
+
+[node name="Pixelator" type="CanvasLayer" unique_id=1106576369]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1291693773]
+texture_filter = 1
+material = SubResource("ShaderMaterial_vrcmr")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

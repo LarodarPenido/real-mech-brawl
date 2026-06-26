@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://ch6b0oba1wpwh"]
+
+[ext_resource type="Script" uid="uid://deo3mq83wimo4" path="res://scripts/vfx/tracer.gd" id="1_712vr"]
+[ext_resource type="Material" uid="uid://dxmc54lcve54c" path="res://assets/materials/glowing.tres" id="2_g2ar8"]
+
+[node name="Tracer" type="Node3D" unique_id=2051324848]
+script = ExtResource("1_712vr")
+width = 0.05
+color = Color(2, 2, 0.5, 1)
+material = ExtResource("2_g2ar8")
