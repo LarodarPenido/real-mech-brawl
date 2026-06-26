@@ -1,4 +1,4 @@
-extends Node
+extends CharacterBody3D
 
 
 @export var stats: Node 
@@ -14,9 +14,9 @@ var is_dead: bool = false
 
 @export var turn_speed: float = 0.5
 @export var min_move_speed: float = 0.05
-@export var weight: float = 50
+
 var direction: Vector3 = Vector3.ZERO
-var rotation: Vector3 = Vector3.ZERO
+
 
 # --- Signals ---
 signal died(unit_type: String, faction: String, killer_type: String)

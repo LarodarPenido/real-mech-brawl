@@ -118,6 +118,9 @@ func _tick_chase(delta: float) -> void:
 
 	_point_weapon(target)
 
+
+
+
 	if player_in_weapon_range():
 		_enter_state(State.AIM)
 		return
@@ -125,9 +128,12 @@ func _tick_chase(delta: float) -> void:
 		# Move toward target 
 		var direction: Vector3 = target.global_position - unit.global_position
 		direction.y = 0.0
+		unit.velocity = unit.global_position - target.global_position * stats.move_speed
 		if direction.length() < 0.001:
 			_enter_state(State.AIM)
 			return
+
+
 
 
 

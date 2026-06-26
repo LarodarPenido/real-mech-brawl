@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://tdmytnpgvmoe"]
+[gd_scene format=3 uid="uid://tdmytnpgvmoe"]
 
 [ext_resource type="Script" uid="uid://du3sf0riv0ukp" path="res://scripts/enemies/ground_enemy_brain.gd" id="1_326vp"]
+[ext_resource type="Script" uid="uid://cidw88td13hiu" path="res://scripts/enemies/skin.gd" id="2_022su"]
 [ext_resource type="Script" uid="uid://dafd13agtjfl0" path="res://scripts/enemies/enemy_body.gd" id="2_ei0en"]
 [ext_resource type="Script" uid="uid://c6b3iqe0dc5s6" path="res://scripts/weapons/light_cannon.gd" id="3_022su"]
 [ext_resource type="Script" uid="uid://blbrnatladejg" path="res://scripts/enemies/enemy_stats.gd" id="4_yd20o"]
@@ -13,49 +14,52 @@ size = Vector3(0.135, 0.13, 2.75)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7fw7d"]
 
-[node name="Buggy" type="CharacterBody3D" node_paths=PackedStringArray("stats")]
+[node name="Buggy" type="CharacterBody3D" unique_id=293757789 node_paths=PackedStringArray("stats")]
 collision_layer = 4
 script = ExtResource("2_ei0en")
 stats = NodePath("EnemyStats")
 
-[node name="Skin" type="Node3D" parent="."]
+[node name="Skin" type="Node3D" parent="." unique_id=577763434]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.507772, 0)
+script = ExtResource("2_022su")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Skin"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Skin" unique_id=277114908]
 mesh = SubResource("PrismMesh_4b3kd")
 
-[node name="Weapon" type="Node3D" parent="."]
+[node name="Weapon" type="Node3D" parent="." unique_id=169147481]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03634, 0)
 script = ExtResource("3_022su")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Weapon"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Weapon" unique_id=1815801319]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0381185, -1.00846)
 mesh = SubResource("PrismMesh_7fw7d")
 
-[node name="MuzzlePoint" type="Marker3D" parent="Weapon"]
+[node name="MuzzlePoint" type="Marker3D" parent="Weapon" unique_id=211528405]
 
-[node name="EnemyStats" type="Node" parent="."]
+[node name="EnemyStats" type="Node" parent="." unique_id=1535198316]
 script = ExtResource("4_yd20o")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1887548664]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.516378, 0)
 shape = SubResource("CapsuleShape3D_7fw7d")
 
-[node name="TargetLabel" type="Label3D" parent="."]
+[node name="TargetLabel" type="Label3D" parent="." unique_id=650475031]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.4611, 0)
 billboard = 1
 font_size = 256
 
-[node name="StateLabel" type="Label3D" parent="."]
+[node name="StateLabel" type="Label3D" parent="." unique_id=109158060]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65398, 0)
 billboard = 1
 text = "AAAA"
 font_size = 256
 
-[node name="EnemyBrain" type="Node" parent="." node_paths=PackedStringArray("weapon")]
+[node name="EnemyBrain" type="Node" parent="." unique_id=181073411 node_paths=PackedStringArray("weapon")]
 script = ExtResource("1_326vp")
 weapon = NodePath("../Weapon")
+target_search_interval = null
+telegraph_duration = null
 
-[node name="TelegraphTimer" type="Timer" parent="."]
+[node name="TelegraphTimer" type="Timer" parent="." unique_id=560212266]
 
 [connection signal="timeout" from="TelegraphTimer" to="EnemyBrain" method="_on_telegraph_timer_timeout"]
