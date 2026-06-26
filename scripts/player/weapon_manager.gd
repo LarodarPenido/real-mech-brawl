@@ -112,6 +112,29 @@ func get_active_secondary() -> Node:
 		return secondary_weapons[_secondary_index]
 	return null
 
+func is_primary_actively_firing() -> bool:
+	var primary := get_active_primary()
+
+	if primary == null:
+		return false
+
+	if primary.has_method("is_actively_firing"):
+		return primary.is_actively_firing()
+
+	# Fallback for weapons that do not expose actual firing state yet.
+	return _is_firing
+
+func is_primary_overheated() -> bool:
+	var primary := get_active_primary()
+
+	if primary == null:
+		return false
+
+	if primary.has_method("is_overheated_now"):
+		return primary.is_overheated_now()
+
+	return false
+
 
 # --- Internal ---
 

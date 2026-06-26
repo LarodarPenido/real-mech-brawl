@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://dafd13agtjfl0" path="res://scripts/enemies/enemy_body.gd" id="2_ei0en"]
 [ext_resource type="Script" uid="uid://c6b3iqe0dc5s6" path="res://scripts/weapons/light_cannon.gd" id="3_022su"]
 [ext_resource type="Script" uid="uid://blbrnatladejg" path="res://scripts/enemies/enemy_stats.gd" id="4_yd20o"]
+[ext_resource type="Script" uid="uid://vfnsa0gdwefv" path="res://scenes/vfx/laser_sight.gd" id="6_022su"]
+[ext_resource type="Material" uid="uid://q27ph6f8vq7v" path="res://assets/materials/laser.tres" id="7_yd20o"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_4b3kd"]
 size = Vector3(1, 1, 2.215)
@@ -57,9 +59,14 @@ font_size = 256
 [node name="EnemyBrain" type="Node" parent="." unique_id=181073411 node_paths=PackedStringArray("weapon")]
 script = ExtResource("1_326vp")
 weapon = NodePath("../Weapon")
-target_search_interval = null
-telegraph_duration = null
 
 [node name="TelegraphTimer" type="Timer" parent="." unique_id=560212266]
+
+[node name="LaserSight" type="Node3D" parent="." unique_id=1453113899]
+script = ExtResource("6_022su")
+lifetime = 10.0
+width = 0.1
+color = Color(1.6976031, 0, 0.55785996, 1)
+material = ExtResource("7_yd20o")
 
 [connection signal="timeout" from="TelegraphTimer" to="EnemyBrain" method="_on_telegraph_timer_timeout"]

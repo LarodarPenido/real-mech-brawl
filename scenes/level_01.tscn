@@ -1,10 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://djk5qjamu8c4d"]
+[gd_scene format=3 uid="uid://djk5qjamu8c4d"]
 
 [ext_resource type="PackedScene" uid="uid://bgst2hffuvfpo" path="res://scenes/player.tscn" id="1_bpt1m"]
+[ext_resource type="Script" uid="uid://bx61jmtuvvmmf" path="res://scripts/managers/play_area.gd" id="1_qgxqk"]
 [ext_resource type="Script" uid="uid://bux67engy4bxg" path="res://scripts/ui/reticle.gd" id="2_4lj41"]
 [ext_resource type="Material" uid="uid://dxmc54lcve54c" path="res://assets/materials/glowing.tres" id="2_mofoo"]
 [ext_resource type="PackedScene" uid="uid://imwh7n82s1bi" path="res://scenes/scenario/wall.tscn" id="3_nr3cb"]
 [ext_resource type="PackedScene" uid="uid://tdmytnpgvmoe" path="res://scenes/enemies/goon_enemy.tscn" id="5_j60wy"]
+[ext_resource type="Script" uid="uid://dd1jpsyocy7e5" path="res://scripts/ui/aim_assist_indicator.gd" id="6_1b6n0"]
+[ext_resource type="Script" uid="uid://c68focd1kwrgn" path="res://scripts/managers/enemy_manager.gd" id="7_t0ybu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3ybv4"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -21,6 +24,10 @@ glow_bloom = 0.04
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
 size = Vector3(58.7178, 7.46082, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_qgxqk"]
+material = ExtResource("2_mofoo")
+radius = 10.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4b3kd"]
 size = Vector3(1, 7.86914, 134.682)
@@ -48,9 +55,9 @@ material = ExtResource("2_mofoo")
 radius = 10.0
 height = 5.0
 
-[node name="Level01" type="Node3D"]
+[node name="Level01" type="Node3D" unique_id=767856874]
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=2023190948]
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,88 +68,94 @@ mouse_filter = 2
 stretch = true
 stretch_shrink = 4
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=32263785]
 handle_input_locally = false
 size = Vector2i(320, 180)
 render_target_update_mode = 4
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport" unique_id=1891715120]
 environment = SubResource("Environment_kq1ii")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=1046397868]
 transform = Transform3D(0.848972, 0.234136, -0.473738, 0, 0.896486, 0.443071, 0.528438, -0.376155, 0.761092, 0, 0, 0)
 light_color = Color(0.832532, 0.959713, 1, 1)
 light_energy = 0.5
 shadow_enabled = true
 
-[node name="PlayArea" type="StaticBody3D" parent="SubViewportContainer/SubViewport"]
+[node name="PlayArea" type="StaticBody3D" parent="SubViewportContainer/SubViewport" unique_id=193139958 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 156.443)
 collision_mask = 31
+script = ExtResource("1_qgxqk")
+player = NodePath("../Player")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/PlayArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/PlayArea" unique_id=401881976]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.399398, 5.72447)
 shape = SubResource("BoxShape3D_7fw7d")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/PlayArea"]
+[node name="align" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/PlayArea/CollisionShape3D" unique_id=726006866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.68792, 10.026318, -22.67929)
+mesh = SubResource("SphereMesh_qgxqk")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/PlayArea" unique_id=2088861095]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8291, -119.217)
 shape = SubResource("BoxShape3D_7fw7d")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/PlayArea"]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/PlayArea" unique_id=626828944]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.4126, -0.712504, -60.3648)
 shape = SubResource("BoxShape3D_4b3kd")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/PlayArea"]
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/PlayArea" unique_id=516348473]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3817, -0.815109, -55.3181)
 shape = SubResource("BoxShape3D_4b3kd")
 
-[node name="Ground" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/PlayArea"]
+[node name="Ground" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/PlayArea" unique_id=536003909]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.493813, -92.4503)
 shape = SubResource("BoxShape3D_exckr")
 
-[node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_bpt1m")]
+[node name="Player" parent="SubViewportContainer/SubViewport" unique_id=2122187641 instance=ExtResource("1_bpt1m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.566523, 141.177)
 
-[node name="LevelSkin" type="Node3D" parent="SubViewportContainer/SubViewport"]
+[node name="LevelSkin" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=228400400]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -73.1665)
 
-[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="SubViewportContainer/SubViewport/LevelSkin"]
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=1294553950]
 multimesh = SubResource("MultiMesh_qgxqk")
 
-[node name="Ground" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/LevelSkin"]
+[node name="Ground" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=1099713063]
 mesh = SubResource("BoxMesh_exckr")
 
-[node name="Crate" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/LevelSkin/Ground"]
+[node name="Crate" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/LevelSkin/Ground" unique_id=880482300]
 mesh = SubResource("BoxMesh_r6tdm")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/LevelSkin"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=1072250866]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 233.03)
 visible = false
 mesh = SubResource("SphereMesh_7fw7d")
 
-[node name="Wall" parent="SubViewportContainer/SubViewport/LevelSkin" instance=ExtResource("3_nr3cb")]
+[node name="Wall" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=259349008 instance=ExtResource("3_nr3cb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.375, 5.55825, 164.808)
 
-[node name="Wall3" parent="SubViewportContainer/SubViewport/LevelSkin" instance=ExtResource("3_nr3cb")]
+[node name="Wall3" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=816148008 instance=ExtResource("3_nr3cb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.803312, 5.55825, 164.808)
 
-[node name="Wall4" parent="SubViewportContainer/SubViewport/LevelSkin" instance=ExtResource("3_nr3cb")]
+[node name="Wall4" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=1828751196 instance=ExtResource("3_nr3cb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.0422, 5.55825, 164.808)
 
-[node name="Wall5" parent="SubViewportContainer/SubViewport/LevelSkin" instance=ExtResource("3_nr3cb")]
+[node name="Wall5" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=954888276 instance=ExtResource("3_nr3cb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.0422, 15.9107, 164.808)
 
-[node name="Wall6" parent="SubViewportContainer/SubViewport/LevelSkin" instance=ExtResource("3_nr3cb")]
+[node name="Wall6" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=332432375 instance=ExtResource("3_nr3cb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.519753, 15.9107, 164.808)
 
-[node name="Wall7" parent="SubViewportContainer/SubViewport/LevelSkin" instance=ExtResource("3_nr3cb")]
+[node name="Wall7" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=1308484947 instance=ExtResource("3_nr3cb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.8411, 15.9107, 164.808)
 
-[node name="Wall2" parent="SubViewportContainer/SubViewport/LevelSkin" instance=ExtResource("3_nr3cb")]
+[node name="Wall2" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=1270507195 instance=ExtResource("3_nr3cb")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21.7581, 5.55825, 170.706)
 
-[node name="CombatHUD" type="CanvasLayer" parent="SubViewportContainer/SubViewport"]
+[node name="CombatHUD" type="CanvasLayer" parent="SubViewportContainer/SubViewport" unique_id=727373658]
 
-[node name="Reticle" type="Control" parent="SubViewportContainer/SubViewport/CombatHUD"]
+[node name="Reticle" type="Control" parent="SubViewportContainer/SubViewport/CombatHUD" unique_id=1976765132]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -153,7 +166,28 @@ bracket_gap_idle = 5.0
 bracket_gap_cooling = 12.0
 dot_radius = 0.5
 
-[node name="Temp" type="Node3D" parent="."]
+[node name="AimAssistIndicator" type="Control" parent="SubViewportContainer/SubViewport/CombatHUD" unique_id=87881544 node_paths=PackedStringArray("camera", "aim_assist", "weapon_manager")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_1b6n0")
+camera = NodePath("../../Player/CameraPivot/Camera3D")
+aim_assist = NodePath("../../Player/AimAssist")
+weapon_manager = NodePath("../../Player/WeaponManager")
+dot_radius = 1.0
 
-[node name="Buggy" parent="Temp" instance=ExtResource("5_j60wy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.65723, 107.885)
+[node name="Temp" type="Node3D" parent="." unique_id=782549729]
+
+[node name="Buggy" parent="Temp" unique_id=860301684 instance=ExtResource("5_j60wy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0801754, 121.77226)
+
+[node name="EnemyManager" type="Node3D" parent="." unique_id=189169629 groups=["enemy_manager"]]
+script = ExtResource("7_t0ybu")
+
+[editable path="SubViewportContainer/SubViewport/Player"]
+[editable path="SubViewportContainer/SubViewport/Player/Torso/TorsoPivot/MECHTORSO"]
+[editable path="SubViewportContainer/SubViewport/Player/Legs/MECHLEGS"]

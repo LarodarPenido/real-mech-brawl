@@ -175,7 +175,7 @@ func _fire() -> void:
 
 		if hit_target and hit_target.has_method("take_damage"):
 			#print("target hit:", hit_target)
-			hit_target.take_damage(damage, "player", _owner_node, hit_point)
+			hit_target.take_damage(damage)
 	else:
 		hit_point = muzzle_pos + spread_direction * max_range
 
@@ -410,6 +410,8 @@ func is_overheated_now() -> bool:
 func is_cooling_down() -> bool:
 	return is_overheated
 
+func is_actively_firing() -> bool:
+	return _is_firing and not is_overheated
 
 func get_cooling_progress() -> float:
 	# Returns:

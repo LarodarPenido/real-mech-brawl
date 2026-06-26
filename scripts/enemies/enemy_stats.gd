@@ -1,6 +1,6 @@
 extends Node
 
-@export var weapon_range: float = 20
+@export var weapon_range: float = 30
 @export var detection_range: float = 40
 @export var burst_interval: float = 0.5
 @export var burst_count: int = 6

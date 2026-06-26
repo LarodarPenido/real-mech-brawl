@@ -33,6 +33,7 @@ var can_dash: bool = true
 @export var max_aim_distance: float = 50.0
 @export var aim_sensitivity: float = 0.001
 
+
 # Terrain L1 + EnemyUnits L3 + Destructibles L8
 const AIM_COLLISION_MASK: int = 0b10000101
 
@@ -52,6 +53,8 @@ signal weight_changed(current: float, maximum: float)
 @export var tilt_speed: float = 20.0
 
 @export var torso: Node3D 
+@export var torso_pivot: Marker3D 
+
 @export var legs: Node3D 
 #@onready var torso: 
 
@@ -101,6 +104,8 @@ var _legs_base_rotation: Vector3
 @export var legs_animation_player: AnimationPlayer
 @onready var afterimage_spawner: Node3D = get_node_or_null("Skin/AfterimageSpawner")
 
+
+
 #const EXPLOSION = preload("uid://cqw67qekwu81w")
 
 ## _____ DEGUB DEBUG
@@ -114,17 +119,14 @@ func _ready() -> void:
 		_legs_base_rotation = legs.rotation
 	if torso:
 		_torso_base_rotation = torso.rotation
-
+	
+	#store original torso position
 
 func _physics_process(delta: float) -> void:
 	if not input_enabled:
 		return
 	if not alive:
 		return
-
-
-
-
 
 	_get_aim_point()
 	_update_move_direction()
@@ -208,21 +210,46 @@ func _update_move_direction() -> void:
 # =============================================================================
 
 func _apply_legs_rotation(delta: float) -> void:
-	if not legs or move_direction.length_squared() < 0.001:
+	if not legs or not torso or move_direction.length_squared() < 0.001:
 		return
 
-	# Face the direction we are moving
-	var target_angle := atan2(-move_direction.x, -move_direction.z) 
+	# Torso's forward and right, flattened to the ground plane.
+	var torso_forward := -torso.global_transform.basis.z
+	torso_forward.y = 0.0
+	torso_forward = torso_forward.normalized()
+	var torso_right := torso.global_transform.basis.x
+	torso_right.y = 0.0
+	torso_right = torso_right.normalized()
+
+	# Split movement into "toward the aim" vs "sideways".
+	var forward_amount := move_direction.dot(torso_forward)
+	var right_amount := move_direction.dot(torso_right)
+
+	# Fold the backward half into the forward hemisphere so the legs stay
+	# forward-ish. The reverse-step (speed_scale) sells the backpedal.
+	var leg_dir := torso_forward * absf(forward_amount) + torso_right * right_amount
+	if leg_dir.length_squared() < 0.0001:
+		return
+
+	var target_angle := atan2(-leg_dir.x, -leg_dir.z)
 
 	if use_eight_way_rotation:
 		target_angle = _snap_angle(target_angle, eight_way_rotation_steps)
 		legs.rotation.y = target_angle
 	else:
 		legs.rotation.y = lerp_angle(
-			legs.rotation.y, 
-			target_angle, 
+			legs.rotation.y,
+			target_angle,
 			rotation_speed * _get_weight_multiplier() * delta
-		) 
+		)
+
+func _moving_against_torso() -> bool:
+	if not torso or move_direction == Vector3.ZERO:
+		return false
+	var torso_facing := -torso.global_transform.basis.z
+	torso_facing.y = 0.0
+	return move_direction.dot(torso_facing.normalized()) < 0.0
+
 
 func _apply_torso_rotation(delta: float) -> void:
 	if not torso:
@@ -285,7 +312,7 @@ func _apply_movement(delta: float) -> void:
 
 
 func _update_animations() -> void:
-	
+	var weapon_is_actually_firing := false
 	if velocity.length() > 0.0:
 		is_moving = true
 		state = State.WALKING
@@ -295,23 +322,28 @@ func _update_animations() -> void:
 		is_moving = false
 		state_label.text = "IDLE"
 	
-	if weapon_manager._is_firing:
+	if weapon_manager and weapon_manager.has_method("is_primary_actively_firing"):
+		weapon_is_actually_firing = weapon_manager.is_primary_actively_firing()
+
+	if weapon_is_actually_firing:
 		state = State.FIRING
 		state_label.text = "FIRING"
 	
-	# dsa
+	#if aim_assist.locked_target:
+		#state = State.AIMING
 	
 	match state:
 		State.IDLE:
 			torso_animation_player.play("TorsoIdle")
 			legs_animation_player.play("LegsIdle")
+			legs_animation_player.speed_scale = 1.0
 		State.WALKING:
 			torso_animation_player.play("TorsoWalk")
 			legs_animation_player.play("LegsWalk")
+			legs_animation_player.speed_scale = -1.0 if _moving_against_torso() else 1.0
 		State.FIRING:
 			torso_animation_player.play("TorsoFire")
-			torso.look_at(_get_aim_point())
-			#legs_animation_player.play("Legsfire")
+			torso_pivot.look_at(_get_aim_point())
 		State.AIMING:
 			torso_animation_player.play("TorsoAim")
 		_:
@@ -334,8 +366,8 @@ func _apply_tilt(delta: float) -> void:
 		return
 
 	if velocity.length_squared() < 0.1:
-		torso.rotation.z = lerp(torso.rotation.z, _torso_base_rotation.z, tilt_speed * delta)
-		torso.rotation.x = lerp(torso.rotation.x, _torso_base_rotation.x, tilt_speed * delta)
+		torso_pivot.rotation.z = lerp(torso_pivot.rotation.z, _torso_base_rotation.z, tilt_speed * delta)
+		torso_pivot.rotation.x = lerp(torso_pivot.rotation.x, _torso_base_rotation.x, tilt_speed * delta)
 		return
 
 	# Determine forward/right speed relative to where the LEGS are facing

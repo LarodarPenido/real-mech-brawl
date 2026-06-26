@@ -19,6 +19,8 @@ var unit: Node = null
 @onready var stats: Node = $"../EnemyStats"
 
 @onready var telegraph_timer: Timer = $"../TelegraphTimer"
+@onready var laser_sight: Node3D = $"../LaserSight"
+@onready var muzzle_point: Marker3D = $"../Weapon/MuzzlePoint"
 
 
 ## --- Debug
@@ -32,9 +34,17 @@ var target: Node = null
 
 var target_search_timer: float = 0.0
 @export var target_search_interval: float = 1.0
+
+
 var player: Node3D = null
 
 @export var telegraph_duration: float = 1.5
+@export var aim_enter_margin = 2.0
+@export var aim_exit_margin = 3.0
+
+@export var aim_settle_time: float = 0.15
+
+var _aim_settle_timer: float = 0.0
 
 # --- Burst fire pacing ---
 var burst_shots_remaining: int = 0
@@ -45,6 +55,12 @@ func _ready() -> void:
 	unit = get_parent()
 	player = get_tree().get_first_node_in_group("player")
 	
+func _process(delta: float) -> void:
+	_should_show_laser()
+	if _should_show_laser():
+		laser_sight.update_laser_sight(muzzle_point.global_position, target.global_position)
+	else:
+		laser_sight.hide_laser_sight()
 	
 func _physics_process(delta: float) -> void:
 	_debug_state_label()
@@ -112,44 +128,56 @@ func _set_target(new_target: Node3D) -> void:
 	self.target = new_target
 
 func _tick_chase(delta: float) -> void:
-	if not target or not player_in_detection_range():
+	if not _has_valid_target() or not player_in_detection_range():
 		_enter_state(State.IDLE)
 		return
 
 	_point_weapon(target)
 
-
-
-
 	if player_in_weapon_range():
-		_enter_state(State.AIM)
-		return
-	elif player_in_detection_range() and not player_in_weapon_range():
-		# Move toward target 
-		var direction: Vector3 = target.global_position - unit.global_position
-		direction.y = 0.0
-		unit.velocity = unit.global_position - target.global_position * stats.move_speed
-		if direction.length() < 0.001:
-			_enter_state(State.AIM)
+		_stop_moving()
+		if _can_enter_aim(target):
+			_enter_aim()
 			return
 
+	var move_direction: Vector3 = target.global_position - unit.global_position
+	move_direction.y = 0.0
 
+	if move_direction.length_squared() < 0.0001:
+		_stop_moving()
+		return
 
+	move_direction = move_direction.normalized()
 
+	unit.direction = move_direction
+	unit.velocity = move_direction * stats.move_speed
 
-func _tick_aim(delta) -> void:
-	if not target or not player_in_detection_range():
+func _enter_aim() -> void:
+	state = State.AIM
+	_aim_settle_timer = 0.0
+
+func _tick_aim(delta: float) -> void:
+	if not _has_valid_target() or not player_in_detection_range():
 		_enter_state(State.IDLE)
 		return
-	if player_in_detection_range() and not player_in_weapon_range():
+
+	if not player_in_weapon_range():
 		_enter_state(State.CHASE)
 		return
 
+	_stop_moving()
+	
 	_face_target(delta)
 	_point_weapon(target)
 	
-	_telegraph_shot(delta)
 	
+	if _can_fire(target):
+		_aim_settle_timer += delta
+	else:
+		_aim_settle_timer = 0.0
+
+	if _aim_settle_timer >= aim_settle_time:
+		_enter_state(State.FIRE)
 
 func _face_target(delta: float) -> void:
 	if not target:
@@ -173,38 +201,59 @@ func _telegraph_shot(delta) -> void:
 	telegraph_timer.start(telegraph_duration)
 	
 
+func _tick_fire(delta: float) -> void:
+	if not _has_valid_target() or not player_in_detection_range():
+		_enter_state(State.IDLE)
+		return
 
-func _tick_fire(delta) -> void:
+	if not player_in_weapon_range():
+		_enter_state(State.CHASE)
+		return
 
-	burst_shots_remaining = unit.stats.burst_count
-	burst_interval_timer = 0.0
-	cooldown_timer = 0.0
-	
-	# Burst-fire rhythm
-	if burst_shots_remaining > 0:
-		burst_interval_timer -= delta
-		if burst_interval_timer <= 0.0:
-			_fire_once()
-			burst_shots_remaining -= 1
-			burst_interval_timer = unit.stats.burst_interval
-			if burst_shots_remaining == 0:
-				cooldown_timer = unit.stats.cooldown_duration
-	else:
-		cooldown_timer -= delta
-		if cooldown_timer <= 0.0:
-			burst_shots_remaining = unit.stats.burst_count
-			burst_interval_timer = 0.0
+	_stop_moving()
+	_face_target(delta)
+	_point_weapon(target)
+
+	if burst_shots_remaining <= 0:
+		_enter_state(State.COOLDOWN)
+		return
+
+	burst_interval_timer -= delta
+
+	if burst_interval_timer <= 0.0 and _can_fire(target):
+		_fire_once()
+		burst_shots_remaining -= 1
+		burst_interval_timer = stats.burst_interval
 
 func _fire_once() -> void:
 	if not weapon:
 		return
-	weapon.fire()
+
+	if not weapon.has_method("fire"):
+		return
+
+	weapon.call("fire")
 
 func _tick_reposition(delta):
 	pass
 
-func _tick_cooldown(delta):
-	pass
+func _tick_cooldown(delta: float) -> void:
+	if not _has_valid_target() or not player_in_detection_range():
+		_enter_state(State.IDLE)
+		return
+
+	if not player_in_weapon_range():
+		_enter_state(State.CHASE)
+		return
+
+	_stop_moving()
+	_face_target(delta)
+	_point_weapon(target)
+
+	cooldown_timer -= delta
+
+	if cooldown_timer <= 0.0:
+		_enter_state(State.AIM)
 
 func get_state_name() -> String:
 	match state:
@@ -227,13 +276,33 @@ func _enter_state(new_state: State) -> void:
 	if state == new_state:
 		return
 
+	var previous_state: State = state
+
+	if previous_state == State.AIM and new_state != State.FIRE:
+		telegraph_timer.stop()
+
 	state = new_state
 
 	match state:
+		State.IDLE:
+			_stop_moving()
+			telegraph_timer.stop()
+
+		State.CHASE:
+			telegraph_timer.stop()
+
+		State.AIM:
+			_stop_moving()
+			telegraph_timer.start(telegraph_duration)
+
 		State.FIRE:
-			burst_shots_remaining = unit.stats.burst_count
+			_stop_moving()
+			burst_shots_remaining = stats.burst_count
 			burst_interval_timer = 0.0
-			cooldown_timer = unit.stats.cooldown_duration
+
+		State.COOLDOWN:
+			_stop_moving()
+			cooldown_timer = stats.cooldown_duration
 
 
 func _debug_state_label():
@@ -245,4 +314,62 @@ func _debug_state_label():
 
 
 func _on_telegraph_timer_timeout() -> void:
+	if state != State.AIM:
+		return
+
+	if not _has_valid_target() or not player_in_detection_range():
+		_enter_state(State.IDLE)
+		return
+
+	if not player_in_weapon_range():
+		_enter_state(State.CHASE)
+		return
+
 	_enter_state(State.FIRE)
+
+func _has_valid_target() -> bool:
+	return target != null and is_instance_valid(target)
+
+
+func _stop_moving() -> void:
+	if not unit:
+		return
+
+	unit.velocity = Vector3.ZERO
+	unit.direction = Vector3.ZERO
+
+func _should_show_laser() -> bool:
+	return state == State.AIM or state == State.FIRE
+
+
+func _distance_to_target(target: Node3D) -> float:
+	var a : Vector3 = unit.global_position
+	var b : Vector3 = target.global_position
+
+	return a.distance_to(b)
+
+
+func _can_enter_aim(target: Node3D) -> bool:
+	if not is_instance_valid(target):
+		return false
+
+	var distance := _distance_to_target(target)
+	return distance <= stats.weapon_range - aim_enter_margin
+
+
+func _should_leave_aim(target: Node3D) -> bool:
+	if not is_instance_valid(target):
+		return true
+
+	var distance := _distance_to_target(target)
+	return distance > stats.weapon_range + aim_exit_margin
+
+
+func _can_fire(target: Node3D) -> bool:
+	if not is_instance_valid(target):
+		return false
+
+	var distance := _distance_to_target(target)
+
+	# Use the tighter range here too, so FIRE does not happen right on the edge.
+	return distance <= stats.weapon_range - aim_enter_margin

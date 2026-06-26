@@ -12,17 +12,19 @@
 
 [sub_resource type="SphereMesh" id="SphereMesh_7fw7d"]
 
-[node name="Player" type="CharacterBody3D" unique_id=1600219064 node_paths=PackedStringArray("torso", "legs", "torso_animation_player", "legs_animation_player") groups=["player"]]
+[node name="Player" type="CharacterBody3D" unique_id=1600219064 node_paths=PackedStringArray("torso", "torso_pivot", "legs", "torso_animation_player", "legs_animation_player") groups=["player"]]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_dqkch")
 torso = NodePath("Torso")
+torso_pivot = NodePath("Torso/TorsoPivot")
 legs = NodePath("Legs")
 use_eight_way_rotation = false
 rotation_speed = 4.0
+dash_duration = 0.02
 dash_speed = 20.0
 dash_cooldown = 1.0
-torso_animation_player = NodePath("Torso/MECHTORSO/AnimationPlayer")
+torso_animation_player = NodePath("Torso/TorsoPivot/MECHTORSO/AnimationPlayer")
 legs_animation_player = NodePath("Legs/MECHLEGS/AnimationPlayer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=288482197]
@@ -32,15 +34,21 @@ shape = SubResource("BoxShape3D_4lj41")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1088702525 groups=["camera"]]
 script = ExtResource("2_qlg0r")
-follow_offset = Vector3(25.71, 27.63, 0)
+follow_offset = Vector3(25.45, 9.45, 0)
 
 [node name="Torso" type="Node3D" parent="." unique_id=1065867775]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00537252, 0.241316, 0)
 
-[node name="MECHTORSO" parent="Torso" unique_id=437346093 instance=ExtResource("3_dqkch")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.882855, 0, 0)
+[node name="TorsoPivot" type="Marker3D" parent="Torso" unique_id=1676910733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4215736, 0)
 
-[node name="Skeleton3D" parent="Torso/MECHTORSO/Armature_001" parent_id_path=PackedInt32Array(437346093, 1956934674) index="0" unique_id=1090374683]
+[node name="MECHTORSO" parent="Torso/TorsoPivot" unique_id=437346093 instance=ExtResource("3_dqkch")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.882855, -3.4215736, 0)
+
+[node name="Armature_001" parent="Torso/TorsoPivot/MECHTORSO" index="0" unique_id=1956934674]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0.866127, 3.31264, -0.129841)
+
+[node name="Skeleton3D" parent="Torso/TorsoPivot/MECHTORSO/Armature_001" index="0" unique_id=1090374683]
 bones/0/rotation = Quaternion(0, -0.707107, 0, 0.707107)
 bones/2/rotation = Quaternion(0.094537, 0.0544938, 0.178002, 0.977961)
 bones/3/rotation = Quaternion(-0.628035, -0.393856, 0.410609, 0.530895)
@@ -51,8 +59,8 @@ bones/7/rotation = Quaternion(-2.15052e-08, 0.682203, 0.731163, -5.15049e-08)
 bones/9/rotation = Quaternion(-0.628035, 0.393857, -0.410609, 0.530895)
 bones/10/rotation = Quaternion(-0.730342, -2.30782e-08, -1.92212e-08, 0.683082)
 
-[node name="Submachineguns" parent="Torso/MECHTORSO/Armature_001/Skeleton3D/Cube_012/Outline" index="0" unique_id=31235434 instance=ExtResource("7_fjrip")]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -0.873174, -3.72377, 0.580778)
+[node name="Submachineguns" parent="Torso/TorsoPivot/MECHTORSO/Armature_001/Skeleton3D/Cube_012/Outline" index="0" unique_id=31235434 instance=ExtResource("7_fjrip")]
+transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 2.1316282e-14, 0, 1.0000001, -0.79248613, -3.3439186, 0.40223607)
 fire_rate = 10.0
 screen_shake_strength = 0.2
 
@@ -89,7 +97,7 @@ camera = NodePath("../CameraPivot/Camera3D")
 script = ExtResource("6_fjrip")
 aim_assist = NodePath("../AimAssist")
 camera = NodePath("../CameraPivot/Camera3D")
-primary_weapons = [NodePath("../Torso/MECHTORSO/Armature_001/Skeleton3D/Cube_012/Outline/Submachineguns")]
+primary_weapons = [NodePath("../Torso/TorsoPivot/MECHTORSO/Armature_001/Skeleton3D/Cube_012/Outline/Submachineguns")]
 
 [node name="StateLabel" type="Label3D" parent="." unique_id=96215239]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.35164, 0)
@@ -98,5 +106,5 @@ billboard = 1
 text = "AAAAAA"
 font_size = 256
 
-[editable path="Torso/MECHTORSO"]
+[editable path="Torso/TorsoPivot/MECHTORSO"]
 [editable path="Legs/MECHLEGS"]

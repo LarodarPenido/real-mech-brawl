@@ -39,6 +39,7 @@ enabled=PackedStringArray("res://addons/pixpal_tools/plugin.cfg", "res://addons/
 
 player=""
 camera=""
+enemy_manager=""
 
 [input]
 

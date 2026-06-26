@@ -1,6 +1,5 @@
 # AimAssist — single-target soft lock with bullet-bending redirect.
 
-# Public API (consumed by weapons via get_fire_point / has_lock):
 #   get_fire_point() -> Vector3    # Target world position, or Vector3.ZERO
 #   has_lock() -> bool
 extends Node
@@ -12,13 +11,15 @@ extends Node
 @export var aim_height_adjustment: float = 0.1 ## adjustment to avoid firing at the ground
 @export var prefer_closest_to_cursor: bool = true  ## true = lock nearest cursor; false = lock lowest health
 
-## Faction filtering (matches missile_lock pattern)
-@export var owner_faction: String = "player"
-@export var hostile_factions: Array[String] = ["enemy", "bandit"] # Add "structures"?
+### Faction filtering (matches missile_lock pattern)
+#@export var owner_faction: String = "player"
+#@export var hostile_factions: Array[String] = ["enemy", "bandit"] # Add "structures"?
 
 ## References
 @export var player: Node3D
 @export var camera: Camera3D
+@export var enemy_manager: Node3D 
+
 
 ## State
 var locked_target: Node3D = null
@@ -26,6 +27,9 @@ var locked_target: Node3D = null
 signal target_locked(target: Node3D)
 signal target_lost()
 
+func _ready() -> void:
+	enemy_manager = get_tree().get_first_node_in_group("enemy_manager")
+	
 
 func _process(_delta: float) -> void:
 	if not player or not camera:
@@ -49,6 +53,7 @@ func get_fire_point() -> Vector3:
 
 func has_lock() -> bool:
 	return locked_target != null and is_instance_valid(locked_target)
+	
 
 
 # --- Acquisition ---
@@ -77,7 +82,8 @@ func _try_acquire_lock() -> void:
 
 	if best_target:
 		locked_target = best_target
-		target_locked.emit(locked_target)
+		print("target locked by aim assist")
+		#target_locked.emit(locked_target)
 		# TODO(3A-3): play lock-on sound via AudioManager
 
 
@@ -97,10 +103,6 @@ func _should_break_lock() -> bool:
 	if screen_distance > lock_break_radius:
 		return true
 
-	# Target went to sleep — release before it becomes an invisible glue target
-	if "is_awake" in locked_target and not locked_target.is_awake:
-		return true
-
 	# Dead-but-not-freed fallback (is_instance_valid above catches freed nodes)
 	if "hp" in locked_target and locked_target.hp <= 0.0:
 		return true
@@ -110,7 +112,7 @@ func _should_break_lock() -> bool:
 
 func _release_lock() -> void:
 	locked_target = null
-	target_lost.emit()
+	#target_lost.emit()
 
 
 # --- Candidate scanning ---
@@ -118,28 +120,22 @@ func _release_lock() -> void:
 func _get_hostiles_in_assist_radius() -> Array[Node3D]:
 	var result: Array[Node3D] = []
 
-	for faction in hostile_factions:
-		var group_name: String = "faction_" + faction
-		var units: Array = get_tree().get_nodes_in_group(group_name)
-		for unit in units:
-			if not unit is Node3D:
-				continue
-			var unit3d: Node3D = unit
-			if not is_instance_valid(unit3d):
-				continue
-			# Skip sleeping units — invisible LOD placeholders, not valid visible targets
-			if "is_awake" in unit3d and not unit3d.is_awake:
-				continue
+	for enemy_unit in enemy_manager.enemies:
+		if not enemy_unit is Node3D:
+			continue
+		var unit3d: Node3D = enemy_unit
+		if not is_instance_valid(unit3d):
+			continue
 
-			# World distance first (cheaper than screen projection)
-			var world_distance: float = player.global_position.distance_to(unit3d.global_position)
-			if world_distance > max_lock_range:
-				continue
+		# World distance first (cheaper than screen projection)
+		var world_distance: float = player.global_position.distance_to(unit3d.global_position)
+		if world_distance > max_lock_range:
+			continue
 
-			# Then screen distance
-			var screen_distance: float = _get_screen_distance_to_cursor(unit3d)
-			if screen_distance <= assist_radius:
-				result.append(unit3d)
+		# Then screen distance
+		var screen_distance: float = _get_screen_distance_to_cursor(unit3d)
+		if screen_distance <= assist_radius:
+			result.append(unit3d)
 
 	return result
 
