@@ -34,7 +34,8 @@ shape = SubResource("BoxShape3D_4lj41")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1088702525 groups=["camera"]]
 script = ExtResource("2_qlg0r")
-follow_offset = Vector3(25.45, 9.45, 0)
+follow_offset = Vector3(25.27, 11.335, 0)
+camera_target_offset = -14.68
 
 [node name="Torso" type="Node3D" parent="." unique_id=1065867775]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00537252, 0.241316, 0)

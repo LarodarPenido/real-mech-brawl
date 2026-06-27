@@ -167,6 +167,7 @@ bracket_gap_cooling = 12.0
 dot_radius = 0.5
 
 [node name="AimAssistIndicator" type="Control" parent="SubViewportContainer/SubViewport/CombatHUD" unique_id=87881544 node_paths=PackedStringArray("camera", "aim_assist", "weapon_manager")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

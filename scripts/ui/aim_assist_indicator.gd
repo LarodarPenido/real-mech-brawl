@@ -19,27 +19,40 @@ var _target: Node3D = null
 
 ## References
 
-
-
-
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
 
 func _process(_delta: float) -> void:
-	if aim_assist.locked_target:
-		_target = aim_assist.locked_target
+	if aim_assist == null:
+		_target = null
+		visible = false
+		return
+
+	if not aim_assist.has_lock():
+		_target = null
+		visible = false
+		return
+
+	_target = aim_assist.locked_target
+
 	if _target == null or not is_instance_valid(_target):
 		_target = null
 		visible = false
 		return
+
+	if weapon_manager == null:
+		visible = false
+		return
+
+	var weapon = weapon_manager.get_active_primary()
+	if weapon == null or not weapon.is_ready():
+		visible = false
+		return
+
 	visible = true
 	queue_redraw()
-
-	## Only show if primary weapon has ammo
-	if not weapon_manager.get_active_primary().is_ready():
-		visible = false
 
 func _draw() -> void:
 	if camera == null or _target == null or not is_instance_valid(_target):

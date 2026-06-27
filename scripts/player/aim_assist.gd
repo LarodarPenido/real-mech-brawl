@@ -5,10 +5,10 @@
 extends Node
 
 ## Targeting
-@export var assist_radius: float = 100.0  ## Pixels — range to acquire lock
-@export var lock_break_radius: float = 50.0  ## Pixels — range to lose lock
-@export var max_lock_range: float = 200.0  ## World units — max distance from player
-@export var aim_height_adjustment: float = 0.1 ## adjustment to avoid firing at the ground
+@export var assist_radius: float = 20.0  ## Pixels — range to acquire lock
+@export var lock_break_radius: float = 40.0  ## Pixels — range to lose lock
+@export var max_lock_range: float = 70.0  ## World units — max distance from player
+@export var aim_height_adjustment: float = 1.0 ## adjustment to avoid firing at the ground
 @export var prefer_closest_to_cursor: bool = true  ## true = lock nearest cursor; false = lock lowest health
 
 ### Faction filtering (matches missile_lock pattern)
@@ -82,8 +82,8 @@ func _try_acquire_lock() -> void:
 
 	if best_target:
 		locked_target = best_target
-		print("target locked by aim assist")
-		#target_locked.emit(locked_target)
+		
+		target_locked.emit(locked_target)
 		# TODO(3A-3): play lock-on sound via AudioManager
 
 
@@ -101,6 +101,7 @@ func _should_break_lock() -> bool:
 	# Screen distance gate
 	var screen_distance := _get_screen_distance_to_cursor(locked_target)
 	if screen_distance > lock_break_radius:
+		print("aim assist - should break lock active")
 		return true
 
 	# Dead-but-not-freed fallback (is_instance_valid above catches freed nodes)
@@ -112,7 +113,7 @@ func _should_break_lock() -> bool:
 
 func _release_lock() -> void:
 	locked_target = null
-	#target_lost.emit()
+	target_lost.emit()
 
 
 # --- Candidate scanning ---
