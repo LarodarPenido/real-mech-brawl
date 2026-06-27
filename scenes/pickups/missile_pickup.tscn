@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://fpfgnh5kbmid"]
+
+[ext_resource type="Script" uid="uid://c61w23yal46t6" path="res://scripts/pickups/missile_pickup.gd" id="1_um2ku"]
+[ext_resource type="PackedScene" uid="uid://gogppffhawcg" path="res://scenes/vfx/missile_skin.tscn" id="2_s4k7v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
+
+[node name="MissilePickup" type="Area3D" unique_id=595357997]
+script = ExtResource("1_um2ku")
+
+[node name="MeshInstance3D" parent="." unique_id=1036262529 instance=ExtResource("2_s4k7v")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1910619241]
+shape = SubResource("BoxShape3D_7fw7d")

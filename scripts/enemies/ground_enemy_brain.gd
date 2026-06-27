@@ -153,8 +153,7 @@ func _tick_chase(delta: float) -> void:
 	unit.velocity = move_direction * stats.move_speed
 
 func _enter_aim() -> void:
-	state = State.AIM
-	_aim_settle_timer = 0.0
+	_enter_state(State.AIM)
 
 func _tick_aim(delta: float) -> void:
 	if not _has_valid_target() or not player_in_detection_range():
@@ -171,13 +170,16 @@ func _tick_aim(delta: float) -> void:
 	_point_weapon(target)
 	
 	
-	if _can_fire(target):
-		_aim_settle_timer += delta
-	else:
+	if not _can_fire(target):
 		_aim_settle_timer = 0.0
+		if not telegraph_timer.is_stopped():
+			telegraph_timer.stop()
+		return
 
-	if _aim_settle_timer >= aim_settle_time:
-		_enter_state(State.FIRE)
+	_aim_settle_timer += delta
+
+	if _aim_settle_timer >= aim_settle_time and telegraph_timer.is_stopped():
+		telegraph_timer.start(telegraph_duration)
 
 func _face_target(delta: float) -> void:
 	if not target:
@@ -291,7 +293,8 @@ func _enter_state(new_state: State) -> void:
 
 		State.AIM:
 			_stop_moving()
-			telegraph_timer.start(telegraph_duration)
+			_aim_settle_timer = 0.0
+			telegraph_timer.stop()
 
 		State.FIRE:
 			_stop_moving()
@@ -319,7 +322,7 @@ func _on_telegraph_timer_timeout() -> void:
 		_enter_state(State.IDLE)
 		return
 
-	if not player_in_weapon_range():
+	if not _can_fire(target):
 		_enter_state(State.CHASE)
 		return
 

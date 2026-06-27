@@ -4,11 +4,13 @@
 [ext_resource type="Script" uid="uid://bym6v5scqiwp5" path="res://scripts/camera.gd" id="2_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://dblvqlplbyfdk" path="res://assets/models/mechs/mechtorso.tscn" id="3_dqkch"]
 [ext_resource type="PackedScene" uid="uid://cvy386hn6tkrh" path="res://assets/models/mechs/mechlegs.tscn" id="4_qlg0r"]
+[ext_resource type="PackedScene" uid="uid://dtp201kn85511" path="res://scenes/weapons/missile_launcher.tscn" id="5_smehm"]
 [ext_resource type="Script" uid="uid://d2v28gxl3w055" path="res://scripts/player/aim_assist.gd" id="5_tuyoq"]
 [ext_resource type="Script" uid="uid://e4ejbmw146ya" path="res://scripts/player/weapon_manager.gd" id="6_fjrip"]
 [ext_resource type="PackedScene" uid="uid://dbswuwxkhvgep" path="res://scenes/weapons/submachineguns.tscn" id="7_fjrip"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4lj41"]
+size = Vector3(2.7346191, 1, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_7fw7d"]
 
@@ -29,6 +31,7 @@ torso_animation_player = NodePath("Torso/TorsoPivot/MECHTORSO/AnimationPlayer")
 legs_animation_player = NodePath("Legs/MECHLEGS/AnimationPlayer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=288482197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8446352, 0)
 shape = SubResource("BoxShape3D_4lj41")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=2038021139]
@@ -68,6 +71,9 @@ transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 2.1316282e-14, 0, 1.0000001, -
 fire_rate = 10.0
 screen_shake_strength = 0.2
 
+[node name="MissileLauncher" parent="Torso/TorsoPivot/MECHTORSO/Armature_001/Skeleton3D/Cube_012" parent_id_path=PackedInt32Array(437346093, 1173068135) index="1" unique_id=856286554 instance=ExtResource("5_smehm")]
+transform = Transform3D(-5.542382e-08, -4.37114e-08, -1, 0.5, 0.8660254, -6.55671e-08, 0.8660254, -0.5, -2.614275e-08, 1.3322502, 1.2731771, -1.1920929e-07)
+
 [node name="align" type="MeshInstance3D" parent="Torso" unique_id=1851041315]
 visible = false
 mesh = SubResource("SphereMesh_7fw7d")
@@ -97,11 +103,12 @@ script = ExtResource("5_tuyoq")
 player = NodePath("..")
 camera = NodePath("../CameraPivot/Camera3D")
 
-[node name="WeaponManager" type="Node" parent="." unique_id=249720431 node_paths=PackedStringArray("aim_assist", "camera", "primary_weapons")]
+[node name="WeaponManager" type="Node" parent="." unique_id=249720431 node_paths=PackedStringArray("aim_assist", "camera", "primary_weapons", "secondary_weapons") groups=["weapon_manager"]]
 script = ExtResource("6_fjrip")
 aim_assist = NodePath("../AimAssist")
 camera = NodePath("../CameraPivot/Camera3D")
 primary_weapons = [NodePath("../Torso/TorsoPivot/MECHTORSO/Armature_001/Skeleton3D/Cube_012/Outline/Submachineguns")]
+secondary_weapons = [NodePath("../Torso/TorsoPivot/MECHTORSO/Armature_001/Skeleton3D/Cube_012/MissileLauncher")]
 
 [node name="StateLabel" type="Label3D" parent="." unique_id=96215239]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.35164, 0)
@@ -109,6 +116,11 @@ visible = false
 billboard = 1
 text = "AAAAAA"
 font_size = 256
+
+[node name="DeathTimer" type="Timer" parent="." unique_id=874672101]
+one_shot = true
+
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
 
 [editable path="Torso/TorsoPivot/MECHTORSO"]
 [editable path="Legs/MECHLEGS"]

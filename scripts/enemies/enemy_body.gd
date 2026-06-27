@@ -3,6 +3,8 @@ extends CharacterBody3D
 
 @export var stats: Node 
 
+@export var _is_stationery: bool = false
+
 # --- Health ---
 var hp: float = 0.0
 var max_hp: float = 0.0
@@ -41,7 +43,7 @@ func _apply_stats() -> void:
 
 func _physics_process(delta: float) -> void:
 	face_movement_direction(direction, delta, turn_speed)
-	if not is_on_floor():
+	if not is_on_floor() and not _is_stationery:
 		velocity.y -= 9.8
 	move_and_slide()
 	

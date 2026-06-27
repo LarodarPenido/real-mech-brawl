@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bxc3g7bk661o4"]
+
+[ext_resource type="Script" uid="uid://b6bcbk6jx4the" path="res://scripts/weapons/missile.gd" id="1_8fgg2"]
+[ext_resource type="PackedScene" uid="uid://gogppffhawcg" path="res://scenes/vfx/missile_skin.tscn" id="2_lhhpn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
+size = Vector3(0.51464844, 0.64038086, 0.6191406)
+
+[node name="Missile" type="Area3D" unique_id=203162164]
+collision_layer = 2
+collision_mask = 133
+script = ExtResource("1_8fgg2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1304539359]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.7527851)
+shape = SubResource("BoxShape3D_7fw7d")
+
+[node name="MissileSkin" parent="." unique_id=1036262529 instance=ExtResource("2_lhhpn")]

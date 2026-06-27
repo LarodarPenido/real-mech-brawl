@@ -507,12 +507,7 @@ func set_input_enabled(enabled: bool) -> void:
 		#AudioManager.stop_loop("afterburner_01")
 		#AudioManager.stop_loop("rotor_light")
 
-func take_damage(
-	amount: float,
-	source_type: String,
-	_attacker: Node = null,
-	_hit_position: Vector3 = Vector3.ZERO
-) -> void:
+func take_damage(amount) -> void:
 	if not alive:
 		return
 	#TODO
@@ -582,3 +577,8 @@ func _die() -> void:
 
 #func _on_mode_changed(is_overhead: bool) -> void:
 	#set_input_enabled(not is_overhead)
+
+
+func _on_death_timer_timeout() -> void:
+	##TODO go to defeat screen
+	pass # Replace with function body.

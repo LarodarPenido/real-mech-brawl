@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dtp201kn85511"]
+
+[ext_resource type="Script" uid="uid://hwn6ogjxq162" path="res://scripts/weapons/missile_launcher.gd" id="1_p0fyb"]
+[ext_resource type="PackedScene" uid="uid://bxc3g7bk661o4" path="res://scenes/weapons/projectile/missile.tscn" id="2_5i2fv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7fw7d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4b3kd"]
+albedo_color = Color(1, 0, 0.10980392, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_7fw7d"]
+material = SubResource("StandardMaterial3D_4b3kd")
+radius = 0.1
+height = 0.2
+
+[node name="MissileLauncher" type="Node3D" unique_id=856286554 node_paths=PackedStringArray("left_muzzle", "right_muzzle")]
+script = ExtResource("1_p0fyb")
+missile_scene = ExtResource("2_5i2fv")
+left_muzzle = NodePath("MeshInstance3D/LeftMuzzle")
+right_muzzle = NodePath("MeshInstance3D/RightMuzzle")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=62802496]
+mesh = SubResource("BoxMesh_7fw7d")
+
+[node name="LeftMuzzle" type="Marker3D" parent="MeshInstance3D" unique_id=325748405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5335908, 0.23363292, -0.23695663)
+
+[node name="RightMuzzle" type="Marker3D" parent="MeshInstance3D" unique_id=1457716090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5335908, 0.23363292, 0.27672076)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=2118748503]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46218705, 0.2250146, -0.23918295)
+mesh = SubResource("SphereMesh_7fw7d")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=406226012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46218705, 0.2250146, 0.27505994)
+mesh = SubResource("SphereMesh_7fw7d")

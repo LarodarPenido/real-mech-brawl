@@ -49,22 +49,25 @@ func _process(delta: float) -> void:
 	var primary := get_active_primary()
 	if primary:
 		if _is_firing:
-			primary.trigger_held(delta)
-			#print("firing")
-		else:
+			if primary.has_method("trigger_held"):
+				primary.trigger_held(delta)
+	else:
+		if primary.has_method("trigger_released"):
 			primary.trigger_released(delta)
 
 	var secondary := get_active_secondary()
 	if secondary:
 		if _is_firing_secondary:
-			secondary.trigger_held(delta)
+			if secondary.has_method("trigger_held"):
+				secondary.trigger_held(delta)
 		else:
-			secondary.trigger_released(delta)
+			if secondary.has_method("trigger_released"):
+				secondary.trigger_released(delta)
 
 
 func _handle_input() -> void:
 	_is_firing = Input.is_action_pressed("shoot_main_gun")
-	_is_firing_secondary = Input.is_action_pressed("shoot_special")
+	_is_firing_secondary = Input.is_action_pressed("fire_missiles")
 
 
 	#TODO if adding multy wep
@@ -163,3 +166,12 @@ func _deactivate_weapon(weapon: Node) -> void:
 	weapon.visible = false
 	weapon.set_process(false)
 	weapon.set_physics_process(false)
+
+func add_secondary_ammo(amount: int) -> void:
+	var secondary := get_active_secondary()
+
+	if secondary == null:
+		return
+
+	if secondary.has_method("add_ammo"):
+		secondary.add_ammo(amount)

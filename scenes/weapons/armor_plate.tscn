@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://7osnef485w11"]
+
+[ext_resource type="Script" uid="uid://b618vx46vya8e" path="res://scripts/weapons/armor_plate.gd" id="1_1te83"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4b3kd"]
+size = Vector3(1, 1, 0.1)
+
+[node name="ArmorPlate" type="StaticBody3D" unique_id=651818785]
+script = ExtResource("1_1te83")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1757434833]
+shape = SubResource("BoxShape3D_7fw7d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=315086005]
+mesh = SubResource("BoxMesh_4b3kd")

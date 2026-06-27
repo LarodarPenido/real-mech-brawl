@@ -84,8 +84,7 @@ move_speed = 4.0
 script = ExtResource("5_ioeaq")
 weapon = NodePath("../Skin/Hull/Weapon")
 muzzle_point = NodePath("../Skin/Hull/Weapon/MeshInstance3D/MuzzlePoint")
-telegraph_duration = 3.0
-aim_settle_time = 2.0
+aim_settle_time = 1.0
 
 [node name="TelegraphTimer" type="Timer" parent="." unique_id=560212266]
 
