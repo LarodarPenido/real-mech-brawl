@@ -3,18 +3,20 @@
 [ext_resource type="Script" uid="uid://du3sf0riv0ukp" path="res://scripts/enemies/ground_enemy_brain.gd" id="1_326vp"]
 [ext_resource type="Script" uid="uid://cidw88td13hiu" path="res://scripts/enemies/skin.gd" id="2_022su"]
 [ext_resource type="Script" uid="uid://dafd13agtjfl0" path="res://scripts/enemies/enemy_body.gd" id="2_ei0en"]
-[ext_resource type="Script" uid="uid://c6b3iqe0dc5s6" path="res://scripts/weapons/light_cannon.gd" id="3_022su"]
+[ext_resource type="PackedScene" uid="uid://crunayklf1313" path="res://scenes/weapons/autocannon.tscn" id="3_yd20o"]
 [ext_resource type="Script" uid="uid://blbrnatladejg" path="res://scripts/enemies/enemy_stats.gd" id="4_yd20o"]
 [ext_resource type="Script" uid="uid://vfnsa0gdwefv" path="res://scenes/vfx/laser_sight.gd" id="6_022su"]
 [ext_resource type="Material" uid="uid://q27ph6f8vq7v" path="res://assets/materials/laser.tres" id="7_yd20o"]
 
-[sub_resource type="PrismMesh" id="PrismMesh_4b3kd"]
-size = Vector3(1, 1, 2.215)
-
-[sub_resource type="PrismMesh" id="PrismMesh_7fw7d"]
-size = Vector3(0.135, 0.13, 2.75)
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cjrw0"]
+radius = 1.5
+height = 6.0
+radial_segments = 4
+rings = 0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7fw7d"]
+radius = 1.5
+height = 6.0
 
 [node name="Buggy" type="CharacterBody3D" unique_id=293757789 node_paths=PackedStringArray("stats")]
 collision_layer = 4
@@ -26,24 +28,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.507772, 0)
 script = ExtResource("2_022su")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Skin" unique_id=277114908]
-mesh = SubResource("PrismMesh_4b3kd")
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1.0200977, 0)
+mesh = SubResource("CapsuleMesh_cjrw0")
 
-[node name="Weapon" type="Node3D" parent="." unique_id=169147481]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03634, 0)
-script = ExtResource("3_022su")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Weapon" unique_id=1815801319]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0381185, -1.00846)
-mesh = SubResource("PrismMesh_7fw7d")
-
-[node name="MuzzlePoint" type="Marker3D" parent="Weapon" unique_id=211528405]
-
-[node name="EnemyStats" type="Node" parent="." unique_id=1535198316]
-script = ExtResource("4_yd20o")
-max_hp = 20000
+[node name="Weapon" parent="." unique_id=1054764405 instance=ExtResource("3_yd20o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1038094, -4.202741)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1887548664]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.516378, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.4882092, 0)
 shape = SubResource("CapsuleShape3D_7fw7d")
 
 [node name="TargetLabel" type="Label3D" parent="." unique_id=650475031]
@@ -57,17 +49,28 @@ billboard = 1
 text = "AAAA"
 font_size = 256
 
-[node name="EnemyBrain" type="Node" parent="." unique_id=181073411 node_paths=PackedStringArray("weapon")]
+[node name="EnemyStats" type="Node" parent="." unique_id=1535198316]
+script = ExtResource("4_yd20o")
+detection_range = 120.0
+burst_interval = 0.2
+burst_count = 3
+cooldown_duration = 3.0
+move_speed = 9.0
+
+[node name="EnemyBrain" type="Node" parent="." unique_id=181073411 node_paths=PackedStringArray("weapon", "muzzle_point")]
 script = ExtResource("1_326vp")
 weapon = NodePath("../Weapon")
+muzzle_point = NodePath("../Weapon/MuzzlePoint")
 
 [node name="TelegraphTimer" type="Timer" parent="." unique_id=560212266]
 
 [node name="LaserSight" type="Node3D" parent="." unique_id=1453113899]
 script = ExtResource("6_022su")
 lifetime = 10.0
-width = 0.1
+width = 0.01
 color = Color(1.6976031, 0, 0.55785996, 1)
 material = ExtResource("7_yd20o")
 
 [connection signal="timeout" from="TelegraphTimer" to="EnemyBrain" method="_on_telegraph_timer_timeout"]
+
+[editable path="Weapon"]

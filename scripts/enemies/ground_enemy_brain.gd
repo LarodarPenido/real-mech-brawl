@@ -20,7 +20,7 @@ var unit: Node = null
 
 @onready var telegraph_timer: Timer = $"../TelegraphTimer"
 @onready var laser_sight: Node3D = $"../LaserSight"
-@onready var muzzle_point: Marker3D = $"../Weapon/MuzzlePoint"
+@export var muzzle_point: Marker3D 
 
 
 ## --- Debug
@@ -185,13 +185,13 @@ func _face_target(delta: float) -> void:
 
 	_point_weapon(target)
 
-	var to_target: Vector3 = target.global_position - unit.global_position
-	to_target.y = 0.0
-
-	if to_target.length() < 0.001:
-		return
-
-	unit.look_at(unit.global_position + to_target, Vector3.UP)
+	#var to_target: Vector3 = target.global_position - unit.global_position
+	#to_target.y = 2.5
+#
+	#if to_target.length() < 0.001:
+		#return
+#
+	#unit.look_at(unit.global_position + to_target, Vector3.UP)
 
 func _point_weapon(target):
 	if weapon and target:
@@ -226,13 +226,11 @@ func _tick_fire(delta: float) -> void:
 		burst_interval_timer = stats.burst_interval
 
 func _fire_once() -> void:
+	
 	if not weapon:
+		print("brain - no weapon found")
 		return
-
-	if not weapon.has_method("fire"):
-		return
-
-	weapon.call("fire")
+	weapon.fire()
 
 func _tick_reposition(delta):
 	pass

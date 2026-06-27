@@ -32,7 +32,7 @@ func _ready() -> void:
 
 func _on_enemy_spawned():
 	enemy_manager.enemies.append(self)
-	print(enemy_manager.enemies.size)
+	#print(enemy_manager.enemies.size)
 
 func _apply_stats() -> void:
 	if stats:
@@ -74,7 +74,7 @@ func take_damage(amount: float) -> void:
 	## TODO add hit VFX
 	## TODO add hit SFX
 func _die():
-	print("enemy ded")
+	#print("enemy ded")
 	queue_free()
 	enemy_manager.unregister_enemy(self)
 	#return to pool?

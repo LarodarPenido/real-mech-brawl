@@ -1,7 +1,24 @@
-[gd_scene format=3 uid="uid://imwh7n82s1bi"]
+[gd_scene format=4 uid="uid://imwh7n82s1bi"]
+
+[ext_resource type="Material" uid="uid://c5jeefgk5jfpx" path="res://assets/materials/conc.tres" id="1_1nkai"]
+[ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="2_fkoxh"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_7fw7d"]
+material = ExtResource("1_1nkai")
 size = Vector3(10, 10, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_w4ld2"]
+_surfaces = [{
+"aabb": AABB(-5.11547, -5.11547, -0.61547005, 10.23094, 10.23094, 1.2309401),
+"attribute_data": PackedByteArray("AAAAAAAAAACrqio/AAAAAKuqqj4AAAAAAACAPwAAAAAAAAAAAAAAP6uqKj8AAAA/q6qqPgAAAD8AAIA/AAAAP6uqqj4AAAAAAAAAAAAAAD+rqio/AAAAAKuqqj4AAAA/q6qqPgAAAD8AAAAAAACAP6uqKj8AAAA/q6qqPgAAgD+rqqo+AAAAP6uqKj8AAAA/q6oqPwAAAD8AAIA/AAAAP6uqqj4AAIA/q6oqPwAAgD+rqio/AACAPwAAgD8AAIA/"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAAEAAIAAgAEAAYAAQAFAAMAAwAFAAcACAAMAAoACgAMAA4ACQANAAsACwANAA8AEAAUABIAEgAUABYAEQAVABMAEwAVABcA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("7rGjwO6xo0Byjx0/7rGjQO6xo0Byjx2/7rGjQO6xo0Byjx0/7rGjwO6xo0Byjx2/7rGjwO6xo8Byjx0/7rGjQO6xo8Byjx2/7rGjQO6xo8Byjx0/7rGjwO6xo8Byjx2/7rGjQO6xo0Byjx0/7rGjwO6xo0Byjx2/7rGjQO6xo0Byjx2/7rGjwO6xo0Byjx0/7rGjQO6xo8Byjx0/7rGjwO6xo8Byjx2/7rGjQO6xo8Byjx2/7rGjwO6xo8Byjx0/7rGjQO6xo0Byjx0/7rGjwO6xo8Byjx0/7rGjwO6xo0Byjx0/7rGjQO6xo8Byjx0/7rGjQO6xo0Byjx2/7rGjwO6xo8Byjx2/7rGjwO6xo0Byjx2/7rGjQO6xo8Byjx2//3//f////7//////AAD/v/9//3////+//////wAA/7//f/9/////v/////8AAP+//3//f////7//////AAD/v///AID/////AAAAgP9//7///wCA/////wAAAID/f/+///8AgP////8AAACA/3//v///AID/////AAAAgP9//78AgP//AAD/vwCAAAD///+/AID//wAA/78AgAAA////vwCA//8AAP+/AIAAAP///78AgP//AAD/vwCAAAD///+/")
+}]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ydujn"]
 size = Vector3(10, 10, 1)
@@ -10,6 +27,10 @@ size = Vector3(10, 10, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1927240149]
 mesh = SubResource("BoxMesh_7fw7d")
+
+[node name="Outline" type="MeshInstance3D" parent="MeshInstance3D" unique_id=422174859]
+mesh = SubResource("ArrayMesh_w4ld2")
+surface_material_override/0 = ExtResource("2_fkoxh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=365668925]
 shape = SubResource("BoxShape3D_ydujn")

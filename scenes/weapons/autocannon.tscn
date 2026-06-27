@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://crunayklf1313"]
+
+[ext_resource type="Script" uid="uid://c6b3iqe0dc5s6" path="res://scripts/weapons/autocannon.gd" id="1_8qjby"]
+[ext_resource type="PackedScene" uid="uid://dchjkphffn4b1" path="res://scenes/weapons/projectile/autocannon_projectile.tscn" id="2_pdttn"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_7fw7d"]
+size = Vector3(0.135, 0.13, 2.75)
+
+[node name="Weapon" type="Node3D" unique_id=1054764405 node_paths=PackedStringArray("muzzle_point")]
+script = ExtResource("1_8qjby")
+projectile_scene = ExtResource("2_pdttn")
+projectile_speed = 30.0
+lead_shots = false
+muzzle_point = NodePath("MuzzlePoint")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=333141412]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.0381185, 2.726674)
+mesh = SubResource("PrismMesh_7fw7d")
+
+[node name="MuzzlePoint" type="Marker3D" parent="." unique_id=1657134725]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.5729423)

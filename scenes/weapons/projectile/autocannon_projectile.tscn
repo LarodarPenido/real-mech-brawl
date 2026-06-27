@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dchjkphffn4b1"]
+
+[ext_resource type="Script" uid="uid://b1wo7o6d2oa4c" path="res://scripts/weapons/projectiles/autocannon_projectile.gd" id="1_1c75p"]
+[ext_resource type="Material" uid="uid://dxmc54lcve54c" path="res://assets/materials/glowing.tres" id="2_xjyrx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
+size = Vector3(0.2, 0.31123048, 0.9916016)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7fw7d"]
+material = ExtResource("2_xjyrx")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.5
+radial_segments = 8
+rings = 0
+
+[node name="AutocannonProjectile" type="Area3D" unique_id=676627323]
+script = ExtResource("1_1c75p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=797172961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0074706934, -0.39580077)
+shape = SubResource("BoxShape3D_7fw7d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1302832571]
+transform = Transform3D(1.9106855e-15, -4.371139e-08, 1, -1, -4.371139e-08, 0, 4.371139e-08, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_7fw7d")

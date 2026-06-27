@@ -1,20 +1,39 @@
-[gd_scene load_steps=3 format=3 uid="uid://gcjlq2bm2ucw"]
+[gd_scene format=3 uid="uid://gcjlq2bm2ucw"]
 
 [ext_resource type="Script" uid="uid://c3ssvk3nifanm" path="res://scripts/vfx/machinegun_impact.gd" id="1_8wylu"]
+[ext_resource type="Material" uid="uid://c5jeefgk5jfpx" path="res://assets/materials/conc.tres" id="2_3fwtc"]
+[ext_resource type="Script" uid="uid://c2hv0p8ixsr60" path="res://scripts/vfx/debris_spread.gd" id="2_uh1mb"]
+[ext_resource type="Script" uid="uid://cvb7lobmktmnj" path="res://scripts/vfx/debris.gd" id="3_kr6jt"]
+[ext_resource type="Material" uid="uid://dlq1f00uic0s8" path="res://assets/materials/hole.tres" id="4_kr6jt"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_mp1yv"]
+[sub_resource type="PrismMesh" id="PrismMesh_yd20o"]
+material = ExtResource("2_3fwtc")
+size = Vector3(0.5, 0.5, 0.5)
 
-[node name="MachinegunImpact" type="Node3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_7fw7d"]
+radius = 0.24896125
+
+[sub_resource type="SphereMesh" id="SphereMesh_7fw7d"]
+radius = 0.405
+radial_segments = 6
+rings = 3
+
+[node name="MachinegunImpact" type="Node3D" unique_id=1565906636]
 script = ExtResource("1_8wylu")
 lifetime = 3.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_mp1yv")
+[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=1303968600]
+collision_layer = 16
+script = ExtResource("2_uh1mb")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21368, 0, -0.397203)
-mesh = SubResource("SphereMesh_mp1yv")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D" unique_id=416329690]
+mesh = SubResource("PrismMesh_yd20o")
+skeleton = NodePath("../..")
+script = ExtResource("3_kr6jt")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.535872, 0, 0.510123)
-mesh = SubResource("SphereMesh_mp1yv")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=880655974]
+shape = SubResource("SphereShape3D_7fw7d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=620408914]
+mesh = SubResource("SphereMesh_7fw7d")
+surface_material_override/0 = ExtResource("4_kr6jt")

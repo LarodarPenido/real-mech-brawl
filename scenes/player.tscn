@@ -21,6 +21,7 @@ torso_pivot = NodePath("Torso/TorsoPivot")
 legs = NodePath("Legs")
 use_eight_way_rotation = false
 rotation_speed = 4.0
+max_speed = 10.0
 dash_duration = 0.02
 dash_speed = 20.0
 dash_cooldown = 1.0
@@ -34,8 +35,8 @@ shape = SubResource("BoxShape3D_4lj41")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1088702525 groups=["camera"]]
 script = ExtResource("2_qlg0r")
-follow_offset = Vector3(25.27, 11.335, 0)
-camera_target_offset = -14.68
+follow_offset = Vector3(20.425, 11.335, 0)
+camera_target_offset = 0.77
 
 [node name="Torso" type="Node3D" parent="." unique_id=1065867775]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00537252, 0.241316, 0)
@@ -50,15 +51,17 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.8828
 transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0.866127, 3.31264, -0.129841)
 
 [node name="Skeleton3D" parent="Torso/TorsoPivot/MECHTORSO/Armature_001" index="0" unique_id=1090374683]
-bones/0/rotation = Quaternion(0, -0.707107, 0, 0.707107)
-bones/2/rotation = Quaternion(0.094537, 0.0544938, 0.178002, 0.977961)
-bones/3/rotation = Quaternion(-0.628035, -0.393856, 0.410609, 0.530895)
-bones/4/rotation = Quaternion(-0.730342, -4.94733e-09, 1.64037e-10, 0.683082)
-bones/5/rotation = Quaternion(1.24952e-08, 3.56391e-08, -0.79955, 0.6006)
-bones/6/rotation = Quaternion(-9.04966e-09, 5.62968e-08, 0.459768, 0.888039)
-bones/7/rotation = Quaternion(-2.15052e-08, 0.682203, 0.731163, -5.15049e-08)
-bones/9/rotation = Quaternion(-0.628035, 0.393857, -0.410609, 0.530895)
-bones/10/rotation = Quaternion(-0.730342, -2.30782e-08, -1.92212e-08, 0.683082)
+bones/0/position = Vector3(0, -0.4206362, 0.17316866)
+bones/0/rotation = Quaternion(-0.0016613329, -0.70710486, 0.0016613331, 0.70710486)
+bones/2/rotation = Quaternion(0.0216875, -0.32145515, 0.17483397, 0.9303921)
+bones/3/rotation = Quaternion(-0.70220095, -0.45231143, 0.34516224, 0.42800856)
+bones/4/rotation = Quaternion(-0.33339134, -4.31512e-09, 2.4254312e-09, 0.94278854)
+bones/5/rotation = Quaternion(1.2495185e-08, 3.563911e-08, -0.79954964, 0.6006)
+bones/6/rotation = Quaternion(-9.049654e-09, 5.6296763e-08, 0.45976824, 0.888039)
+bones/7/rotation = Quaternion(-2.1334927e-08, 0.6822032, 0.73116267, -5.134607e-08)
+bones/8/rotation = Quaternion(0.021687504, 0.32145497, -0.17483398, 0.93039215)
+bones/9/rotation = Quaternion(-0.70220095, 0.45231143, -0.34516236, 0.4280086)
+bones/10/rotation = Quaternion(-0.3333915, -2.9339274e-08, -6.423674e-09, 0.9427885)
 
 [node name="Submachineguns" parent="Torso/TorsoPivot/MECHTORSO/Armature_001/Skeleton3D/Cube_012/Outline" index="0" unique_id=31235434 instance=ExtResource("7_fjrip")]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 2.1316282e-14, 0, 1.0000001, -0.79248613, -3.3439186, 0.40223607)

@@ -336,11 +336,11 @@ func _update_animations() -> void:
 		State.IDLE:
 			torso_animation_player.play("TorsoIdle")
 			legs_animation_player.play("LegsIdle")
-			legs_animation_player.speed_scale = 1.0
+			legs_animation_player.speed_scale = 1.5
 		State.WALKING:
 			torso_animation_player.play("TorsoWalk")
 			legs_animation_player.play("LegsWalk")
-			legs_animation_player.speed_scale = -1.0 if _moving_against_torso() else 1.0
+			legs_animation_player.speed_scale = -1.5 if _moving_against_torso() else 1.5
 		State.FIRING:
 			torso_animation_player.play("TorsoFire")
 			torso_pivot.look_at(_get_aim_point())

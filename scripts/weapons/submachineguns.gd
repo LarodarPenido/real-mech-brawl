@@ -24,10 +24,10 @@ var _cooling_delay_timer: float = 0.0
 var _trigger_held: bool = false
 
 ## Accuracy
-@export var spread: float = 4.0  # Degrees of spread cone
+@export var spread: float = 3.0  # Degrees of spread cone
 
 ## Damage
-@export var damage: float = 60.0
+@export var damage: float = 30.0
 @export var max_range: float = 80.0
 
 ## Visual Effect Scenes

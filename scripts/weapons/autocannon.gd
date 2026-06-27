@@ -1,10 +1,10 @@
-# enemy_weapon.gd - tank cannon
+# enemy_weapon.gd - autocannon
 extends Node3D
 
 ## Projectile settings
 @export var projectile_scene: PackedScene
-@export var projectile_speed: float = 25.0
-@export var projectile_damage: float = 90.0
+@export var projectile_speed: float = 80.0
+@export var projectile_damage: float = 15.0
 @export var weapon_range: float = 50.0
 
 ## Targeting
