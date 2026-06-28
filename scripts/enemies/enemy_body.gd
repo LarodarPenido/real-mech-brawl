@@ -22,6 +22,7 @@ var direction: Vector3 = Vector3.ZERO
 
 @onready var enemy_manager: Node3D = $"../../../../EnemyManager"
 
+@export var time_freeze_duration: float = 0.01
 
 # --- Signals ---
 signal died()
@@ -82,13 +83,15 @@ func take_damage(amount: float) -> void:
 	## TODO add hit VFX
 	## TODO add hit SFX
 func _die():
+	# Tell the global manager to handle the hit freeze
+	HitStopManager.hit_freeze(0.05, time_freeze_duration)
+	
 	if explosion_scene:
 		spawn_explosion(global_position)
 	
 	enemy_manager.unregister_enemy(self)
 	queue_free()
 
-	#return to pool?
 
 func get_health() -> float:
 	return hp

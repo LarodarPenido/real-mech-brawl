@@ -1,0 +1,38 @@
+[gd_scene format=4 uid="uid://d3mtqbp4flc3g"]
+
+[ext_resource type="Script" uid="uid://b618vx46vya8e" path="res://scripts/weapons/armor_plate.gd" id="1_bqjao"]
+[ext_resource type="Material" uid="uid://rruet4eblpd8" path="res://scenes/scenario/republic_red.tres" id="2_ipidw"]
+[ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="3_ipidw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
+size = Vector3(3, 3, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4b3kd"]
+material = ExtResource("2_ipidw")
+size = Vector3(3, 3, 0.3)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_fs33r"]
+_surfaces = [{
+"aabb": AABB(-1.61547, -1.61547, -0.26547006, 3.23094, 3.23094, 0.5309401),
+"attribute_data": PackedByteArray("AAAAAAAAAACrqio/AAAAAKuqqj4AAAAAAACAPwAAAAAAAAAAAAAAP6uqKj8AAAA/q6qqPgAAAD8AAIA/AAAAP6uqqj4AAAAAAAAAAAAAAD+rqio/AAAAAKuqqj4AAAA/q6qqPgAAAD8AAAAAAACAP6uqKj8AAAA/q6qqPgAAgD+rqqo+AAAAP6uqKj8AAAA/q6oqPwAAAD8AAIA/AAAAP6uqqj4AAIA/q6oqPwAAgD+rqio/AACAPwAAgD8AAIA/"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAAEAAIAAgAEAAYAAQAFAAMAAwAFAAcACAAMAAoACgAMAA4ACQANAAsACwANAA8AEAAUABIAEgAUABYAEQAVABMAEwAVABcA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("ucfOv7nHzj+x64c+ucfOP7nHzj+x64e+ucfOP7nHzj+x64c+ucfOv7nHzj+x64e+ucfOv7nHzr+x64c+ucfOP7nHzr+x64e+ucfOP7nHzr+x64c+ucfOv7nHzr+x64e+ucfOP7nHzj+x64c+ucfOv7nHzj+x64e+ucfOP7nHzj+x64e+ucfOv7nHzj+x64c+ucfOP7nHzr+x64c+ucfOv7nHzr+x64e+ucfOP7nHzr+x64e+ucfOv7nHzr+x64c+ucfOP7nHzj+x64c+ucfOv7nHzr+x64c+ucfOv7nHzj+x64c+ucfOP7nHzr+x64c+ucfOP7nHzj+x64e+ucfOv7nHzr+x64e+ucfOv7nHzj+x64e+ucfOP7nHzr+x64e+/3//f////7//////AAD/v/9//3////+//////wAA/7//f/9/////v/////8AAP+//3//f////7//////AAD/v///AID/////AAAAgP9//7///wCA/////wAAAID/f/+///8AgP////8AAACA/3//v///AID/////AAAAgP9//78AgP//AAD/vwCAAAD///+/AID//wAA/78AgAAA////vwCA//8AAP+/AIAAAP///78AgP//AAD/vwCAAAD///+/")
+}]
+
+[node name="ArmorPlate" type="StaticBody3D" unique_id=651818785]
+script = ExtResource("1_bqjao")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1757434833]
+shape = SubResource("BoxShape3D_7fw7d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=315086005]
+mesh = SubResource("BoxMesh_4b3kd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1923626374]
+mesh = SubResource("ArrayMesh_fs33r")
+surface_material_override/0 = ExtResource("3_ipidw")

@@ -24,6 +24,7 @@ config/icon="res://icon.svg"
 CameraShake="*uid://kvnbilqesvbg"
 VFXPool="*uid://bkbhbsxnrhmwf"
 SceneManager="*uid://bm6isxmh0dwp3"
+HitStopManager="*uid://c03q6eubrtg6"
 
 [display]
 

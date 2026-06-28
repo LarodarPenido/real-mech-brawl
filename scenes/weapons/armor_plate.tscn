@@ -1,12 +1,28 @@
-[gd_scene format=3 uid="uid://7osnef485w11"]
+[gd_scene format=4 uid="uid://7osnef485w11"]
 
 [ext_resource type="Script" uid="uid://b618vx46vya8e" path="res://scripts/weapons/armor_plate.gd" id="1_1te83"]
+[ext_resource type="Material" uid="uid://rruet4eblpd8" path="res://scenes/scenario/republic_red.tres" id="2_a3fh2"]
+[ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="3_f3v4a"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
 size = Vector3(1, 1, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4b3kd"]
+material = ExtResource("2_a3fh2")
 size = Vector3(1, 1, 0.1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_l1iwq"]
+_surfaces = [{
+"aabb": AABB(-0.61547005, -0.61547005, -0.16547005, 1.2309401, 1.2309401, 0.3309401),
+"attribute_data": PackedByteArray("AAAAAAAAAACrqio/AAAAAKuqqj4AAAAAAACAPwAAAAAAAAAAAAAAP6uqKj8AAAA/q6qqPgAAAD8AAIA/AAAAP6uqqj4AAAAAAAAAAAAAAD+rqio/AAAAAKuqqj4AAAA/q6qqPgAAAD8AAAAAAACAP6uqKj8AAAA/q6qqPgAAgD+rqqo+AAAAP6uqKj8AAAA/q6oqPwAAAD8AAIA/AAAAP6uqqj4AAIA/q6oqPwAAgD+rqio/AACAPwAAgD8AAIA/"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAAEAAIAAgAEAAYAAQAFAAMAAwAFAAcACAAMAAoACgAMAA4ACQANAAsACwANAA8AEAAUABIAEgAUABYAEQAVABMAEwAVABcA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("co8dv3KPHT/7cCk+co8dP3KPHT/7cCm+co8dP3KPHT/7cCk+co8dv3KPHT/7cCm+co8dv3KPHb/7cCk+co8dP3KPHb/7cCm+co8dP3KPHb/7cCk+co8dv3KPHb/7cCm+co8dP3KPHT/7cCk+co8dv3KPHT/7cCm+co8dP3KPHT/7cCm+co8dv3KPHT/7cCk+co8dP3KPHb/7cCk+co8dv3KPHb/7cCm+co8dP3KPHb/7cCm+co8dv3KPHb/7cCk+co8dP3KPHT/7cCk+co8dv3KPHb/7cCk+co8dv3KPHT/7cCk+co8dP3KPHb/7cCk+co8dP3KPHT/7cCm+co8dv3KPHb/7cCm+co8dv3KPHT/7cCm+co8dP3KPHb/7cCm+/3//f////7//////AAD/v/9//3////+//////wAA/7//f/9/////v/////8AAP+//3//f////7//////AAD/v///AID/////AAAAgP9//7///wCA/////wAAAID/f/+///8AgP////8AAACA/3//v///AID/////AAAAgP9//78AgP//AAD/vwCAAAD///+/AID//wAA/78AgAAA////vwCA//8AAP+/AIAAAP///78AgP//AAD/vwCAAAD///+/")
+}]
 
 [node name="ArmorPlate" type="StaticBody3D" unique_id=651818785]
 script = ExtResource("1_1te83")
@@ -16,3 +32,7 @@ shape = SubResource("BoxShape3D_7fw7d")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=315086005]
 mesh = SubResource("BoxMesh_4b3kd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=631484747]
+mesh = SubResource("ArrayMesh_l1iwq")
+surface_material_override/0 = ExtResource("3_f3v4a")

@@ -34,6 +34,7 @@ script = ExtResource("1_r7hkc")
 stats = NodePath("EnemyStats")
 explosion_scene = ExtResource("2_0iv5n")
 turn_speed = 0.2
+time_freeze_duration = 0.5
 
 [node name="Skin" type="Node3D" parent="." unique_id=577763434]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.507772, 0)
