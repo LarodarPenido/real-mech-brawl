@@ -9,14 +9,15 @@
 [ext_resource type="Script" uid="uid://e4ejbmw146ya" path="res://scripts/player/weapon_manager.gd" id="6_fjrip"]
 [ext_resource type="PackedScene" uid="uid://dbswuwxkhvgep" path="res://scenes/weapons/submachineguns.tscn" id="7_fjrip"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_4lj41"]
-size = Vector3(2.7346191, 1, 1)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_um2ku"]
+radius = 1.265625
+height = 4.9750977
 
 [sub_resource type="SphereMesh" id="SphereMesh_7fw7d"]
 
 [node name="Player" type="CharacterBody3D" unique_id=1600219064 node_paths=PackedStringArray("torso", "torso_pivot", "legs", "torso_animation_player", "legs_animation_player") groups=["player"]]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 37
 script = ExtResource("1_dqkch")
 torso = NodePath("Torso")
 torso_pivot = NodePath("Torso/TorsoPivot")
@@ -31,8 +32,8 @@ torso_animation_player = NodePath("Torso/TorsoPivot/MECHTORSO/AnimationPlayer")
 legs_animation_player = NodePath("Legs/MECHLEGS/AnimationPlayer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=288482197]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8446352, 0)
-shape = SubResource("BoxShape3D_4lj41")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3570864, 0)
+shape = SubResource("CapsuleShape3D_um2ku")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=2038021139]
 

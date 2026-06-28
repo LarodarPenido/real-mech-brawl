@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://du3sf0riv0ukp" path="res://scripts/enemies/ground_enemy_brain.gd" id="1_326vp"]
 [ext_resource type="Script" uid="uid://cidw88td13hiu" path="res://scripts/enemies/skin.gd" id="2_022su"]
+[ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="2_b136v"]
 [ext_resource type="Script" uid="uid://dafd13agtjfl0" path="res://scripts/enemies/enemy_body.gd" id="2_ei0en"]
 [ext_resource type="PackedScene" uid="uid://crunayklf1313" path="res://scenes/weapons/autocannon.tscn" id="3_yd20o"]
 [ext_resource type="Script" uid="uid://blbrnatladejg" path="res://scripts/enemies/enemy_stats.gd" id="4_yd20o"]
@@ -22,6 +23,7 @@ height = 6.0
 collision_layer = 4
 script = ExtResource("2_ei0en")
 stats = NodePath("EnemyStats")
+explosion_scene = ExtResource("2_b136v")
 
 [node name="Skin" type="Node3D" parent="." unique_id=577763434]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.507772, 0)

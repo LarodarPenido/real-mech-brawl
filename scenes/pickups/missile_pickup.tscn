@@ -4,9 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://gogppffhawcg" path="res://scenes/vfx/missile_skin.tscn" id="2_s4k7v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
+size = Vector3(4.6623535, 5.1103516, 5.0039063)
 
 [node name="MissilePickup" type="Area3D" unique_id=595357997]
+collision_layer = 32
+collision_mask = 2
 script = ExtResource("1_um2ku")
+ammo_amount = 2
 
 [node name="MeshInstance3D" parent="." unique_id=1036262529 instance=ExtResource("2_s4k7v")]
 

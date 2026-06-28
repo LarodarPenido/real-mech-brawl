@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c5fhglm1xqqwt"]
 
 [ext_resource type="Script" uid="uid://cxrhupehg784g" path="res://scripts/weapons/projectiles/cannon_shell.gd" id="1_gmxdo"]
+[ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="2_2375c"]
 [ext_resource type="Material" uid="uid://dxmc54lcve54c" path="res://assets/materials/glowing.tres" id="2_xf2yw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
@@ -12,8 +13,11 @@ height = 1.0
 radial_segments = 8
 rings = 0
 
-[node name="cannon_shell" type="Area3D" unique_id=676627323]
+[node name="cannon_shell" type="CharacterBody3D" unique_id=936813405]
+collision_layer = 64
+collision_mask = 3
 script = ExtResource("1_gmxdo")
+explosion_scene = ExtResource("2_2375c")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=797172961]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0074706934, -0.0060791373)

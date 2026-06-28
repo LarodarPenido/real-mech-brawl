@@ -76,12 +76,29 @@ func take_damage(amount: float) -> void:
 	## TODO add hit VFX
 	## TODO add hit SFX
 func _die():
-	#print("enemy ded")
-	queue_free()
+	if explosion_scene:
+		spawn_explosion(global_position)
+	
 	enemy_manager.unregister_enemy(self)
+	queue_free()
+
 	#return to pool?
 
 func get_health() -> float:
 	return hp
 
-#score reward
+# TODO score reward
+
+func spawn_explosion(world_position: Vector3) -> void:
+	if explosion_scene == null:
+		return
+
+	VFXPool.spawn(
+	&"mesh_explosion",
+	global_position,
+	Basis.IDENTITY,
+	{
+		"radius": 6.0,
+		"lifetime": 0.85
+	}
+)

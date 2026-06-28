@@ -97,8 +97,33 @@ func _on_body_entered(body: Node3D) -> void:
 
 func _explode() -> void:
 	if explosion_scene:
-		var explosion := explosion_scene.instantiate() as Node3D
-		get_tree().current_scene.add_child(explosion)
-		explosion.global_position = global_position
+		spawn_explosion(global_position)
 
 	queue_free()
+
+func spawn_explosion(world_position: Vector3) -> void:
+	if explosion_scene == null:
+		return
+
+	VFXPool.spawn(&"mesh_explosion", global_position)
+
+	#VFXPool.spawn(
+		#&"mesh_explosion",
+		#global_position,
+		#Basis.IDENTITY,
+		#{
+			#"radius": 3.5,
+			#"lifetime": 0.55
+		#}
+	#)
+	
+	# LArge Explosion
+	#VFXPool.spawn(
+	#&"mesh_explosion",
+	#global_position,
+	#Basis.IDENTITY,
+	#{
+		#"radius": 6.0,
+		#"lifetime": 0.85
+	#}
+#)

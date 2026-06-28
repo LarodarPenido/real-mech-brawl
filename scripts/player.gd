@@ -9,7 +9,7 @@ var input_enabled: bool = true
 
 # --- Health ---
 var health: float
-var max_health: float
+@export var max_health: float = 200
 var alive: bool = true
 
 signal health_changed(current: float, maximum: float)
@@ -127,6 +127,9 @@ func _physics_process(delta: float) -> void:
 		return
 	if not alive:
 		return
+
+	if not is_on_floor():
+		velocity -= Vector3(0, 9.8, 0)
 
 	_get_aim_point()
 	_update_move_direction()
@@ -517,7 +520,7 @@ func take_damage(amount) -> void:
 	health -= amount
 	health = max(health, 0.0)
 	health_changed.emit(health, max_health)
-	#CameraShake.shake(0.03 * amount, 0.05 * amount)
+	CameraShake.shake(0.03 * amount, 0.05 * amount)
 	
 	if health <= 0.0:
 		_die()

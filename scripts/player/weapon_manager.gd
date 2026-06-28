@@ -51,9 +51,9 @@ func _process(delta: float) -> void:
 		if _is_firing:
 			if primary.has_method("trigger_held"):
 				primary.trigger_held(delta)
-	else:
-		if primary.has_method("trigger_released"):
-			primary.trigger_released(delta)
+		else:
+			if primary.has_method("trigger_released"):
+				primary.trigger_released(delta)
 
 	var secondary := get_active_secondary()
 	if secondary:

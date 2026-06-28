@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://bgn1hiogd0nqm"]
 
 [ext_resource type="Script" uid="uid://dafd13agtjfl0" path="res://scripts/enemies/enemy_body.gd" id="1_r7hkc"]
+[ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="2_0iv5n"]
 [ext_resource type="Script" uid="uid://cidw88td13hiu" path="res://scripts/enemies/skin.gd" id="2_au67s"]
 [ext_resource type="ArrayMesh" uid="uid://bkxqm7gldrxpe" path="res://assets/models/units/tank_hull.tres" id="3_au67s"]
 [ext_resource type="Script" uid="uid://blbrnatladejg" path="res://scripts/enemies/enemy_stats.gd" id="4_0iv5n"]
@@ -30,6 +31,7 @@ size = Vector3(4.9470215, 8.822266, 2.4519653)
 collision_layer = 4
 script = ExtResource("1_r7hkc")
 stats = NodePath("EnemyStats")
+explosion_scene = ExtResource("2_0iv5n")
 turn_speed = 0.2
 
 [node name="Skin" type="Node3D" parent="." unique_id=577763434]

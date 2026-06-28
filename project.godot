@@ -102,6 +102,8 @@ fire_missiles={
 3d_physics/layer_3="EnemyUnits"
 3d_physics/layer_4="PlayerUnits"
 3d_physics/layer_5="VFX"
+3d_physics/layer_6="Collectibles"
+3d_physics/layer_7="EnemyProjectiles"
 3d_physics/layer_8="Destructibles"
 
 [physics]

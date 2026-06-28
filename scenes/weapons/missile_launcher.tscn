@@ -18,15 +18,16 @@ script = ExtResource("1_p0fyb")
 missile_scene = ExtResource("2_5i2fv")
 left_muzzle = NodePath("MeshInstance3D/LeftMuzzle")
 right_muzzle = NodePath("MeshInstance3D/RightMuzzle")
+ammo = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=62802496]
 mesh = SubResource("BoxMesh_7fw7d")
 
 [node name="LeftMuzzle" type="Marker3D" parent="MeshInstance3D" unique_id=325748405]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5335908, 0.23363292, -0.23695663)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5335908, 0.23363292, -1.2369566)
 
 [node name="RightMuzzle" type="Marker3D" parent="MeshInstance3D" unique_id=1457716090]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5335908, 0.23363292, 0.27672076)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5335908, 0.23363292, 1.2767208)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=2118748503]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46218705, 0.2250146, -0.23918295)

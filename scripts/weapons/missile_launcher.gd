@@ -6,10 +6,12 @@ extends Node3D
 @export var left_muzzle: Marker3D
 @export var right_muzzle: Marker3D
 
+@export var stagger_launch_time: float = 0.3
+
 @export var max_ammo: int = 4
 @export var ammo: int = 0
 
-@export var fire_cooldown: float = 0.35
+@export var fire_cooldown: float = 1.0
 
 var aim_assist: Node = null
 var owner_body: Node3D = null
@@ -46,6 +48,7 @@ func try_fire() -> bool:
 	_cooldown_left = fire_cooldown
 
 	_spawn_missile(left_muzzle)
+	await get_tree().create_timer(stagger_launch_time).timeout
 	_spawn_missile(right_muzzle)
 
 	return true
