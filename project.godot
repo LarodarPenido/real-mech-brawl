@@ -23,6 +23,7 @@ config/icon="res://icon.svg"
 
 CameraShake="*uid://kvnbilqesvbg"
 VFXPool="*uid://bkbhbsxnrhmwf"
+SceneManager="*uid://bm6isxmh0dwp3"
 
 [display]
 
@@ -41,6 +42,7 @@ player=""
 camera=""
 enemy_manager=""
 weapon_manager=""
+missile_launcher=""
 
 [input]
 

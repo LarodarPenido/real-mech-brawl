@@ -20,6 +20,7 @@ var _cooldown_left: float = 0.0
 var _trigger_was_held: bool = false
 
 
+
 func _physics_process(delta: float) -> void:
 	if _cooldown_left > 0.0:
 		_cooldown_left -= delta

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://eoprvyf87yuq"]
+
+[ext_resource type="PackedScene" uid="uid://bj2j0h8f1bure" path="res://assets/models/terrain/Mountain01.gltf" id="1_6xl5q"]
+
+[node name="Mountain01" unique_id=1513124453 instance=ExtResource("1_6xl5q")]
+
+[node name="Cube_036" parent="." index="0" unique_id=1998392609]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 3.9437256, 15.095993, 0.5687256)

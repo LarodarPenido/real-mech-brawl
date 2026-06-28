@@ -30,10 +30,24 @@ extends Control
 @onready var player: CharacterBody3D = $"../../Player"
 
 
+## Missile ammo pips
+@export var missile_pip_size: Vector2 = Vector2(8.0, 3.0)
+@export var missile_pip_gap: float = 4.0
+@export var missile_pip_vertical_offset: float = 34.0
+
+@export var missile_pip_color: Color = Color(0.3, 0.9, 1.0, 0.95)
+@export var missile_pip_empty_color: Color = Color(0.3, 0.9, 1.0, 0.2)
+
+@export var missile_show_empty_slots: bool = false
+
+var _missile_launcher: Node = null
+
+
 
 ## State — lock
 var _is_locked: bool = false
 var _aim_assist: Node = null
+var _camera: Camera3D = null
 
 ## State — weapon tracking
 var _weapon_manager: Node = null
@@ -57,7 +71,9 @@ func _connect_to_player_systems() -> void:
 	if _aim_assist:
 		_aim_assist.target_locked.connect(_on_target_locked)
 		_aim_assist.target_lost.connect(_on_target_lost)
-
+	
+	_camera = _find_camera()
+	
 	# Weapon manager — cache active primary, refresh on swap
 	_weapon_manager = player.get_node_or_null("WeaponManager")
 	if _weapon_manager:
@@ -65,6 +81,7 @@ func _connect_to_player_systems() -> void:
 		if _weapon_manager.has_method("get_active_primary"):
 			_active_primary = _weapon_manager.get_active_primary()
 
+	_missile_launcher = get_tree().get_first_node_in_group("missile_launcher")
 
 func _on_primary_changed(weapon: Node) -> void:
 	_active_primary = weapon
@@ -89,7 +106,7 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-	var pos: Vector2 = get_viewport().get_mouse_position()
+	var pos: Vector2 = _get_reticle_position()
 
 	var heat_ratio: float = _get_heat_ratio()
 	var cooling_progress: float = _get_cooling_progress() # 1.0 = ready, 0.0 = just overheated
@@ -120,6 +137,9 @@ func _draw() -> void:
 	_draw_corner(pos + Vector2(-gap,  gap), Vector2.RIGHT, Vector2.UP,    base_color, pulse_t)
 	_draw_corner(pos + Vector2( gap,  gap), Vector2.LEFT,  Vector2.UP,    base_color, pulse_t)
 
+	# Missile ammo pips
+	_draw_missile_pips(pos)
+
 
 func _draw_corner(corner: Vector2, arm1: Vector2, arm2: Vector2, col: Color, pulse_t: float) -> void:
 	var end1: Vector2 = corner + arm1 * bracket_arm_length
@@ -140,6 +160,72 @@ func _draw_corner(corner: Vector2, arm1: Vector2, arm2: Vector2, col: Color, pul
 	# Main stroke
 	draw_line(corner, end1, col, bracket_thickness)
 	draw_line(corner, end2, col, bracket_thickness)
+
+
+
+func _draw_missile_pips(reticle_pos: Vector2) -> void:
+	var ammo: int = _get_missile_ammo()
+	var max_ammo: int = _get_missile_max_ammo()
+
+	var draw_count: int = ammo
+
+	if missile_show_empty_slots:
+		draw_count = max_ammo
+
+	if draw_count <= 0:
+		return
+
+	var total_width: float = draw_count * missile_pip_size.x + max(draw_count - 1, 0) * missile_pip_gap
+
+	var start_x: float = reticle_pos.x - total_width * 0.5
+	var y: float = reticle_pos.y + missile_pip_vertical_offset
+
+	for i in range(draw_count):
+		var pip_pos := Vector2(
+			start_x + i * (missile_pip_size.x + missile_pip_gap),
+			y
+		)
+
+		var rect := Rect2(pip_pos, missile_pip_size)
+
+		var col := missile_pip_color
+
+		if missile_show_empty_slots and i >= ammo:
+			col = missile_pip_empty_color
+
+		# Optional outline
+		draw_rect(
+			Rect2(pip_pos - Vector2.ONE, missile_pip_size + Vector2.ONE * 2.0),
+			outline_color
+		)
+
+		draw_rect(rect, col)
+
+
+func _get_missile_ammo() -> int:
+	if not is_instance_valid(_missile_launcher):
+		_missile_launcher = get_tree().get_first_node_in_group("missile_launcher")
+
+	if not is_instance_valid(_missile_launcher):
+		return 0
+
+	if "ammo" in _missile_launcher:
+		return max(int(_missile_launcher.ammo), 0)
+
+	return 0
+
+
+func _get_missile_max_ammo() -> int:
+	if not is_instance_valid(_missile_launcher):
+		_missile_launcher = get_tree().get_first_node_in_group("missile_launcher")
+
+	if not is_instance_valid(_missile_launcher):
+		return 0
+
+	if "max_ammo" in _missile_launcher:
+		return max(int(_missile_launcher.max_ammo), 0)
+
+	return 0
 
 
 # --- Weapon state queries (duck-typed; works with both MG-style and railgun-style APIs) ---
@@ -227,6 +313,67 @@ func _get_heat_ratio() -> float:
 		return 1.0 - clampf(float(_active_primary.current_ammo) / max_a, 0.0, 1.0)
 
 	return 0.0
+
+
+
+func _get_reticle_position() -> Vector2:
+	if _aim_assist == null or not is_instance_valid(_aim_assist):
+		return get_viewport().get_mouse_position()
+
+	if _aim_assist.has_method("has_lock") and not _aim_assist.has_lock():
+		return get_viewport().get_mouse_position()
+
+	var camera := _get_camera()
+	if camera == null:
+		return get_viewport().get_mouse_position()
+
+	var lock_position: Vector3 = _get_lock_world_position()
+	if lock_position == Vector3.ZERO:
+		return get_viewport().get_mouse_position()
+
+	if camera.is_position_behind(lock_position):
+		return get_viewport().get_mouse_position()
+
+	return camera.unproject_position(lock_position)
+
+
+func _get_lock_world_position() -> Vector3:
+	if _aim_assist == null or not is_instance_valid(_aim_assist):
+		return Vector3.ZERO
+
+	if _aim_assist.has_method("get_fire_point"):
+		return _aim_assist.get_fire_point()
+
+	if "locked_target" in _aim_assist:
+		var target: Node = _aim_assist.locked_target
+		if target is Node3D and is_instance_valid(target):
+			var target_3d: Node3D = target
+			return target_3d.global_position
+
+	return Vector3.ZERO
+
+
+func _get_camera() -> Camera3D:
+	if _camera != null and is_instance_valid(_camera):
+		return _camera
+
+	_camera = _find_camera()
+	return _camera
+
+
+func _find_camera() -> Camera3D:
+	if _aim_assist != null and is_instance_valid(_aim_assist) and "camera" in _aim_assist:
+		var aim_camera: Camera3D = _aim_assist.camera
+		if aim_camera != null and is_instance_valid(aim_camera):
+			return aim_camera
+
+	if player != null:
+		var player_camera := player.get_node_or_null("CameraPivot/Camera3D") as Camera3D
+		if player_camera != null:
+			return player_camera
+
+	return get_viewport().get_camera_3d()
+
 
 
 func _on_target_locked(_target: Node3D) -> void:

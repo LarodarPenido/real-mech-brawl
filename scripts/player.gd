@@ -95,7 +95,7 @@ var _legs_base_rotation: Vector3
 @onready var weapon_manager: Node = $WeaponManager
 
 
-
+@onready var mesh_health_bar: Node3D = $HealthBarPivot/MeshHealthBar
 
 
 
@@ -105,6 +105,7 @@ var _legs_base_rotation: Vector3
 @onready var afterimage_spawner: Node3D = get_node_or_null("Skin/AfterimageSpawner")
 
 
+@export var explosion_scene: PackedScene
 
 #const EXPLOSION = preload("uid://cqw67qekwu81w")
 
@@ -120,7 +121,7 @@ func _ready() -> void:
 	if torso:
 		_torso_base_rotation = torso.rotation
 	
-	#store original torso position
+	mesh_health_bar.update_health(health, max_health)
 
 func _physics_process(delta: float) -> void:
 	if not input_enabled:
@@ -144,7 +145,11 @@ func _physics_process(delta: float) -> void:
 	#_maintain_altitude(delta)
 	#_handle_sfx()
 	_update_animations()
+
+	#torso_pivot.look_at(_get_aim_point())
+
 	move_and_slide()
+
 
 
 # =============================================================================
@@ -346,7 +351,7 @@ func _update_animations() -> void:
 			legs_animation_player.speed_scale = -1.5 if _moving_against_torso() else 1.5
 		State.FIRING:
 			torso_animation_player.play("TorsoFire")
-			torso_pivot.look_at(_get_aim_point())
+			
 		State.AIMING:
 			torso_animation_player.play("TorsoAim")
 		_:
@@ -520,7 +525,10 @@ func take_damage(amount) -> void:
 	health -= amount
 	health = max(health, 0.0)
 	health_changed.emit(health, max_health)
-	CameraShake.shake(0.03 * amount, 0.05 * amount)
+	
+	mesh_health_bar.update_health(health, max_health)
+	
+	CameraShake.shake(0.03 * amount, 0.01 * amount)
 	
 	if health <= 0.0:
 		_die()
@@ -550,15 +558,30 @@ func _die() -> void:
 	#GameState.game_over.emit("defeat")
 	print("player dead")
 	death_timer.start()
-	### TODO Vfx
-	#var explosion = EXPLOSION.instantiate()
-	#get_parent().add_child(explosion)
-	#explosion.global_position = global_position
+	CameraShake.shake(0.5, 0.5)
+
 	
 	# Stop sounds
 	#TODO
 	#AudioManager.stop_loop("afterburner_01")
 	#AudioManager.stop_loop("rotor_light") 
+	if explosion_scene:
+		spawn_explosion(global_position)
+
+
+func spawn_explosion(world_position: Vector3) -> void:
+	if explosion_scene == null:
+		return
+
+	VFXPool.spawn(
+	&"mesh_explosion",
+	global_position,
+	Basis.IDENTITY,
+	{
+		"radius": 12.0,
+		"lifetime": 1.85
+	}
+)
 
 
 # =============================================================================

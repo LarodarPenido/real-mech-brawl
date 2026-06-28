@@ -10,6 +10,7 @@
 [ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="5_sxe24"]
 [ext_resource type="Script" uid="uid://vfnsa0gdwefv" path="res://scenes/vfx/laser_sight.gd" id="6_t1dfq"]
 [ext_resource type="Material" uid="uid://q27ph6f8vq7v" path="res://assets/materials/laser.tres" id="7_8xbsu"]
+[ext_resource type="Script" uid="uid://hargowj2tkjc" path="res://scripts/ui/mesh_healthbar.gd" id="11_ioeaq"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_0iv5n"]
 _surfaces = [{
@@ -96,6 +97,16 @@ lifetime = 10.0
 width = 0.2
 color = Color(1.6976031, 0, 0.55785996, 1)
 material = ExtResource("7_8xbsu")
+
+[node name="HealthBarPivot" type="Sprite3D" parent="." unique_id=1727374630]
+billboard = 2
+
+[node name="MeshHealthBar" type="Node3D" parent="HealthBarPivot" unique_id=548045210]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 5.676186, 0)
+script = ExtResource("11_ioeaq")
+box_size = Vector3(0.3, 0.3, 0.3)
+box_spacing = 0.3
+face_camera = false
 
 [connection signal="timeout" from="TelegraphTimer" to="EnemyBrain" method="_on_telegraph_timer_timeout"]
 

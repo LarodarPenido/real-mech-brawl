@@ -1,18 +1,25 @@
 # simple_missile.gd
 extends Area3D
 
-@export var speed: float = 45.0
+@export var max_speed: float = 210.0
+@export var acceleration: float = 150.0
+@export var boost_delay: float = 0.1
+@export var boost_acceleration: float = 190.0
+@export var launch_speed: float = 0.0
 @export var turn_speed: float = 8.0
 @export var damage: float = 50.0
 @export var lifetime: float = 4.0
 @export var explosion_scene: PackedScene
 
+@export var shake_power: float = 0.2
+@export var shake_duration: float = 0.2
+
 var aim_assist: Node = null
 var owner_body: Node3D = null
 var velocity: Vector3 = Vector3.ZERO
-
+var _current_speed: float = 0.0
 var _life_left: float = 0.0
-
+var _age: float = 0.0
 
 func _ready() -> void:
 	_life_left = lifetime
@@ -22,11 +29,13 @@ func _ready() -> void:
 func setup(start_direction: Vector3, new_aim_assist: Node, new_owner_body: Node3D) -> void:
 	aim_assist = new_aim_assist
 	owner_body = new_owner_body
+	_life_left = lifetime
 
 	if start_direction.length_squared() < 0.001:
 		start_direction = -global_transform.basis.z
 
-	velocity = start_direction.normalized() * speed
+	_current_speed = launch_speed
+	velocity = start_direction.normalized() * _current_speed
 	_face_velocity()
 
 
@@ -35,6 +44,18 @@ func _physics_process(delta: float) -> void:
 	if _life_left <= 0.0:
 		_explode()
 		return
+
+	_age += delta
+
+	var accel := acceleration
+	if _age >= boost_delay:
+		accel = boost_acceleration
+
+	_current_speed = move_toward(
+		_current_speed,
+		max_speed,
+		accel * delta
+	)
 
 	_update_homing(delta)
 
@@ -69,7 +90,7 @@ func _update_homing(delta: float) -> void:
 	var weight := clampf(turn_speed * delta, 0.0, 1.0)
 	var new_dir := current_dir.slerp(target_dir, weight).normalized()
 
-	velocity = new_dir * speed
+	velocity = new_dir * _current_speed
 
 
 func _face_velocity() -> void:
@@ -106,6 +127,8 @@ func spawn_explosion(world_position: Vector3) -> void:
 		return
 
 	VFXPool.spawn(&"mesh_explosion", global_position)
+
+	CameraShake.shake(shake_power, shake_duration)
 
 	#VFXPool.spawn(
 		#&"mesh_explosion",

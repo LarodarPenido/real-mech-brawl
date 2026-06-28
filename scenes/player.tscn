@@ -2,12 +2,14 @@
 
 [ext_resource type="Script" uid="uid://b5e7vfb4exyy6" path="res://scripts/player.gd" id="1_dqkch"]
 [ext_resource type="Script" uid="uid://bym6v5scqiwp5" path="res://scripts/camera.gd" id="2_qlg0r"]
+[ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="2_ur7pv"]
 [ext_resource type="PackedScene" uid="uid://dblvqlplbyfdk" path="res://assets/models/mechs/mechtorso.tscn" id="3_dqkch"]
 [ext_resource type="PackedScene" uid="uid://cvy386hn6tkrh" path="res://assets/models/mechs/mechlegs.tscn" id="4_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://dtp201kn85511" path="res://scenes/weapons/missile_launcher.tscn" id="5_smehm"]
 [ext_resource type="Script" uid="uid://d2v28gxl3w055" path="res://scripts/player/aim_assist.gd" id="5_tuyoq"]
 [ext_resource type="Script" uid="uid://e4ejbmw146ya" path="res://scripts/player/weapon_manager.gd" id="6_fjrip"]
 [ext_resource type="PackedScene" uid="uid://dbswuwxkhvgep" path="res://scenes/weapons/submachineguns.tscn" id="7_fjrip"]
+[ext_resource type="Script" uid="uid://hargowj2tkjc" path="res://scripts/ui/mesh_healthbar.gd" id="10_y4r1p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_um2ku"]
 radius = 1.265625
@@ -30,6 +32,7 @@ dash_speed = 20.0
 dash_cooldown = 1.0
 torso_animation_player = NodePath("Torso/TorsoPivot/MECHTORSO/AnimationPlayer")
 legs_animation_player = NodePath("Legs/MECHLEGS/AnimationPlayer")
+explosion_scene = ExtResource("2_ur7pv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=288482197]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3570864, 0)
@@ -120,6 +123,16 @@ font_size = 256
 
 [node name="DeathTimer" type="Timer" parent="." unique_id=874672101]
 one_shot = true
+
+[node name="HealthBarPivot" type="Sprite3D" parent="." unique_id=157962778]
+billboard = 2
+
+[node name="MeshHealthBar" type="Node3D" parent="HealthBarPivot" unique_id=591368101]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 5.676186, 0)
+script = ExtResource("10_y4r1p")
+box_size = Vector3(0.4, 0.3, 0.3)
+box_spacing = 0.3
+face_camera = false
 
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
 

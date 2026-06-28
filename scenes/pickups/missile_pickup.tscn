@@ -2,17 +2,50 @@
 
 [ext_resource type="Script" uid="uid://c61w23yal46t6" path="res://scripts/pickups/missile_pickup.gd" id="1_um2ku"]
 [ext_resource type="PackedScene" uid="uid://gogppffhawcg" path="res://scenes/vfx/missile_skin.tscn" id="2_s4k7v"]
+[ext_resource type="Material" uid="uid://dxmc54lcve54c" path="res://assets/materials/glowing.tres" id="3_s4k7v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
 size = Vector3(4.6623535, 5.1103516, 5.0039063)
+
+[sub_resource type="SphereMesh" id="SphereMesh_7fw7d"]
+material = ExtResource("3_s4k7v")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ydujn"]
+shading_mode = 0
+albedo_color = Color(0.7498752, 0.9524824, 0.96874815, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_4b3kd"]
+material = SubResource("StandardMaterial3D_ydujn")
+outer_radius = 0.6
+rings = 3
+ring_segments = 3
+
+[sub_resource type="TorusMesh" id="TorusMesh_exckr"]
+outer_radius = 0.6
+rings = 3
+ring_segments = 3
 
 [node name="MissilePickup" type="Area3D" unique_id=595357997]
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_um2ku")
-ammo_amount = 2
-
-[node name="MeshInstance3D" parent="." unique_id=1036262529 instance=ExtResource("2_s4k7v")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1910619241]
 shape = SubResource("BoxShape3D_7fw7d")
+
+[node name="VisualRoot" type="Node3D" parent="." unique_id=745431438]
+
+[node name="GlowCore" type="MeshInstance3D" parent="VisualRoot" unique_id=1141875962]
+mesh = SubResource("SphereMesh_7fw7d")
+skeleton = NodePath("../..")
+
+[node name="GlowRingA" type="MeshInstance3D" parent="VisualRoot" unique_id=1918770295]
+mesh = SubResource("TorusMesh_4b3kd")
+skeleton = NodePath("../..")
+
+[node name="GlowRingB" type="MeshInstance3D" parent="VisualRoot" unique_id=1603791908]
+mesh = SubResource("TorusMesh_exckr")
+skeleton = NodePath("../..")
+
+[node name="MissileMesh" parent="VisualRoot" unique_id=1036262529 instance=ExtResource("2_s4k7v")]
+skeleton = NodePath("../../CollisionShape3D")

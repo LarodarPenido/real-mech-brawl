@@ -10,6 +10,7 @@ var hp: float = 0.0
 var max_hp: float = 0.0
 var is_dead: bool = false
 
+@onready var mesh_health_bar: Node3D = $HealthBarPivot/MeshHealthBar
 
 # --- VFX
 @export var explosion_scene: PackedScene
@@ -19,7 +20,7 @@ var is_dead: bool = false
 
 var direction: Vector3 = Vector3.ZERO
 
-@onready var enemy_manager: Node3D = $"../../EnemyManager"
+@onready var enemy_manager: Node3D = $"../../../../EnemyManager"
 
 
 # --- Signals ---
@@ -29,7 +30,8 @@ signal damaged(amount: float, source_type: String)
 func _ready() -> void:
 	_apply_stats()
 	enemy_manager.register_enemy(self)
-	
+	#hp = max_hp
+	mesh_health_bar.update_health(hp, max_hp)
 	
 
 func _on_enemy_spawned():
@@ -42,9 +44,11 @@ func _apply_stats() -> void:
 		hp = max_hp
 
 func _physics_process(delta: float) -> void:
-	face_movement_direction(direction, delta, turn_speed)
-	if not is_on_floor() and not _is_stationery:
+	if _is_stationery:
+		return
+	if not is_on_floor():
 		velocity.y -= 9.8
+	face_movement_direction(direction, delta, turn_speed)
 	move_and_slide()
 	
 func face_movement_direction(direction: Vector3, delta: float, turn_speed_override: float = -1.0) -> void:
@@ -67,6 +71,8 @@ func take_damage(amount: float) -> void:
 		return
 
 	hp -= amount
+
+	mesh_health_bar.update_health(hp, max_hp)
 
 	if hp <= 0.0:
 		is_dead = true

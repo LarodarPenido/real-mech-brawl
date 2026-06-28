@@ -41,7 +41,7 @@ var player: Node3D = null
 @export var telegraph_duration: float = 1.5
 @export var aim_enter_margin = 2.0
 @export var aim_exit_margin = 3.0
-
+@export var mech_half_height: float = 2.5
 @export var aim_settle_time: float = 0.15
 
 var _aim_settle_timer: float = 0.0
@@ -58,7 +58,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_should_show_laser()
 	if _should_show_laser():
-		laser_sight.update_laser_sight(muzzle_point.global_position, target.global_position)
+		laser_sight.update_laser_sight(muzzle_point.global_position, target.global_position + Vector3(0, mech_half_height, 0))
 	else:
 		laser_sight.hide_laser_sight()
 	

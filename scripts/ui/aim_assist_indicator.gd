@@ -57,9 +57,17 @@ func _process(_delta: float) -> void:
 func _draw() -> void:
 	if camera == null or _target == null or not is_instance_valid(_target):
 		return
-	if camera.is_position_behind(_target.global_position):
+
+	var aim_point: Vector3 = _target.global_position
+
+	if aim_assist != null and aim_assist.has_method("get_fire_point"):
+		aim_point = aim_assist.get_fire_point()
+
+	if camera.is_position_behind(aim_point):
 		return
-	var screen_pos: Vector2 = camera.unproject_position(_target.global_position)
+
+	var screen_pos: Vector2 = camera.unproject_position(aim_point)
+
 	draw_circle(screen_pos, dot_radius + outline_radius, outline_color)
 	draw_circle(screen_pos, dot_radius, dot_color)
 

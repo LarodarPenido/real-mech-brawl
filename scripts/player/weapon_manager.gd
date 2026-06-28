@@ -6,7 +6,7 @@ extends Node
 ## References
 @export var aim_assist: Node
 @onready var player: Node3D
-@export var missile_lock: Node
+
 @export var camera: Node3D
 
 ## Weapon slots (assign all available weapons per slot in editor)
@@ -63,6 +63,7 @@ func _process(delta: float) -> void:
 		else:
 			if secondary.has_method("trigger_released"):
 				secondary.trigger_released(delta)
+
 
 
 func _handle_input() -> void:
@@ -146,8 +147,8 @@ func _wire_weapon(weapon: Node) -> void:
 		return
 	if weapon.has_method("set_aim_assist"):
 		weapon.set_aim_assist(aim_assist)
-	if weapon.has_method("set_missile_lock"):
-		weapon.set_missile_lock(missile_lock)
+	#if weapon.has_method("set_missile_lock"):
+		#weapon.set_missile_lock(missile_lock)
 	if weapon.has_method("set_owner_node"):
 		weapon.set_owner_node(player)
 

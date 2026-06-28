@@ -1,27 +1,45 @@
-[gd_scene format=3 uid="uid://dtp201kn85511"]
+[gd_scene format=4 uid="uid://dtp201kn85511"]
 
 [ext_resource type="Script" uid="uid://hwn6ogjxq162" path="res://scripts/weapons/missile_launcher.gd" id="1_p0fyb"]
 [ext_resource type="PackedScene" uid="uid://bxc3g7bk661o4" path="res://scenes/weapons/projectile/missile.tscn" id="2_5i2fv"]
+[ext_resource type="Material" uid="uid://dqe41521mr5vi" path="res://assets/materials/brass.tres" id="3_rx3ug"]
+[ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="4_oh0es"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_7fw7d"]
+size = Vector3(1, 0.5, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4b3kd"]
-albedo_color = Color(1, 0, 0.10980392, 1)
+albedo_color = Color(0.49, 0.1911, 0.22597171, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_7fw7d"]
 material = SubResource("StandardMaterial3D_4b3kd")
-radius = 0.1
-height = 0.2
+radius = 0.2
+height = 0.4
 
-[node name="MissileLauncher" type="Node3D" unique_id=856286554 node_paths=PackedStringArray("left_muzzle", "right_muzzle")]
+[sub_resource type="ArrayMesh" id="ArrayMesh_rx3ug"]
+_surfaces = [{
+"aabb": AABB(-0.61547005, -0.36547005, -0.61547005, 1.2309401, 0.7309401, 1.2309401),
+"attribute_data": PackedByteArray("AAAAAAAAAACrqio/AAAAAKuqqj4AAAAAAACAPwAAAAAAAAAAAAAAP6uqKj8AAAA/q6qqPgAAAD8AAIA/AAAAP6uqqj4AAAAAAAAAAAAAAD+rqio/AAAAAKuqqj4AAAA/q6qqPgAAAD8AAAAAAACAP6uqKj8AAAA/q6qqPgAAgD+rqqo+AAAAP6uqKj8AAAA/q6oqPwAAAD8AAIA/AAAAP6uqqj4AAIA/q6oqPwAAgD+rqio/AACAPwAAgD8AAIA/"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAAEAAIAAgAEAAYAAQAFAAMAAwAFAAcACAAMAAoACgAMAA4ACQANAAsACwANAA8AEAAUABIAEgAUABYAEQAVABMAEwAVABcA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("co8dv+Qeuz5yjx0/co8dP+Qeuz5yjx2/co8dP+Qeuz5yjx0/co8dv+Qeuz5yjx2/co8dv+Qeu75yjx0/co8dP+Qeu75yjx2/co8dP+Qeu75yjx0/co8dv+Qeu75yjx2/co8dP+Qeuz5yjx0/co8dv+Qeuz5yjx2/co8dP+Qeuz5yjx2/co8dv+Qeuz5yjx0/co8dP+Qeu75yjx0/co8dv+Qeu75yjx2/co8dP+Qeu75yjx2/co8dv+Qeu75yjx0/co8dP+Qeuz5yjx0/co8dv+Qeu75yjx0/co8dv+Qeuz5yjx0/co8dP+Qeu75yjx0/co8dP+Qeuz5yjx2/co8dv+Qeu75yjx2/co8dv+Qeuz5yjx2/co8dP+Qeu75yjx2//3//f////7//////AAD/v/9//3////+//////wAA/7//f/9/////v/////8AAP+//3//f////7//////AAD/v///AID/////AAAAgP9//7///wCA/////wAAAID/f/+///8AgP////8AAACA/3//v///AID/////AAAAgP9//78AgP//AAD/vwCAAAD///+/AID//wAA/78AgAAA////vwCA//8AAP+/AIAAAP///78AgP//AAD/vwCAAAD///+/")
+}]
+
+[node name="MissileLauncher" type="Node3D" unique_id=856286554 node_paths=PackedStringArray("left_muzzle", "right_muzzle") groups=["missile_launcher"]]
 script = ExtResource("1_p0fyb")
 missile_scene = ExtResource("2_5i2fv")
 left_muzzle = NodePath("MeshInstance3D/LeftMuzzle")
 right_muzzle = NodePath("MeshInstance3D/RightMuzzle")
-ammo = 4
+max_ammo = 6
+ammo = 6
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=62802496]
 mesh = SubResource("BoxMesh_7fw7d")
+surface_material_override/0 = ExtResource("3_rx3ug")
 
 [node name="LeftMuzzle" type="Marker3D" parent="MeshInstance3D" unique_id=325748405]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5335908, 0.23363292, -1.2369566)
@@ -30,9 +48,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5335908, 0.23363292, -1.236
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5335908, 0.23363292, 1.2767208)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=2118748503]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46218705, 0.2250146, -0.23918295)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46218705, -0.012035102, -0.23918295)
 mesh = SubResource("SphereMesh_7fw7d")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=406226012]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46218705, 0.2250146, 0.27505994)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46218705, -0.012035102, 0.27505994)
 mesh = SubResource("SphereMesh_7fw7d")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1608338637]
+mesh = SubResource("ArrayMesh_rx3ug")
+surface_material_override/0 = ExtResource("4_oh0es")
