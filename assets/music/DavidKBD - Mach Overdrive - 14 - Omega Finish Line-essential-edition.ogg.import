@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://br1ms152jna7y"
+path="res://.godot/imported/DavidKBD - Mach Overdrive - 14 - Omega Finish Line-essential-edition.ogg-38c8abc95ced54dc6c97b55ae04a2516.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/music/DavidKBD - Mach Overdrive - 14 - Omega Finish Line-essential-edition.ogg"
+dest_files=["res://.godot/imported/DavidKBD - Mach Overdrive - 14 - Omega Finish Line-essential-edition.ogg-38c8abc95ced54dc6c97b55ae04a2516.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

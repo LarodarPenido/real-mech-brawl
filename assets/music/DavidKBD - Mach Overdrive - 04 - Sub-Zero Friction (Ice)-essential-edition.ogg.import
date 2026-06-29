@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c2x2vt0r2fwfa"
+path="res://.godot/imported/DavidKBD - Mach Overdrive - 04 - Sub-Zero Friction (Ice)-essential-edition.ogg-37d5299c790c9d5a8bead5bf304fe73b.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/music/DavidKBD - Mach Overdrive - 04 - Sub-Zero Friction (Ice)-essential-edition.ogg"
+dest_files=["res://.godot/imported/DavidKBD - Mach Overdrive - 04 - Sub-Zero Friction (Ice)-essential-edition.ogg-37d5299c790c9d5a8bead5bf304fe73b.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -118,12 +118,16 @@ var _legs_base_rotation: Vector3
 
 #const EXPLOSION = preload("uid://cqw67qekwu81w")
 
+@onready var audio_listener_3d: AudioListener3D = $AudioListener3D
+
+
 ## _____ DEGUB DEBUG
 @onready var state_label: Label3D = $StateLabel
 
 
 
 func _ready() -> void:
+	Audio.set_listener_3d(audio_listener_3d)   # or a node pinned to the player
 	health = max_health
 	if legs:
 		_legs_base_rotation = legs.rotation
@@ -151,12 +155,7 @@ func _physics_process(delta: float) -> void:
 	_apply_movement(delta)
 	_apply_tilt(delta)
 	#_check_afterburner_collision()
-	#_maintain_altitude(delta)
-	#_handle_sfx()
 	_update_animations()
-
-	#torso_pivot.look_at(_get_aim_point())
-
 	move_and_slide()
 
 
@@ -326,7 +325,10 @@ func _apply_movement(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0.0, deceleration * delta)
 		velocity.z = move_toward(velocity.z, 0.0, deceleration * delta)
 
-
+# Called from Call Method tracks on the LegsWalk animation — one key per foot plant.
+func _play_footstep_fx() -> void:
+	Audio.play_sfx(Sounds.footstep, 1, 0.1)
+	CameraShake.shake(0.08, 0.1)
 
 func _update_animations() -> void:
 	var weapon_is_actually_firing := false
@@ -346,9 +348,6 @@ func _update_animations() -> void:
 		state = State.FIRING
 		state_label.text = "FIRING"
 	
-	#if aim_assist.locked_target:
-		#state = State.AIMING
-	
 	match state:
 		State.IDLE:
 			torso_animation_player.play("TorsoIdle")
@@ -366,12 +365,6 @@ func _update_animations() -> void:
 		_:
 			torso_animation_player.play("TorsoIdle")
 			legs_animation_player.play("LegsIdle")
-
-#func _maintain_altitude(delta: float) -> void:
-	#var target_altitude := _landed_altitude if is_landed else config.desired_altitude
-	#if position.y != target_altitude:
-		#position.y = lerp(global_position.y, target_altitude, 0.7 * delta)
-
 
 # =============================================================================
 # VISUAL TILT
@@ -432,6 +425,7 @@ func _start_dash() -> void:
 	get_tree().create_timer(dash_duration).timeout.connect(_end_dash)
 	get_tree().create_timer(dash_cooldown).timeout.connect(func(): can_dash = true)
 
+	Audio.play_sfx(Sounds.dash, 10)
 
 func _end_dash() -> void:
 	is_dashing = false

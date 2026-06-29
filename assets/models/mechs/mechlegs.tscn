@@ -57,22 +57,24 @@ bind/10/pose = Transform3D(0.9971442, -0.07552214, 0, 0, 0, 1.0000001, -0.075522
 
 [node name="MECHLEGS" unique_id=1239130477 instance=ExtResource("1_53j2c")]
 
-[node name="Skeleton3D" parent="Armature" parent_id_path=PackedInt32Array(154523072) index="0" unique_id=563185891]
-bones/0/position = Vector3(0, -0.19332528, 0)
-bones/1/position = Vector3(6.9849193e-10, -0.25696278, 1.1641532e-10)
+[node name="Skeleton3D" parent="Armature" parent_id_path=PackedInt32Array(91332599) index="0" unique_id=2137564719]
+bones/0/position = Vector3(0, -0.33434698, 0)
+bones/1/position = Vector3(-1.5916864e-09, -0.39798447, -4.0738907e-10)
 bones/1/rotation = Quaternion(0.49417928, 0.50813866, 0.54720473, -0.44513938)
-bones/2/rotation = Quaternion(0.54463357, 0.65227497, -0.34105968, -0.40198258)
-bones/3/rotation = Quaternion(0.25860837, 0.6394085, 0.28753522, 0.66453147)
-bones/6/position = Vector3(-6.9849193e-10, -0.25696278, 1.1641532e-10)
-bones/7/rotation = Quaternion(-0.5446337, 0.65227497, -0.34105968, 0.4019825)
-bones/8/rotation = Quaternion(0.25860843, -0.63940847, -0.28753534, 0.66453135)
+bones/2/rotation = Quaternion(0.5466222, 0.6541682, -0.33589754, -0.40055096)
+bones/3/rotation = Quaternion(0.38340014, 0.5721708, 0.41544297, 0.5941651)
+bones/4/position = Vector3(0.93768907, -2.7752225, -0.40631494)
+bones/6/position = Vector3(1.5916864e-09, -0.39798447, -4.0738907e-10)
+bones/7/rotation = Quaternion(-0.588972, 0.70058644, -0.24050488, 0.32318425)
+bones/8/rotation = Quaternion(0.2944444, -0.6205596, -0.3346088, 0.6451707)
+bones/9/position = Vector3(-0.93768907, -2.9601326, 0.6757817)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube_002" parent_id_path=PackedInt32Array(145627763) index="0" unique_id=1641384456]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube_002" parent_id_path=PackedInt32Array(883513325) index="0" unique_id=1641384456]
 mesh = SubResource("ArrayMesh_uoo5y")
 skin = SubResource("Skin_yvok4")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("2_53j2c")
 
-[node name="AnimationPlayer" parent="." index="1" unique_id=841310515]
-autoplay = &"LegsIdle"
+[node name="AnimationPlayer" parent="." index="1" unique_id=1031594800]
+autoplay = &"LegsWalk"
 speed_scale = 1.5

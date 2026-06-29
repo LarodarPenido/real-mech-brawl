@@ -7,8 +7,12 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
 size = Vector3(4.6623535, 5.1103516, 5.0039063)
 
-[sub_resource type="SphereMesh" id="SphereMesh_7fw7d"]
+[sub_resource type="TorusMesh" id="TorusMesh_4rfup"]
 material = ExtResource("3_s4k7v")
+inner_radius = 1.0
+outer_radius = 2.0
+rings = 13
+ring_segments = 7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ydujn"]
 shading_mode = 0
@@ -25,6 +29,14 @@ outer_radius = 0.6
 rings = 3
 ring_segments = 3
 
+[sub_resource type="Animation" id="Animation_s4k7v"]
+resource_name = "new_animation"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1fvul"]
+_data = {
+&"new_animation": SubResource("Animation_s4k7v")
+}
+
 [node name="MissilePickup" type="Area3D" unique_id=595357997]
 collision_layer = 32
 collision_mask = 2
@@ -36,7 +48,8 @@ shape = SubResource("BoxShape3D_7fw7d")
 [node name="VisualRoot" type="Node3D" parent="." unique_id=745431438]
 
 [node name="GlowCore" type="MeshInstance3D" parent="VisualRoot" unique_id=1141875962]
-mesh = SubResource("SphereMesh_7fw7d")
+transform = Transform3D(1, 0, 0, 0, 0.16, 0, 0, 0, 1, 0, -1.1996865, 0)
+mesh = SubResource("TorusMesh_4rfup")
 skeleton = NodePath("../..")
 
 [node name="GlowRingA" type="MeshInstance3D" parent="VisualRoot" unique_id=1918770295]
@@ -49,3 +62,6 @@ skeleton = NodePath("../..")
 
 [node name="MissileMesh" parent="VisualRoot" unique_id=1036262529 instance=ExtResource("2_s4k7v")]
 skeleton = NodePath("../../CollisionShape3D")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=748422996]
+libraries/ = SubResource("AnimationLibrary_1fvul")

@@ -231,8 +231,11 @@ transform = Transform3D(-0.0086973775, -7.854263e-06, 0.9999546, 4.5474402e-13, 
 script = ExtResource("8_jk1qb")
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport/MainMenu/Path3D/PathFollow3D" unique_id=2070909499 node_paths=PackedStringArray("player")]
-transform = Transform3D(0.5348262, 0.16463123, 0.82877713, 6.636826e-06, 0.98083496, -0.19484347, -0.84497106, 0.10421139, 0.52457476, -0.0076799393, -0.26727283, -0.0042796135)
+transform = Transform3D(0.534691, 0.16457772, 0.82887506, 6.6374987e-06, 0.9808515, -0.1947604, -0.84505665, 0.10414063, 0.5244509, -0.0020561218, -0.26727283, -0.0030374527)
 current = true
 fov = 42.4
 script = ExtResource("2_tbmy8")
 player = NodePath("../../../PosedMechWithPilot/Marker3D")
+
+[connection signal="button_up" from="SubViewport/MainMenu/Control/VBoxContainer/PlayButton" to="SubViewport/MainMenu" method="_on_play_button_button_up"]
+[connection signal="button_up" from="SubViewport/MainMenu/Control/VBoxContainer/QuitButton" to="SubViewport/MainMenu" method="_on_quit_button_button_up"]

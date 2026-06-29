@@ -114,7 +114,7 @@ color = Color(1.6976031, 0, 0.55785996, 1)
 material = ExtResource("7_yd20o")
 
 [node name="HealthBarPivot" type="Sprite3D" parent="." unique_id=1950300060]
-billboard = 2
+billboard = 1
 
 [node name="MeshHealthBar" type="Node3D" parent="HealthBarPivot" unique_id=1340848371]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 5.676186, 0)

@@ -92,14 +92,11 @@ func take_damage(amount: float) -> void:
 func _die():
 
 	mesh_health_bar.hide()
-
-	# Tell the global manager to handle the hit freeze
-	#HitStopManager.hit_freeze(0.05, time_freeze_duration)
 	
 	if explosion_scene:
 		spawn_explosion(global_position)
 	
-	
+	Audio.play_sfx_at_3d(Sounds.explosion_01, global_position, 5)
 	
 	await get_tree().create_timer(death_time).timeout
 	

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://co0wdg676m0rn"
+path="res://.godot/imported/DavidKBD - Mach Overdrive - 05 - Neon Pulse City (Metropolis)-essential-edition.ogg-8547a26a8a5a46e9beff2caeb857e776.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/music/DavidKBD - Mach Overdrive - 05 - Neon Pulse City (Metropolis)-essential-edition.ogg"
+dest_files=["res://.godot/imported/DavidKBD - Mach Overdrive - 05 - Neon Pulse City (Metropolis)-essential-edition.ogg-8547a26a8a5a46e9beff2caeb857e776.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

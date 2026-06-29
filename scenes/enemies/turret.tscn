@@ -7,7 +7,6 @@
 [ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="4_0rpki"]
 [ext_resource type="Script" uid="uid://blbrnatladejg" path="res://scripts/enemies/enemy_stats.gd" id="4_kr03i"]
 [ext_resource type="Script" uid="uid://du3sf0riv0ukp" path="res://scripts/enemies/ground_enemy_brain.gd" id="5_0rpki"]
-[ext_resource type="PackedScene" uid="uid://d3mtqbp4flc3g" path="res://scenes/weapons/armor_plate_large.tscn" id="5_c7ilg"]
 [ext_resource type="Script" uid="uid://vfnsa0gdwefv" path="res://scenes/vfx/laser_sight.gd" id="6_c7ilg"]
 [ext_resource type="Material" uid="uid://q27ph6f8vq7v" path="res://assets/materials/laser.tres" id="7_k8vx2"]
 [ext_resource type="Script" uid="uid://hargowj2tkjc" path="res://scripts/ui/mesh_healthbar.gd" id="8_w2i2w"]
@@ -52,18 +51,6 @@ surface_material_override/0 = ExtResource("3_kr03i")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Skin/Hull" unique_id=893868118]
 mesh = SubResource("ArrayMesh_c7ilg")
 surface_material_override/0 = ExtResource("4_0rpki")
-
-[node name="ArmorPlate" parent="Skin" unique_id=651818785 instance=ExtResource("5_c7ilg")]
-transform = Transform3D(-0.59916085, 0, -0.8006287, 0, 1, 0, 0.8006287, 0, -0.59916085, 2.029984, 0, 2.0788965)
-
-[node name="ArmorPlate2" parent="Skin" unique_id=404571032 instance=ExtResource("5_c7ilg")]
-transform = Transform3D(-0.59944975, 0.29436582, -0.7443175, 0.016547158, 0.9342765, 0.35616508, 0.80024123, 0.20118669, -0.56492275, 2.6169658, -0.8804749, 2.0788965)
-
-[node name="ArmorPlate3" parent="Skin" unique_id=1787412949 instance=ExtResource("5_c7ilg")]
-transform = Transform3D(0.6182735, 0, -0.7859628, 0, 1, 0, 0.7859628, 0, 0.6182735, 2.2701712, 0, -1.9540128)
-
-[node name="ArmorPlate4" parent="Skin" unique_id=1920712648 instance=ExtResource("5_c7ilg")]
-transform = Transform3D(0.6178246, 0.27051875, -0.7383172, 0.016547194, 0.93427664, 0.35616505, 0.7861417, -0.23226452, 0.5727426, 2.4220934, -0.8804749, -2.5209935)
 
 [node name="Weapon" parent="." unique_id=1054764405 instance=ExtResource("3_d5tah")]
 transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 2.2815232, 2.659, -0.371)

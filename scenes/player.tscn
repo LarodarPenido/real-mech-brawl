@@ -4,11 +4,11 @@
 [ext_resource type="Script" uid="uid://bym6v5scqiwp5" path="res://scripts/camera.gd" id="2_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="2_ur7pv"]
 [ext_resource type="PackedScene" uid="uid://dblvqlplbyfdk" path="res://assets/models/mechs/mechtorso.tscn" id="3_dqkch"]
-[ext_resource type="PackedScene" uid="uid://cvy386hn6tkrh" path="res://assets/models/mechs/mechlegs.tscn" id="4_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://dtp201kn85511" path="res://scenes/weapons/missile_launcher.tscn" id="5_smehm"]
 [ext_resource type="Script" uid="uid://d2v28gxl3w055" path="res://scripts/player/aim_assist.gd" id="5_tuyoq"]
 [ext_resource type="Script" uid="uid://e4ejbmw146ya" path="res://scripts/player/weapon_manager.gd" id="6_fjrip"]
 [ext_resource type="PackedScene" uid="uid://dbswuwxkhvgep" path="res://scenes/weapons/submachineguns.tscn" id="7_fjrip"]
+[ext_resource type="PackedScene" uid="uid://7p01p4nlxxw3" path="res://assets/models/mechs/mechlegs3.tscn" id="7_y4r1p"]
 [ext_resource type="Script" uid="uid://hargowj2tkjc" path="res://scripts/ui/mesh_healthbar.gd" id="10_y4r1p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_um2ku"]
@@ -30,11 +30,11 @@ max_speed = 10.0
 dash_duration = 0.3
 dash_cooldown = 1.0
 torso_animation_player = NodePath("Torso/TorsoPivot/MECHTORSO/AnimationPlayer")
-legs_animation_player = NodePath("Legs/MECHLEGS/AnimationPlayer")
+legs_animation_player = NodePath("Legs/MECHLEGS2/AnimationPlayer")
 explosion_scene = ExtResource("2_ur7pv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=288482197]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3570864, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.240763, 0)
 shape = SubResource("CapsuleShape3D_um2ku")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=2038021139]
@@ -56,23 +56,20 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.8828
 [node name="Armature_001" parent="Torso/TorsoPivot/MECHTORSO" index="0" unique_id=1956934674]
 transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0.866127, 3.31264, -0.129841)
 
-[node name="Skeleton3D" parent="Torso/TorsoPivot/MECHTORSO/Armature_001" index="0" unique_id=1090374683]
-bones/0/position = Vector3(0, -0.4206362, 0.17316866)
-bones/0/rotation = Quaternion(-0.0016613329, -0.70710486, 0.0016613331, 0.70710486)
-bones/2/rotation = Quaternion(0.0216875, -0.32145515, 0.17483397, 0.9303921)
-bones/3/rotation = Quaternion(-0.70220095, -0.45231143, 0.34516224, 0.42800856)
-bones/4/rotation = Quaternion(-0.33339134, -4.31512e-09, 2.4254312e-09, 0.94278854)
-bones/5/rotation = Quaternion(1.2495185e-08, 3.563911e-08, -0.79954964, 0.6006)
-bones/6/rotation = Quaternion(-9.049654e-09, 5.6296763e-08, 0.45976824, 0.888039)
-bones/7/rotation = Quaternion(-2.1334927e-08, 0.6822032, 0.73116267, -5.134607e-08)
-bones/8/rotation = Quaternion(0.021687504, 0.32145497, -0.17483398, 0.93039215)
-bones/9/rotation = Quaternion(-0.70220095, 0.45231143, -0.34516236, 0.4280086)
-bones/10/rotation = Quaternion(-0.3333915, -2.9339274e-08, -6.423674e-09, 0.9427885)
-
 [node name="Submachineguns" parent="Torso/TorsoPivot/MECHTORSO/Armature_001/Skeleton3D/Cube_012/Outline" index="0" unique_id=31235434 instance=ExtResource("7_fjrip")]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 2.1316282e-14, 0, 1.0000001, -0.79248613, -3.3439186, 0.40223607)
-fire_rate = 10.0
+fire_rate = null
+max_heat = null
+heat_per_shot = null
+cooling_rate = null
+overheated_cooling_rate = null
+overheat_recovery_ratio = null
+cooling_delay_after_shot = null
+spread = null
+damage = null
+max_range = null
 screen_shake_strength = 0.2
+screen_shake_duration = null
 
 [node name="MissileLauncher" parent="Torso/TorsoPivot/MECHTORSO/Armature_001/Skeleton3D/Cube_012" parent_id_path=PackedInt32Array(437346093, 1173068135) index="1" unique_id=856286554 instance=ExtResource("5_smehm")]
 transform = Transform3D(-5.542382e-08, -4.37114e-08, -1, 0.5, 0.8660254, -6.55671e-08, 0.8660254, -0.5, -2.614275e-08, 1.3322502, 1.2731771, -1.1920929e-07)
@@ -84,18 +81,19 @@ mesh = SubResource("SphereMesh_7fw7d")
 [node name="Legs" type="Node3D" parent="." unique_id=1824249788]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.017911, 0.078759, 0.021305)
 
-[node name="MECHLEGS" parent="Legs" unique_id=128008385 instance=ExtResource("4_qlg0r")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.867025, 0, 0)
+[node name="MECHLEGS2" parent="Legs" unique_id=118273007 instance=ExtResource("7_y4r1p")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0.867025, 0, 0)
 
-[node name="Skeleton3D" parent="Legs/MECHLEGS/Armature" parent_id_path=PackedInt32Array(128008385, 2101093990) index="0" unique_id=58624412]
-bones/0/position = Vector3(0, 0, 0)
-bones/1/position = Vector3(0, -0.0636375, 0)
-bones/1/rotation = Quaternion(0.494179, 0.508139, 0.547205, -0.445139)
-bones/2/rotation = Quaternion(0.483604, 0.585169, -0.442798, -0.477111)
-bones/3/rotation = Quaternion(0.0861496, 0.68749, 0.0963892, 0.714595)
-bones/6/position = Vector3(0, -0.0636375, 0)
-bones/7/rotation = Quaternion(-0.483604, 0.585169, -0.442798, 0.477111)
-bones/8/rotation = Quaternion(0.0861496, -0.68749, -0.0963892, 0.714595)
+[node name="Skeleton3D" parent="Legs/MECHLEGS2/Armature" parent_id_path=PackedInt32Array(118273007, 1627975648) index="0" unique_id=332254625]
+bones/0/position = Vector3(0, -0.40644285, 0)
+bones/1/position = Vector3(-4.7414495e-10, -0.47008035, 3.0304023e-11)
+bones/2/rotation = Quaternion(0.46484092, 0.56880444, -0.4622753, -0.49667507)
+bones/3/rotation = Quaternion(0.2667744, 0.6379211, 0.28857502, 0.66227835)
+bones/4/position = Vector3(0.93768907, -2.9830859, -0.8659756)
+bones/6/position = Vector3(4.7414495e-10, -0.47008035, 3.0304023e-11)
+bones/7/rotation = Quaternion(-0.59883577, 0.71471274, -0.20686783, 0.29628924)
+bones/8/rotation = Quaternion(0.21391065, -0.65277636, -0.25901756, 0.6789958)
+bones/9/position = Vector3(-0.93768907, -2.949399, 1.2942393)
 
 [node name="align2" type="MeshInstance3D" parent="Legs" unique_id=818227645]
 visible = false
@@ -133,7 +131,10 @@ box_size = Vector3(0.4, 0.3, 0.3)
 box_spacing = 0.3
 face_camera = false
 
+[node name="AudioListener3D" type="AudioListener3D" parent="." unique_id=84887117]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8411016, 0)
+
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
 
 [editable path="Torso/TorsoPivot/MECHTORSO"]
-[editable path="Legs/MECHLEGS"]
+[editable path="Legs/MECHLEGS2"]

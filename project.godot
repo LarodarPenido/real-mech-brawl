@@ -19,12 +19,18 @@ run/main_scene="uid://cklkmsbg5qhpt"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://pbeptrris5mk"
+
 [autoload]
 
 CameraShake="*uid://kvnbilqesvbg"
 VFXPool="*uid://bkbhbsxnrhmwf"
 SceneManager="*uid://bm6isxmh0dwp3"
 HitStopManager="*uid://c03q6eubrtg6"
+Audio="*uid://biiip0t7iaoin"
+Sounds="*uid://cpug2ygubmjgj"
 
 [display]
 

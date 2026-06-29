@@ -52,6 +52,8 @@ const MUZZLE_FLASH_POOL_ID: StringName = &"machinegun_muzzle_flare"
 @export var muzzle_points: Array[Node3D] = []
 @export var casing_points: Array[Node3D] = []
 
+
+
 var _barrel_index: int = 0
 
 ## References (set by WeaponManager)
@@ -140,7 +142,7 @@ func trigger_released(delta: float) -> void:
 	#AudioManager.stop_loop("machinegun_02")
 
 func _fire() -> void:
-	CameraShake.shake(screen_shake_strength, screen_shake_duration)
+
 
 	_add_heat_from_shot()
 
@@ -182,6 +184,8 @@ func _fire() -> void:
 	_show_tracer(muzzle_pos, hit_point)
 	_spawn_muzzle_flash(muzzle_pos)
 	_spawn_casing()
+	CameraShake.shake(screen_shake_strength, screen_shake_duration)
+	Audio.play_sfx(Sounds.machine_gun_01, 10)
 
 	if result:
 		_spawn_impact(hit_point, hit_normal)
@@ -201,8 +205,8 @@ func _add_heat_from_shot() -> void:
 		_is_firing = false
 		was_firing = false
 
-		#TODO overheat sound/effect
-		#AudioManager.stop_loop("machinegun_02")
+		Audio.play_sfx(Sounds.alarm, 9)
+		Audio.play_sfx(Sounds.coolant, 9)
 
 
 func _update_heat(delta: float) -> void:

@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://biiip0t7iaoin"]
+
+[ext_resource type="Script" uid="uid://y7hj4e34ovlm" path="res://scripts/sfx/audio.gd" id="1_l3shp"]
+[ext_resource type="AudioStream" uid="uid://c2x2vt0r2fwfa" path="res://assets/music/DavidKBD - Mach Overdrive - 04 - Sub-Zero Friction (Ice)-essential-edition.ogg" id="6_l6crl"]
+[ext_resource type="AudioStream" uid="uid://co0wdg676m0rn" path="res://assets/music/DavidKBD - Mach Overdrive - 05 - Neon Pulse City (Metropolis)-essential-edition.ogg" id="7_a4pwl"]
+[ext_resource type="AudioStream" uid="uid://br1ms152jna7y" path="res://assets/music/DavidKBD - Mach Overdrive - 14 - Omega Finish Line-essential-edition.ogg" id="8_2xnne"]
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_ga1io"]
+stream_count = 2
+stream_0 = ExtResource("6_l6crl")
+stream_1 = ExtResource("7_a4pwl")
+
+[node name="Audio" type="Node" unique_id=838279772]
+script = ExtResource("1_l3shp")
+
+[node name="SfxPool2D" type="Node" parent="." unique_id=1178841964]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="SfxPool2D" unique_id=1701673783]
+
+[node name="SfxPool3D" type="Node" parent="." unique_id=780614666]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SfxPool3D" unique_id=1285736603]
+
+[node name="SfxPool" type="Node" parent="." unique_id=1560418852]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SfxPool" unique_id=522733759]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="SfxPool" unique_id=829249318]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="SfxPool" unique_id=1183649686]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="SfxPool" unique_id=1922549129]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="SfxPool" unique_id=154217456]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer6" type="AudioStreamPlayer" parent="SfxPool" unique_id=2067438138]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer7" type="AudioStreamPlayer" parent="SfxPool" unique_id=29377952]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer8" type="AudioStreamPlayer" parent="SfxPool" unique_id=1644398101]
+bus = &"SFX"
+
+[node name="Music" type="Node" parent="." unique_id=935260627]
+
+[node name="MusicA" type="AudioStreamPlayer" parent="Music" unique_id=1845735181]
+stream = SubResource("AudioStreamPlaylist_ga1io")
+autoplay = true
+bus = &"Music"
+
+[node name="MusicB" type="AudioStreamPlayer" parent="Music" unique_id=555921143]
+stream = ExtResource("8_2xnne")
+bus = &"Music"
