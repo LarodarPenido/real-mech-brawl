@@ -127,7 +127,7 @@ var _legs_base_rotation: Vector3
 
 
 func _ready() -> void:
-	Audio.set_listener_3d(audio_listener_3d)   # or a node pinned to the player
+	Audio.set_listener_3d(audio_listener_3d)   
 	health = max_health
 	if legs:
 		_legs_base_rotation = legs.rotation
@@ -425,7 +425,7 @@ func _start_dash() -> void:
 	get_tree().create_timer(dash_duration).timeout.connect(_end_dash)
 	get_tree().create_timer(dash_cooldown).timeout.connect(func(): can_dash = true)
 
-	Audio.play_sfx(Sounds.dash, 10)
+	Audio.play_sfx(Sounds.dash, 10, 0.0, 0.3)
 
 func _end_dash() -> void:
 	is_dashing = false

@@ -109,6 +109,7 @@ stretch_shrink = 4
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=32263785]
 handle_input_locally = false
+audio_listener_enable_3d = true
 size = Vector2i(320, 180)
 render_target_update_mode = 4
 
@@ -126,9 +127,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 95.07483, 193.00717)
 
 [node name="AimAssist" parent="SubViewportContainer/SubViewport/Player" index="4" unique_id=1053862583 node_paths=PackedStringArray("enemy_manager")]
 enemy_manager = NodePath("../../../../EnemyManager")
-
-[node name="AudioListener3D" parent="SubViewportContainer/SubViewport/Player" index="9" unique_id=84887117]
-current = true
 
 [node name="SpawnPoints" type="Node3D" parent="SubViewportContainer/SubViewport/Player" unique_id=1208794979]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.566523, -149.04662)
@@ -549,6 +547,8 @@ autoplay = true
 bus = &"SFX"
 script = ExtResource("24_4rfup")
 
+[node name="Ramp" parent="." unique_id=1386612067 instance=ExtResource("5_42ncp")]
+
 [editable path="SubViewportContainer/SubViewport/Player"]
 [editable path="SubViewportContainer/SubViewport/Player/Torso/TorsoPivot/MECHTORSO"]
-[editable path="SubViewportContainer/SubViewport/Player/Legs/MECHLEGS"]
+[editable path="SubViewportContainer/SubViewport/Player/Legs/MECHLEGS2"]

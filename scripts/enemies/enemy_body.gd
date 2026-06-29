@@ -28,6 +28,10 @@ var direction: Vector3 = Vector3.ZERO
 signal died()
 signal damaged(amount: float, source_type: String)
 
+
+#Debug
+
+
 func _ready() -> void:
 	_apply_stats()
 	enemy_manager.register_enemy(self)
@@ -88,7 +92,7 @@ func take_damage(amount: float) -> void:
 		
 	## TODO add hit flash 
 	## TODO add hit VFX
-	## TODO add hit SFX
+
 func _die():
 
 	mesh_health_bar.hide()
@@ -96,8 +100,8 @@ func _die():
 	if explosion_scene:
 		spawn_explosion(global_position)
 	
-	Audio.play_sfx_at_3d(Sounds.explosion_01, global_position, 5)
-	
+	Audio.play_sfx_at_3d(Sounds.explosion_01, global_position, 5, 0.1, 1)
+
 	await get_tree().create_timer(death_time).timeout
 	
 	

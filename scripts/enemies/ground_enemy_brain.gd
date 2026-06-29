@@ -56,11 +56,41 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	
 func _process(delta: float) -> void:
-	_should_show_laser()
-	if _should_show_laser():
-		laser_sight.update_laser_sight(muzzle_point.global_position, target.global_position + Vector3(0, mech_half_height, 0))
+	if _should_show_laser() and _has_valid_target():
+		var fire_progress := _get_fire_progress()
+		var force_solid := state == State.FIRE
+
+		laser_sight.update_laser_sight(
+			muzzle_point.global_position,
+			target.global_position + Vector3(0, mech_half_height, 0),
+			fire_progress,
+			force_solid
+		)
 	else:
 		laser_sight.hide_laser_sight()
+	
+	
+func _get_fire_progress() -> float:
+	if state == State.FIRE:
+		return 1.0
+
+	if state != State.AIM:
+		return 0.0
+
+	# Before the telegraph timer starts, show a slow warning blink.
+	if telegraph_timer.is_stopped():
+		if aim_settle_time <= 0.0:
+			return 0.0
+
+		# Optional: small progress during aim settle.
+		return clampf(_aim_settle_timer / aim_settle_time, 0.0, 1.0) * 0.15
+
+	if telegraph_duration <= 0.0:
+		return 1.0
+
+	# Timer starts at telegraph_duration and counts down to 0.
+	var progress := 1.0 - (telegraph_timer.time_left / telegraph_duration)
+	return clampf(progress, 0.0, 1.0)
 	
 func _physics_process(delta: float) -> void:
 	if unit.is_dead:

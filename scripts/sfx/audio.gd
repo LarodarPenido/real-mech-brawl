@@ -7,6 +7,15 @@
 ##Audio.play_sfx(Sounds.gun, 5)
 ##Audio.play_sfx_at_3d(Sounds.gun, enemy.global_position, 5)   # same stream, positional for enemies
 
+## On the minigun
+#func start_firing() -> void:
+	#if not $FireLoop.playing:
+		#$FireLoop.play()
+#
+#func stop_firing() -> void:
+	#$FireLoop.stop()
+
+
 extends Node
 
 # A fixed set of players with priority-based voice stealing. The only complex
@@ -53,8 +62,8 @@ const MUSIC_BUS := "Music"
 # Distance-to-priority tuning. Every FALLOFF units of distance from the listener
 # lowers a sound's effective priority by 1; past CULL it isn't played at all.
 # 3D values are world units, 2D values are pixels — tune these per project.
-const FALLOFF_3D := 8.0
-const CULL_3D := 60.0
+const FALLOFF_3D := 30.0
+const CULL_3D := 600.0
 const FALLOFF_2D := 200.0
 const CULL_2D := 1200.0
 
@@ -77,12 +86,13 @@ func _ready() -> void:
 	_pool_2d.setup($SfxPool2D.get_children())
 	_pool_3d.setup($SfxPool3D.get_children())
 	_music_active = _music_a
-
+	_listener_3d = get_tree().get_first_node_in_group("listener")
+	print(_listener_3d)
 
 # --- Omni (non-positional) SFX ------------------------------------------------
 
 ## Play a non-positional one-shot (UI, global cues). Returns false if dropped.
-func play_sfx(stream: AudioStream, priority: int = 0, pitch_variation: float = 0.0) -> bool:
+func play_sfx(stream: AudioStream, priority: int = 0, pitch_variation: float = 0.0, volume: float = 1.0) -> bool:
 	if stream == null:
 		return false
 	var index := _omni.claim(priority)
@@ -90,6 +100,7 @@ func play_sfx(stream: AudioStream, priority: int = 0, pitch_variation: float = 0
 		return false
 	var player := _omni.players[index] as AudioStreamPlayer
 	player.stream = stream
+	player.volume_db = linear_to_db(clampf(volume, 0.0, 1.0))
 	player.pitch_scale = 1.0 + randf_range(-pitch_variation, pitch_variation)
 	player.play()
 	_omni.mark(index, priority)
@@ -100,7 +111,7 @@ func play_sfx(stream: AudioStream, priority: int = 0, pitch_variation: float = 0
 
 ## Play a one-shot at a fixed 2D position. Distance from the 2D listener lowers
 ## its effective priority (and culls it past CULL_2D). Returns false if dropped.
-func play_sfx_at_2d(stream: AudioStream, position: Vector2, priority: int = 0, pitch_variation: float = 0.0) -> bool:
+func play_sfx_at_2d(stream: AudioStream, position: Vector2, priority: int = 0, pitch_variation: float = 0.0, volume: float = 1.0) -> bool:
 	if stream == null:
 		return false
 	if _listener_2d != null:
@@ -113,6 +124,7 @@ func play_sfx_at_2d(stream: AudioStream, position: Vector2, priority: int = 0, p
 		return false
 	var player := _pool_2d.players[index] as AudioStreamPlayer2D
 	player.stream = stream
+	player.volume_db = linear_to_db(clampf(volume, 0.0, 1.0))
 	player.global_position = position
 	player.pitch_scale = 1.0 + randf_range(-pitch_variation, pitch_variation)
 	player.play()
@@ -122,7 +134,7 @@ func play_sfx_at_2d(stream: AudioStream, position: Vector2, priority: int = 0, p
 
 ## Play a one-shot at a fixed 3D position. Distance from the 3D listener lowers
 ## its effective priority (and culls it past CULL_3D). Returns false if dropped.
-func play_sfx_at_3d(stream: AudioStream, position: Vector3, priority: int = 0, pitch_variation: float = 0.0) -> bool:
+func play_sfx_at_3d(stream: AudioStream, position: Vector3, priority: int = 0, pitch_variation: float = 0.0, volume: float = 1.0) -> bool:
 	if stream == null:
 		return false
 	if _listener_3d != null:
@@ -135,9 +147,11 @@ func play_sfx_at_3d(stream: AudioStream, position: Vector3, priority: int = 0, p
 		return false
 	var player := _pool_3d.players[index] as AudioStreamPlayer3D
 	player.stream = stream
+	player.volume_db = linear_to_db(clampf(volume, 0.0, 1.0))
 	player.global_position = position
 	player.pitch_scale = 1.0 + randf_range(-pitch_variation, pitch_variation)
 	player.play()
+	
 	_pool_3d.mark(index, priority)
 	return true
 
@@ -148,7 +162,7 @@ func set_listener_2d(node: Node2D) -> void:
 
 
 func set_listener_3d(node: Node3D) -> void:
-	_listener_3d = node
+	_listener_3d = get_tree().get_first_node_in_group("listener")
 
 
 # --- Music --------------------------------------------------------------------

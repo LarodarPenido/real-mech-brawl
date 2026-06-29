@@ -50,6 +50,7 @@ camera=""
 enemy_manager=""
 weapon_manager=""
 missile_launcher=""
+listener=""
 
 [input]
 

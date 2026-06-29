@@ -130,6 +130,8 @@ func spawn_explosion(world_position: Vector3) -> void:
 
 	CameraShake.shake(shake_power, shake_duration)
 
+	Audio.play_sfx_at_3d(Sounds.explosion_01, global_position, 5, 0.1, 1)
+
 	#VFXPool.spawn(
 		#&"mesh_explosion",
 		#global_position,

@@ -20,6 +20,36 @@ script = ExtResource("1_l3shp")
 [node name="SfxPool3D" type="Node" parent="." unique_id=780614666]
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SfxPool3D" unique_id=1285736603]
+unit_size = 20.0
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="SfxPool3D" unique_id=680470524]
+unit_size = 20.0
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3D3" type="AudioStreamPlayer3D" parent="SfxPool3D" unique_id=63387550]
+unit_size = 20.0
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3D4" type="AudioStreamPlayer3D" parent="SfxPool3D" unique_id=1795044526]
+unit_size = 20.0
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3D5" type="AudioStreamPlayer3D" parent="SfxPool3D" unique_id=1630900188]
+unit_size = 20.0
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3D6" type="AudioStreamPlayer3D" parent="SfxPool3D" unique_id=1190726941]
+unit_size = 20.0
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3D7" type="AudioStreamPlayer3D" parent="SfxPool3D" unique_id=901238203]
+unit_size = 20.0
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3D8" type="AudioStreamPlayer3D" parent="SfxPool3D" unique_id=913471807]
+unit_size = 20.0
+bus = &"SFX"
 
 [node name="SfxPool" type="Node" parent="." unique_id=1560418852]
 

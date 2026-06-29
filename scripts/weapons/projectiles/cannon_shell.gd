@@ -146,6 +146,8 @@ func _spawn_impact() -> void:
 	if explosion_scene:
 		spawn_explosion(global_position)
 
+	Audio.play_sfx_at_3d(Sounds.explosion_01, global_position, 5, 0.1, 1)
+
 	queue_free()
 
 func spawn_explosion(world_position: Vector3) -> void:
