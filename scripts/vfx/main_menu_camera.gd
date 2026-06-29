@@ -1,7 +1,8 @@
 @tool
 extends Camera3D
-@onready var player: Node3D = $"../../../PosedMechWithPilot"
+@export var player: Node3D
 
 
 func _process(delta: float) -> void:
-	look_at(player.global_position)
+	if player:
+		look_at(player.global_position)
