@@ -63,7 +63,9 @@ func _process(delta: float) -> void:
 		laser_sight.hide_laser_sight()
 	
 func _physics_process(delta: float) -> void:
-	_debug_state_label()
+	if unit.is_dead:
+		return
+	#_debug_state_label()
 	if not unit:
 		return
 
@@ -104,7 +106,7 @@ func _tick_idle(_delta: float) -> void:
 	
 
 func player_in_detection_range() -> bool:
-	if not player or not is_instance_valid(player): # or _node_is_dead(player):
+	if not player or not is_instance_valid(player) or unit.is_dead: # or _node_is_dead(player):
 		return false
 	var dist: float = unit.global_position.distance_to(player.global_position)
 	if dist > unit.stats.detection_range:
@@ -340,6 +342,8 @@ func _stop_moving() -> void:
 	unit.direction = Vector3.ZERO
 
 func _should_show_laser() -> bool:
+	if unit.is_dead:
+		return false
 	return state == State.AIM or state == State.FIRE
 
 

@@ -1,6 +1,6 @@
 @tool
 extends Camera3D
-@onready var player: CharacterBody3D = $"../Player"
+@onready var player: Node3D = $"../../../PosedMechWithPilot"
 
 
 func _process(delta: float) -> void:

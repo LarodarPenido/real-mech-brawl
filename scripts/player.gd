@@ -29,6 +29,10 @@ var current_aim_point: Vector3 = Vector3.ZERO
 var is_dashing: bool = false
 var can_dash: bool = true
 
+
+
+
+
 # --- Aim ---
 @export var max_aim_distance: float = 50.0
 @export var aim_sensitivity: float = 0.001
@@ -73,9 +77,12 @@ var _legs_base_rotation: Vector3
 @export var afterburner_recharge_time: float = 5.0
 @export var acceleration: float = 40
 @export var deceleration: float = 200
-@export var dash_duration: float = 0.01
-@export var dash_speed: float = 100
-@export var dash_cooldown: float = 2.0
+
+@export var dash_duration: float = 1.0
+@export var dash_speed: float = 42.0
+@export var dash_cooldown: float = 0.65
+@export_range(0.0, 1.0) var dash_end_velocity_keep: float = 0.25
+
 @export var min_charge_to_activate: float = 0.2
 @export var max_weight: float = 100.0
 @export var min_weight_multiplier: float = 0.5
@@ -106,6 +113,8 @@ var _legs_base_rotation: Vector3
 
 
 @export var explosion_scene: PackedScene
+
+@export var death_freeze_duration: float = 2.0
 
 #const EXPLOSION = preload("uid://cqw67qekwu81w")
 
@@ -403,15 +412,34 @@ func _handle_dash_input() -> void:
 func _start_dash() -> void:
 	if afterimage_spawner:
 		afterimage_spawner.start_trail()
+
 	is_dashing = true
 	can_dash = false
-	velocity += move_direction * dash_speed * _get_weight_multiplier()
+
+	var dash_dir := move_direction
+	if dash_dir.length_squared() < 0.001:
+		dash_dir = -torso.global_transform.basis.z if torso else -global_transform.basis.z
+
+	dash_dir.y = 0.0
+	dash_dir = dash_dir.normalized()
+
+	var weighted_dash_speed := dash_speed * _get_weight_multiplier()
+
+	# Hard override = much snappier than velocity +=
+	velocity.x = dash_dir.x * weighted_dash_speed
+	velocity.z = dash_dir.z * weighted_dash_speed
+
 	get_tree().create_timer(dash_duration).timeout.connect(_end_dash)
 	get_tree().create_timer(dash_cooldown).timeout.connect(func(): can_dash = true)
 
 
 func _end_dash() -> void:
 	is_dashing = false
+
+	# Hard cut after dash so it feels like a burst, not a slide.
+	velocity.x *= dash_end_velocity_keep
+	velocity.z *= dash_end_velocity_keep
+
 
 
 # =============================================================================
@@ -572,6 +600,8 @@ func _die() -> void:
 func spawn_explosion(world_position: Vector3) -> void:
 	if explosion_scene == null:
 		return
+
+	HitStopManager.hit_freeze(0.3, death_freeze_duration)
 
 	VFXPool.spawn(
 	&"mesh_explosion",

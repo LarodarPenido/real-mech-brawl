@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://vfnsa0gdwefv" path="res://scenes/vfx/laser_sight.gd" id="6_c7ilg"]
 [ext_resource type="Material" uid="uid://q27ph6f8vq7v" path="res://assets/materials/laser.tres" id="7_k8vx2"]
 [ext_resource type="Script" uid="uid://hargowj2tkjc" path="res://scripts/ui/mesh_healthbar.gd" id="8_w2i2w"]
+[ext_resource type="PackedScene" uid="uid://bvhojlrr85fos" path="res://scenes/scenario/block.tscn" id="12_c7ilg"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_x7c18"]
 radius = 3.0
@@ -85,7 +86,6 @@ font_size = 256
 [node name="EnemyStats" type="Node" parent="." unique_id=1535198316]
 script = ExtResource("4_kr03i")
 weapon_range = 50.0
-detection_range = 120.0
 burst_interval = 0.2
 cooldown_duration = 6.0
 max_hp = 500
@@ -114,5 +114,11 @@ script = ExtResource("8_w2i2w")
 box_size = Vector3(0.3, 0.3, 0.3)
 box_spacing = 0.3
 face_camera = false
+
+[node name="Block" parent="." unique_id=197958854 instance=ExtResource("12_c7ilg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0670166, 0, 0)
+
+[node name="Block2" parent="." unique_id=1375767300 instance=ExtResource("12_c7ilg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0670166, -10.298018, 0)
 
 [connection signal="timeout" from="TelegraphTimer" to="EnemyBrain" method="_on_telegraph_timer_timeout"]

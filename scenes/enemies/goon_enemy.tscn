@@ -94,7 +94,6 @@ font_size = 256
 
 [node name="EnemyStats" type="Node" parent="." unique_id=1535198316]
 script = ExtResource("4_yd20o")
-detection_range = 120.0
 burst_interval = 0.2
 burst_count = 3
 cooldown_duration = 3.0

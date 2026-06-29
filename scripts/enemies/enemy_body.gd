@@ -14,7 +14,7 @@ var is_dead: bool = false
 
 # --- VFX
 @export var explosion_scene: PackedScene
-
+@export var death_time: float = 5.0
 @export var turn_speed: float = 0.5
 @export var min_move_speed: float = 0.05
 
@@ -45,17 +45,23 @@ func _apply_stats() -> void:
 		hp = max_hp
 
 func _physics_process(delta: float) -> void:
+
 	if _is_stationery:
 		return
 	if not is_on_floor():
 		velocity.y -= 9.8
-	face_movement_direction(direction, delta, turn_speed)
-	move_and_slide()
+	
+	if not is_dead:
+		face_movement_direction(direction, delta, turn_speed)
+		move_and_slide()
 	
 func face_movement_direction(direction: Vector3, delta: float, turn_speed_override: float = -1.0) -> void:
 	direction.y = 0.0
 
 	if direction.length_squared() < 0.0001:
+		return
+
+	if is_dead:
 		return
 
 	var target_yaw: float = atan2(-direction.x, -direction.z)
@@ -76,6 +82,7 @@ func take_damage(amount: float) -> void:
 	mesh_health_bar.update_health(hp, max_hp)
 
 	if hp <= 0.0:
+		enemy_manager.unregister_enemy(self)
 		is_dead = true
 		_die()
 		
@@ -83,13 +90,20 @@ func take_damage(amount: float) -> void:
 	## TODO add hit VFX
 	## TODO add hit SFX
 func _die():
+
+	mesh_health_bar.hide()
+
 	# Tell the global manager to handle the hit freeze
-	HitStopManager.hit_freeze(0.05, time_freeze_duration)
+	#HitStopManager.hit_freeze(0.05, time_freeze_duration)
 	
 	if explosion_scene:
 		spawn_explosion(global_position)
 	
-	enemy_manager.unregister_enemy(self)
+	
+	
+	await get_tree().create_timer(death_time).timeout
+	
+	
 	queue_free()
 
 

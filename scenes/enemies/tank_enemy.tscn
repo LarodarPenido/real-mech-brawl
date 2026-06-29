@@ -77,11 +77,10 @@ font_size = 256
 [node name="EnemyStats" type="Node" parent="." unique_id=1535198316]
 script = ExtResource("4_0iv5n")
 weapon_range = 40.0
-detection_range = 120.0
 burst_interval = 0.0
 burst_count = 1
 cooldown_duration = 5.0
-max_hp = 500
+max_hp = 800
 move_speed = 4.0
 
 [node name="EnemyBrain" type="Node" parent="." unique_id=181073411 node_paths=PackedStringArray("weapon", "muzzle_point")]
