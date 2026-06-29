@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://db4picomnrfet" path="res://scenes/enemies/turret.tscn" id="14_cy6r3"]
 [ext_resource type="PackedScene" uid="uid://142mmo8hkanh" path="res://scenes/scenario/mountain_02.tscn" id="14_jg26c"]
 [ext_resource type="PackedScene" uid="uid://fpfgnh5kbmid" path="res://scenes/pickups/missile_pickup.tscn" id="14_s61md"]
+[ext_resource type="PackedScene" uid="uid://cbp3r2r874j0m" path="res://scenes/pickups/health_pickup.tscn" id="15_tlvr8"]
 [ext_resource type="Script" uid="uid://b3tv3csnc758r" path="res://scripts/vfx/vfx_register.gd" id="18_s61md"]
 [ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="19_d46x6"]
 [ext_resource type="AudioStream" uid="uid://c383pif857rgj" path="res://assets/sfx/ambient/soundreality-wind-dry-low-sfx-521893.ogg" id="23_353n8"]
@@ -484,7 +485,13 @@ dot_radius = 1.0
 
 [node name="CollectiblesContainer" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=507398721]
 
-[node name="MissilePickup" parent="SubViewportContainer/SubViewport/CollectiblesContainer" unique_id=595357997 instance=ExtResource("14_s61md")]
+[node name="HealthPickup2" parent="SubViewportContainer/SubViewport/CollectiblesContainer" unique_id=595357997 instance=ExtResource("15_tlvr8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6676869, 0, -50.65622)
+
+[node name="HealthPickup" parent="SubViewportContainer/SubViewport/CollectiblesContainer" unique_id=524970357 instance=ExtResource("15_tlvr8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0846162, 0, 44.610817)
+
+[node name="MissilePickup" parent="SubViewportContainer/SubViewport/CollectiblesContainer" unique_id=1878675939 instance=ExtResource("14_s61md")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.158896, 3.7441216, 63.19854)
 
 [node name="MissilePickup2" parent="SubViewportContainer/SubViewport/CollectiblesContainer" unique_id=1219969279 instance=ExtResource("14_s61md")]

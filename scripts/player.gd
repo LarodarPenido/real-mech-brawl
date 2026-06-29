@@ -561,6 +561,8 @@ func heal(amount: float) -> void:
 	health = min(health, max_health)
 	health_changed.emit(health, max_health)
 
+	mesh_health_bar.update_health(health, max_health)
+
 #func land(pad_altitude: float) -> void:
 	#if is_landed:
 		#return

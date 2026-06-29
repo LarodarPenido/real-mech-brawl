@@ -24,6 +24,9 @@ var direction: Vector3 = Vector3.ZERO
 
 @export var time_freeze_duration: float = 0.01
 
+@onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
+
+
 # --- Signals ---
 signal died()
 signal damaged(amount: float, source_type: String)
@@ -94,7 +97,7 @@ func take_damage(amount: float) -> void:
 	## TODO add hit VFX
 
 func _die():
-
+	collision_shape_3d.disabled = true
 	mesh_health_bar.hide()
 	
 	if explosion_scene:

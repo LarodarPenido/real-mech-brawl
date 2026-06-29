@@ -87,8 +87,7 @@ muzzle_point = NodePath("../Weapon/MuzzlePoint")
 
 [node name="LaserSight" type="Node3D" parent="." unique_id=1453113899]
 script = ExtResource("6_c7ilg")
-lifetime = 10.0
-width = 0.01
+width = 0.09
 color = Color(1.6976031, 0, 0.55785996, 1)
 material = ExtResource("7_k8vx2")
 
