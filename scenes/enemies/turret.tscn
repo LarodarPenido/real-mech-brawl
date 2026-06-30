@@ -1,10 +1,13 @@
 [gd_scene format=4 uid="uid://db4picomnrfet"]
 
 [ext_resource type="Script" uid="uid://dafd13agtjfl0" path="res://scripts/enemies/enemy_body.gd" id="1_0w8p4"]
+[ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="2_68cj5"]
 [ext_resource type="Script" uid="uid://cidw88td13hiu" path="res://scripts/enemies/skin.gd" id="2_w2i2w"]
 [ext_resource type="PackedScene" uid="uid://crunayklf1313" path="res://scenes/weapons/autocannon.tscn" id="3_d5tah"]
 [ext_resource type="Material" uid="uid://rruet4eblpd8" path="res://scenes/scenario/republic_red.tres" id="3_kr03i"]
+[ext_resource type="PackedScene" uid="uid://fpfgnh5kbmid" path="res://scenes/pickups/missile_pickup.tscn" id="3_x7c18"]
 [ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="4_0rpki"]
+[ext_resource type="PackedScene" uid="uid://cbp3r2r874j0m" path="res://scenes/pickups/health_pickup.tscn" id="4_5v86k"]
 [ext_resource type="Script" uid="uid://blbrnatladejg" path="res://scripts/enemies/enemy_stats.gd" id="4_kr03i"]
 [ext_resource type="Script" uid="uid://du3sf0riv0ukp" path="res://scripts/enemies/ground_enemy_brain.gd" id="5_0rpki"]
 [ext_resource type="Script" uid="uid://vfnsa0gdwefv" path="res://scenes/vfx/laser_sight.gd" id="6_c7ilg"]
@@ -37,7 +40,11 @@ collision_layer = 4
 script = ExtResource("1_0w8p4")
 stats = NodePath("EnemyStats")
 _is_stationery = true
+explosion_scene = ExtResource("2_68cj5")
 time_freeze_duration = 0.1
+grants_ammo_pickup = true
+ammo_pickup = ExtResource("3_x7c18")
+health_pickup = ExtResource("4_5v86k")
 
 [node name="Skin" type="Node3D" parent="." unique_id=577763434]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.507772, 0)

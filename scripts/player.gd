@@ -17,7 +17,7 @@ signal health_changed(current: float, maximum: float)
 #signal exited_hangar()
 signal afterburner_changed(active: bool, charge: float)
 signal weapon_fired(weapon_name: String, hit_target: bool)
-
+signal game_over()
 # --- Shield Forcefield ---
 #@export var forcefield: Node3D
 
@@ -100,7 +100,6 @@ var _legs_base_rotation: Vector3
 @onready var death_timer: Timer = get_node_or_null("DeathTimer")
 @onready var aim_assist: Node = $AimAssist
 @onready var weapon_manager: Node = $WeaponManager
-
 
 @onready var mesh_health_bar: Node3D = $HealthBarPivot/MeshHealthBar
 
@@ -579,8 +578,8 @@ func heal(amount: float) -> void:
 
 func _die() -> void:
 	alive = false
-	#GameState.game_over.emit("defeat")
-	print("player dead")
+	game_over.emit()
+	
 	death_timer.start()
 	CameraShake.shake(0.5, 0.5)
 
@@ -593,7 +592,7 @@ func _die() -> void:
 		spawn_explosion(global_position)
 
 	await get_tree().create_timer(1.0).timeout
-	SceneManager.go_to("res://scenes/defeat.tscn")
+
 
 func spawn_explosion(world_position: Vector3) -> void:
 	if explosion_scene == null:

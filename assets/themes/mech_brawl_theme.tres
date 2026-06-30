@@ -1,6 +1,22 @@
 [gd_resource type="Theme" format=3 uid="uid://gyjwwsoc03yo"]
 
+[ext_resource type="StyleBox" uid="uid://b8luxr0xmwsfg" path="res://assets/themes/normal_style_box_flat.tres" id="1_de8l4"]
 [ext_resource type="FontFile" uid="uid://c3gb445ldp2y1" path="res://assets/fonts/dogicapixelbold.otf" id="1_vya3r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ve4ix"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 11
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82884306, 0.87522256, 0.9287304, 1)
+corner_detail = 1
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
 
 [resource]
 default_font = ExtResource("1_vya3r")
+Button/styles/hover = SubResource("StyleBoxFlat_ve4ix")
+Button/styles/normal = ExtResource("1_de8l4")

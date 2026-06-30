@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://bvhojlrr85fos"]
 
 [ext_resource type="Material" uid="uid://c5jeefgk5jfpx" path="res://assets/materials/conc.tres" id="1_qr6k8"]
+[ext_resource type="Material" uid="uid://rruet4eblpd8" path="res://scenes/scenario/republic_red.tres" id="2_7eetx"]
 [ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="2_e474b"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_7fw7d"]
@@ -27,6 +28,7 @@ size = Vector3(10, 10, 10)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1927240149]
 mesh = SubResource("BoxMesh_7fw7d")
+surface_material_override/0 = ExtResource("2_7eetx")
 
 [node name="Outline" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1893684732]
 mesh = SubResource("ArrayMesh_7eetx")

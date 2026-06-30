@@ -11,14 +11,14 @@ func register_enemy(enemy: CharacterBody3D) -> void:
 	if not enemies.has(enemy):
 		enemies.append(enemy)
 		enemy_spawned.emit(enemy)
-		print("Enemy spawned! Total enemies: ", enemies.size())
+		print("Enemy Manager: Enemy spawned! Total enemies: ", enemies.size())
 
 
 func unregister_enemy(enemy: CharacterBody3D) -> void:
 	if enemies.has(enemy):
 		enemies.erase(enemy)
 		enemy_killed.emit(enemy)
-		print("Enemy died! Total enemies: ", enemies.size())
+		print("Enemy Manager: Enemy died! Total enemies: ", enemies.size())
 
 		if enemies.is_empty():
 			all_enemies_cleared.emit()

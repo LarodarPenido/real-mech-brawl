@@ -5,5 +5,5 @@ shading_mode = 0
 disable_ambient_light = true
 disable_fog = true
 disable_specular_occlusion = true
-albedo_color = Color(0.64928854, 1.5500377, 0.6708461, 1)
+albedo_color = Color(1.55, 1.256505, 1.1223639, 1)
 disable_receive_shadows = true

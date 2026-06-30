@@ -3,8 +3,10 @@
 [ext_resource type="Script" uid="uid://dafd13agtjfl0" path="res://scripts/enemies/enemy_body.gd" id="1_r7hkc"]
 [ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="2_0iv5n"]
 [ext_resource type="Script" uid="uid://cidw88td13hiu" path="res://scripts/enemies/skin.gd" id="2_au67s"]
+[ext_resource type="PackedScene" uid="uid://fpfgnh5kbmid" path="res://scenes/pickups/missile_pickup.tscn" id="3_8xbsu"]
 [ext_resource type="ArrayMesh" uid="uid://bkxqm7gldrxpe" path="res://assets/models/units/tank_hull.tres" id="3_au67s"]
 [ext_resource type="Script" uid="uid://blbrnatladejg" path="res://scripts/enemies/enemy_stats.gd" id="4_0iv5n"]
+[ext_resource type="PackedScene" uid="uid://cbp3r2r874j0m" path="res://scenes/pickups/health_pickup.tscn" id="4_43ue2"]
 [ext_resource type="PackedScene" uid="uid://wlirf2j2nuvq" path="res://scenes/weapons/tank_cannon.tscn" id="4_sxe24"]
 [ext_resource type="Script" uid="uid://du3sf0riv0ukp" path="res://scripts/enemies/ground_enemy_brain.gd" id="5_ioeaq"]
 [ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="5_sxe24"]
@@ -35,6 +37,9 @@ stats = NodePath("EnemyStats")
 explosion_scene = ExtResource("2_0iv5n")
 turn_speed = 0.2
 time_freeze_duration = 0.5
+grants_health_pickup = true
+ammo_pickup = ExtResource("3_8xbsu")
+health_pickup = ExtResource("4_43ue2")
 
 [node name="Skin" type="Node3D" parent="." unique_id=577763434]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.507772, 0)

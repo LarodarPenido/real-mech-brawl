@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://dxmc54lcve54c" path="res://assets/materials/glowing.tres" id="3_s4k7v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
-size = Vector3(4.6623535, 5.1103516, 5.0039063)
+size = Vector3(4.6623535, 11.520508, 5.0039063)
 
 [sub_resource type="TorusMesh" id="TorusMesh_4rfup"]
 material = ExtResource("3_s4k7v")
@@ -43,6 +43,7 @@ collision_mask = 2
 script = ExtResource("1_um2ku")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1910619241]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.2050781, 0)
 shape = SubResource("BoxShape3D_7fw7d")
 
 [node name="VisualRoot" type="Node3D" parent="." unique_id=745431438]
@@ -61,6 +62,7 @@ mesh = SubResource("TorusMesh_exckr")
 skeleton = NodePath("../..")
 
 [node name="MissileMesh" parent="VisualRoot" unique_id=1036262529 instance=ExtResource("2_s4k7v")]
+transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071068, 0, -0.7071068, 0.7071067, 0, 0, 0)
 skeleton = NodePath("../../CollisionShape3D")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=748422996]

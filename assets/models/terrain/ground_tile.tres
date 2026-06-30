@@ -4,7 +4,7 @@
 resource_name = "Rock01"
 cull_mode = 2
 albedo_color = Color(0.6901919, 0.41961077, 0.19607642, 1)
-roughness = 0.5
+roughness = 0.87
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_vpy7j"]
 _surfaces = [{

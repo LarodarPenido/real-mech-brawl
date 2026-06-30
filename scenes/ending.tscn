@@ -1,15 +1,17 @@
 [gd_scene format=4 uid="uid://bcp4q00t11fci"]
 
-[ext_resource type="Theme" uid="uid://gyjwwsoc03yo" path="res://assets/themes/mech_brawl_theme.tres" id="1_kk4ap"]
-[ext_resource type="Script" uid="uid://cccqxu6ldc3id" path="res://scripts/ui/defeat_menu.gd" id="2_dhqx8"]
-[ext_resource type="PackedScene" uid="uid://bvhojlrr85fos" path="res://scenes/scenario/block.tscn" id="3_csshy"]
-[ext_resource type="Material" uid="uid://dvbiugh5kokbx" path="res://assets/materials/outline_only.tres" id="4_eqntw"]
-[ext_resource type="Material" uid="uid://c5jeefgk5jfpx" path="res://assets/materials/conc.tres" id="5_w1nyx"]
-[ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="6_8qknb"]
-[ext_resource type="PackedScene" uid="uid://imwh7n82s1bi" path="res://scenes/scenario/wall.tscn" id="7_6w4l1"]
-[ext_resource type="Script" uid="uid://vc2otl14wdog" path="res://scripts/vfx/path_follow_3d.gd" id="8_hlt3j"]
-[ext_resource type="Script" uid="uid://bsglq22j4cx7h" path="res://scripts/vfx/main_menu_camera.gd" id="9_u4h5y"]
-[ext_resource type="ArrayMesh" uid="uid://cvm2ek05fsry0" path="res://assets/models/mechs/after_image.tres" id="10_6b5yw"]
+[ext_resource type="Script" uid="uid://c8nh2g6pshiar" path="res://scripts/ui/ending.gd" id="1_jc8es"]
+[ext_resource type="Theme" uid="uid://gyjwwsoc03yo" path="res://assets/themes/mech_brawl_theme.tres" id="1_o5uye"]
+[ext_resource type="Script" uid="uid://cccqxu6ldc3id" path="res://scripts/ui/ending_menu.gd" id="2_e6d8c"]
+[ext_resource type="PackedScene" uid="uid://bvhojlrr85fos" path="res://scenes/scenario/block.tscn" id="3_jc8es"]
+[ext_resource type="Material" uid="uid://dvbiugh5kokbx" path="res://assets/materials/outline_only.tres" id="4_1snb8"]
+[ext_resource type="Material" uid="uid://c5jeefgk5jfpx" path="res://assets/materials/conc.tres" id="5_7g6bj"]
+[ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="6_vlhxo"]
+[ext_resource type="PackedScene" uid="uid://imwh7n82s1bi" path="res://scenes/scenario/wall.tscn" id="7_oo1ka"]
+[ext_resource type="Script" uid="uid://vc2otl14wdog" path="res://scripts/vfx/path_follow_3d.gd" id="8_6xka3"]
+[ext_resource type="Script" uid="uid://bsglq22j4cx7h" path="res://scripts/vfx/main_menu_camera.gd" id="9_o0gjd"]
+[ext_resource type="ArrayMesh" uid="uid://cvm2ek05fsry0" path="res://assets/models/mechs/after_image.tres" id="10_wa3o5"]
+[ext_resource type="PackedScene" uid="uid://p7b6sbk8gbuw" path="res://scenes/scenario/posed_mech_with_pilot.tscn" id="12_1snb8"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4b3kd"]
 sky_top_color = Color(0.5427439, 0.334205, 0.72028476, 1)
@@ -66,7 +68,12 @@ _data = {
 }
 point_count = 4
 
-[node name="Defeat" type="Node3D" unique_id=1990008217]
+[node name="Ending" type="Node3D" unique_id=1990008217 node_paths=PackedStringArray("play_button", "quit_button", "defeat_mech", "victory_mech") groups=["ending"]]
+script = ExtResource("1_jc8es")
+play_button = NodePath("SubViewportContainer/SubViewport/Menu/Buttons/VBoxContainer/PlayButton")
+quit_button = NodePath("SubViewportContainer/SubViewport/Menu/Buttons/VBoxContainer/QuitButton")
+defeat_mech = NodePath("SubViewportContainer/SubViewport/Menu/DefeatMech")
+victory_mech = NodePath("SubViewportContainer/SubViewport/Menu/VictoryMech")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=61404466]
 texture_filter = 1
@@ -76,7 +83,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-theme = ExtResource("1_kk4ap")
+theme = ExtResource("1_o5uye")
 stretch = true
 stretch_shrink = 4
 
@@ -85,19 +92,21 @@ handle_input_locally = false
 size = Vector2i(320, 180)
 render_target_update_mode = 4
 
-[node name="DefeatMenu" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1554329372]
-script = ExtResource("2_dhqx8")
+[node name="Menu" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1554329372]
+script = ExtResource("2_e6d8c")
 
-[node name="Control" type="Control" parent="SubViewportContainer/SubViewport/DefeatMenu" unique_id=1818420546]
+[node name="Buttons" type="Control" parent="SubViewportContainer/SubViewport/Menu" unique_id=1818420546]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_kk4ap")
+offset_transform_enabled = true
+offset_transform_position = Vector2(10, 0)
+theme = ExtResource("1_o5uye")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SubViewportContainer/SubViewport/DefeatMenu/Control" unique_id=1534799729]
+[node name="VBoxContainer" type="VBoxContainer" parent="SubViewportContainer/SubViewport/Menu/Buttons" unique_id=1534799729]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -105,137 +114,144 @@ anchor_bottom = 1.0
 offset_top = -66.0
 offset_right = 93.15002
 grow_vertical = 0
+theme_override_constants/separation = 10
 
-[node name="PlayButton" type="Button" parent="SubViewportContainer/SubViewport/DefeatMenu/Control/VBoxContainer" unique_id=1540900754]
+[node name="PlayButton" type="Button" parent="SubViewportContainer/SubViewport/Menu/Buttons/VBoxContainer" unique_id=1540900754]
 layout_mode = 2
 text = "RETRY"
 
-[node name="QuitButton" type="Button" parent="SubViewportContainer/SubViewport/DefeatMenu/Control/VBoxContainer" unique_id=186707277]
+[node name="QuitButton" type="Button" parent="SubViewportContainer/SubViewport/Menu/Buttons/VBoxContainer" unique_id=186707277]
 layout_mode = 2
 text = "Quit"
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/DefeatMenu" unique_id=1466150916]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Menu" unique_id=1466150916]
 transform = Transform3D(-0.6320295, -0.30403945, 0.7128105, 0, 0.9198215, 0.3923371, -0.77494437, 0.24796861, -0.5813543, 0, 3.8343506, 0)
 light_color = Color(0.83196265, 0.11005231, 2.8878452e-07, 1)
 light_energy = 0.624
 shadow_enabled = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/DefeatMenu" unique_id=1199668601]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Menu" unique_id=1199668601]
 environment = SubResource("Environment_7fw7d")
 
-[node name="Sector01" type="Node3D" parent="SubViewportContainer/SubViewport/DefeatMenu" unique_id=411891481]
+[node name="Sector01" type="Node3D" parent="SubViewportContainer/SubViewport/Menu" unique_id=411891481]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.307411, 1.190918, -157.53308)
 
-[node name="Block" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01" unique_id=197958854 instance=ExtResource("3_csshy")]
+[node name="Block" parent="SubViewportContainer/SubViewport/Menu/Sector01" unique_id=197958854 instance=ExtResource("3_jc8es")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.643795, -2.3653584, 235.76128)
 
-[node name="Block2" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01" unique_id=354521111 instance=ExtResource("3_csshy")]
+[node name="Block2" parent="SubViewportContainer/SubViewport/Menu/Sector01" unique_id=354521111 instance=ExtResource("3_jc8es")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.942516, -2.3653584, 171.05946)
 
-[node name="Block3" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01" unique_id=1214503363 instance=ExtResource("3_csshy")]
+[node name="Block3" parent="SubViewportContainer/SubViewport/Menu/Sector01" unique_id=1214503363 instance=ExtResource("3_jc8es")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.459299, -0.88019943, 172.10057)
 
-[node name="Block4" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01" unique_id=490768996 instance=ExtResource("3_csshy")]
+[node name="Block4" parent="SubViewportContainer/SubViewport/Menu/Sector01" unique_id=490768996 instance=ExtResource("3_jc8es")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9561987, -2.3653584, 172.10057)
 
-[node name="Block5" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01" unique_id=2121253656 instance=ExtResource("3_csshy")]
+[node name="Block5" parent="SubViewportContainer/SubViewport/Menu/Sector01" unique_id=2121253656 instance=ExtResource("3_jc8es")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.485388, -2.3653584, 172.10057)
 
-[node name="Block6" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01" unique_id=1911864214 instance=ExtResource("3_csshy")]
+[node name="Block6" parent="SubViewportContainer/SubViewport/Menu/Sector01" unique_id=1911864214 instance=ExtResource("3_jc8es")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.290192, -2.3653584, 172.94093)
 
-[node name="Block7" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01" unique_id=976374250 instance=ExtResource("3_csshy")]
+[node name="Block7" parent="SubViewportContainer/SubViewport/Menu/Sector01" unique_id=976374250 instance=ExtResource("3_jc8es")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.751913, 1.6734314, 174.90474)
 
-[node name="Ground" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01" unique_id=204218332]
+[node name="Ground" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Menu/Sector01" unique_id=204218332]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.684, 19.666)
 mesh = SubResource("BoxMesh_1ajci")
 
-[node name="Crate" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/Ground" unique_id=1311288021]
-material_overlay = ExtResource("4_eqntw")
+[node name="Crate" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Menu/Sector01/Ground" unique_id=1311288021]
+material_overlay = ExtResource("4_1snb8")
 mesh = SubResource("BoxMesh_7b55j")
 
-[node name="Level Border" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/Ground" unique_id=134254758]
+[node name="Level Border" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Menu/Sector01/Ground" unique_id=134254758]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.489994, -6.551261, 0)
 mesh = SubResource("BoxMesh_5pajh")
-surface_material_override/0 = ExtResource("5_w1nyx")
+surface_material_override/0 = ExtResource("5_7g6bj")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/Ground/Level Border" unique_id=1771194255]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Menu/Sector01/Ground/Level Border" unique_id=1771194255]
 mesh = SubResource("ArrayMesh_j7ex8")
-surface_material_override/0 = ExtResource("6_8qknb")
+surface_material_override/0 = ExtResource("6_vlhxo")
 
-[node name="Level Border3" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/Ground" unique_id=46947264]
+[node name="Level Border3" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Menu/Sector01/Ground" unique_id=46947264]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -113.01926, 2.8475084, 274.9391)
 mesh = SubResource("BoxMesh_5pajh")
-surface_material_override/0 = ExtResource("5_w1nyx")
+surface_material_override/0 = ExtResource("5_7g6bj")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/Ground/Level Border3" unique_id=1310825600]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Menu/Sector01/Ground/Level Border3" unique_id=1310825600]
 mesh = SubResource("ArrayMesh_j7ex8")
-surface_material_override/0 = ExtResource("6_8qknb")
+surface_material_override/0 = ExtResource("6_vlhxo")
 
-[node name="Level Border2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/Ground" unique_id=315686465]
+[node name="Level Border2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Menu/Sector01/Ground" unique_id=315686465]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.806229, 2.6939354, 0)
 mesh = SubResource("BoxMesh_5pajh")
-surface_material_override/0 = ExtResource("5_w1nyx")
+surface_material_override/0 = ExtResource("5_7g6bj")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/Ground/Level Border2" unique_id=1213865017]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Menu/Sector01/Ground/Level Border2" unique_id=1213865017]
 mesh = SubResource("ArrayMesh_j7ex8")
-surface_material_override/0 = ExtResource("6_8qknb")
+surface_material_override/0 = ExtResource("6_vlhxo")
 
-[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/Ground" unique_id=290022392]
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="SubViewportContainer/SubViewport/Menu/Sector01/Ground" unique_id=290022392]
 multimesh = SubResource("MultiMesh_a8gd2")
 
-[node name="walls" type="Node3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01" unique_id=1169912110]
+[node name="walls" type="Node3D" parent="SubViewportContainer/SubViewport/Menu/Sector01" unique_id=1169912110]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.57, 0)
 
-[node name="Wall" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/walls" unique_id=833732473 instance=ExtResource("7_6w4l1")]
+[node name="Wall" parent="SubViewportContainer/SubViewport/Menu/Sector01/walls" unique_id=833732473 instance=ExtResource("7_oo1ka")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.375, 5.55825, 164.808)
 
-[node name="Wall3" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/walls" unique_id=1162603852 instance=ExtResource("7_6w4l1")]
+[node name="Wall3" parent="SubViewportContainer/SubViewport/Menu/Sector01/walls" unique_id=1162603852 instance=ExtResource("7_oo1ka")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8033123, 5.55825, 164.808)
 
-[node name="Wall4" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/walls" unique_id=1335821136 instance=ExtResource("7_6w4l1")]
+[node name="Wall4" parent="SubViewportContainer/SubViewport/Menu/Sector01/walls" unique_id=1335821136 instance=ExtResource("7_oo1ka")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.0422, 5.55825, 164.808)
 
-[node name="Wall5" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/walls" unique_id=1503879769 instance=ExtResource("7_6w4l1")]
+[node name="Wall5" parent="SubViewportContainer/SubViewport/Menu/Sector01/walls" unique_id=1503879769 instance=ExtResource("7_oo1ka")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.0422, 15.9107, 164.808)
 
-[node name="Wall6" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/walls" unique_id=1486537942 instance=ExtResource("7_6w4l1")]
+[node name="Wall6" parent="SubViewportContainer/SubViewport/Menu/Sector01/walls" unique_id=1486537942 instance=ExtResource("7_oo1ka")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.84837437, 15.9107, 164.808)
 
-[node name="Wall7" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/walls" unique_id=703749428 instance=ExtResource("7_6w4l1")]
+[node name="Wall7" parent="SubViewportContainer/SubViewport/Menu/Sector01/walls" unique_id=703749428 instance=ExtResource("7_oo1ka")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.406849, 15.689478, 164.808)
 
-[node name="Wall2" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/walls" unique_id=1189801402 instance=ExtResource("7_6w4l1")]
+[node name="Wall2" parent="SubViewportContainer/SubViewport/Menu/Sector01/walls" unique_id=1189801402 instance=ExtResource("7_oo1ka")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21.7581, 5.55825, 170.706)
 
-[node name="Wall8" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/walls" unique_id=1301146814 instance=ExtResource("7_6w4l1")]
+[node name="Wall8" parent="SubViewportContainer/SubViewport/Menu/Sector01/walls" unique_id=1301146814 instance=ExtResource("7_oo1ka")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21.7581, 5.55825, 182.3786)
 
-[node name="Wall9" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/walls" unique_id=633654322 instance=ExtResource("7_6w4l1")]
+[node name="Wall9" parent="SubViewportContainer/SubViewport/Menu/Sector01/walls" unique_id=633654322 instance=ExtResource("7_oo1ka")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21.7581, 5.55825, 195.61044)
 
-[node name="Wall10" parent="SubViewportContainer/SubViewport/DefeatMenu/Sector01/walls" unique_id=1346097326 instance=ExtResource("7_6w4l1")]
+[node name="Wall10" parent="SubViewportContainer/SubViewport/Menu/Sector01/walls" unique_id=1346097326 instance=ExtResource("7_oo1ka")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21.7581, 5.55825, 241.25375)
 
-[node name="Path3D" type="Path3D" parent="SubViewportContainer/SubViewport/DefeatMenu" unique_id=1827653576]
+[node name="Path3D" type="Path3D" parent="SubViewportContainer/SubViewport/Menu" unique_id=1827653576]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.52, 1.64, -0.105)
 curve = SubResource("Curve3D_5dd4i")
 
-[node name="PathFollow3D" type="PathFollow3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Path3D" unique_id=1748875047]
-transform = Transform3D(-0.008697377, -7.854263e-06, 0.9999544, 4.5474394e-13, 1, 7.854499e-06, -0.9999544, 6.8315046e-08, -0.008697377, 3.6766691, 0, -10.284364)
-script = ExtResource("8_hlt3j")
+[node name="PathFollow3D" type="PathFollow3D" parent="SubViewportContainer/SubViewport/Menu/Path3D" unique_id=1748875047]
+transform = Transform3D(-0.008697375, -7.854263e-06, 0.9999542, 4.5474385e-13, 1, 7.854498e-06, -0.9999542, 6.8315046e-08, -0.008697375, 3.6766691, 0, -10.284364)
+script = ExtResource("8_6xka3")
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/DefeatMenu/Path3D/PathFollow3D" unique_id=2070909499 node_paths=PackedStringArray("player")]
-transform = Transform3D(0.5764744, -0.08825677, 0.8123438, 6.4181027e-06, 0.9941507, 0.108006015, -0.81712455, -0.062256593, 0.5731026, -0.0020561218, -0.26727283, -0.0030374527)
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Menu/Path3D/PathFollow3D" unique_id=2070909499 node_paths=PackedStringArray("player")]
+transform = Transform3D(0.5346582, 0.16458006, 0.82889575, 6.6376588e-06, 0.9808519, -0.19475839, -0.8450774, 0.104133174, 0.52441895, -0.0020561218, -0.26727283, -0.0030374527)
 current = true
 fov = 42.4
-script = ExtResource("9_u4h5y")
-player = NodePath("")
+script = ExtResource("9_o0gjd")
+player = NodePath("../../../VictoryMech/Marker3D")
 
-[node name="DedMech" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/DefeatMenu" unique_id=1384575397]
+[node name="DefeatMech" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Menu" unique_id=1384575397]
 transform = Transform3D(-0.6599719, 0.11622073, 0.7422464, -0.36829174, 0.8110632, -0.45446438, -0.6548269, -0.5732969, -0.4924757, 0, -0.17258763, 0)
-mesh = ExtResource("10_6b5yw")
+mesh = ExtResource("10_wa3o5")
 
-[connection signal="button_up" from="SubViewportContainer/SubViewport/DefeatMenu/Control/VBoxContainer/PlayButton" to="SubViewportContainer/SubViewport/DefeatMenu" method="_on_play_button_button_up"]
-[connection signal="button_up" from="SubViewportContainer/SubViewport/DefeatMenu/Control/VBoxContainer/QuitButton" to="SubViewportContainer/SubViewport/DefeatMenu" method="_on_quit_button_button_up"]
+[node name="VictoryMech" parent="SubViewportContainer/SubViewport/Menu" unique_id=835572745 instance=ExtResource("12_1snb8")]
+transform = Transform3D(-0.9659258, 0, -0.25881913, 0, 1, 0, 0.25881913, 0, -0.9659258, 0.7477107, 0, 0)
+
+[node name="Marker3D" type="Marker3D" parent="SubViewportContainer/SubViewport/Menu/VictoryMech" unique_id=204573958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
+
+[connection signal="button_up" from="SubViewportContainer/SubViewport/Menu/Buttons/VBoxContainer/PlayButton" to="." method="_on_play_button_button_up"]
+[connection signal="button_up" from="SubViewportContainer/SubViewport/Menu/Buttons/VBoxContainer/QuitButton" to="." method="_on_quit_button_button_up"]

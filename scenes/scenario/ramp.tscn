@@ -2,6 +2,7 @@
 
 [ext_resource type="Material" uid="uid://c5jeefgk5jfpx" path="res://assets/materials/conc.tres" id="1_nroh4"]
 [ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="2_dlmf6"]
+[ext_resource type="Material" uid="uid://rruet4eblpd8" path="res://scenes/scenario/republic_red.tres" id="2_sv8eq"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_7fw7d"]
 material = ExtResource("1_nroh4")
@@ -25,7 +26,7 @@ size = Vector3(10, 10, 10)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4b3kd"]
 material = ExtResource("1_nroh4")
-size = Vector3(10, 10, 10)
+size = Vector3(10, 10, 9.750977)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_nroh4"]
 _surfaces = [{
@@ -50,6 +51,7 @@ data = PackedVector3Array(-5, 5, 5, 5, 5, 5, -5, -5, 5, 5, 5, 5, 5, -5, 5, -5, -
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1927240149]
 mesh = SubResource("BoxMesh_7fw7d")
+surface_material_override/0 = ExtResource("2_sv8eq")
 
 [node name="Outline" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1893684732]
 mesh = SubResource("ArrayMesh_7eetx")
@@ -61,6 +63,7 @@ shape = SubResource("BoxShape3D_ydujn")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1303129941]
 transform = Transform3D(0.84417015, -0.53607506, 0, 0.53607506, 0.84417015, 0, 0, 0, 1, -6.5798836, -1.8300805, 0)
 mesh = SubResource("BoxMesh_4b3kd")
+surface_material_override/0 = ExtResource("2_sv8eq")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D2" unique_id=222821674]
 mesh = SubResource("ArrayMesh_nroh4")

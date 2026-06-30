@@ -100,17 +100,31 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
+offset_left = 7.52
 offset_top = -66.0
-offset_right = 93.15002
+offset_right = 100.670006
 grow_vertical = 0
+theme_override_constants/separation = 9
 
 [node name="PlayButton" type="Button" parent="SubViewport/MainMenu/Control/VBoxContainer" unique_id=1540900754]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "PLAY"
 
 [node name="QuitButton" type="Button" parent="SubViewport/MainMenu/Control/VBoxContainer" unique_id=186707277]
 layout_mode = 2
-text = "Quit"
+theme_override_font_sizes/font_size = 14
+text = "QUIT"
+
+[node name="TitleLabel" type="Label" parent="SubViewport/MainMenu/Control" unique_id=1722642378]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 14.0
+offset_transform_enabled = true
+theme_override_font_sizes/font_size = 29
+text = "RUST 
+& 
+DUST"
 
 [node name="PosedMechWithPilot" parent="SubViewport/MainMenu" unique_id=835572745 instance=ExtResource("2_jk1qb")]
 transform = Transform3D(-0.9659258, 0, -0.25881913, 0, 1, 0, 0.25881913, 0, -0.9659258, 0.7477107, 0, 0)
@@ -227,11 +241,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.52, 1.64, -0.105)
 curve = SubResource("Curve3D_5dd4i")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="SubViewport/MainMenu/Path3D" unique_id=1748875047]
-transform = Transform3D(-0.0086973775, -7.854263e-06, 0.9999545, 4.54744e-13, 1, 7.8545e-06, -0.9999545, 6.8315046e-08, -0.0086973775, 3.6766691, 0, -10.284364)
+transform = Transform3D(-0.008697377, -7.854263e-06, 0.9999544, 4.5474394e-13, 1, 7.854499e-06, -0.9999544, 6.8315046e-08, -0.008697377, 3.6766691, 0, -10.284364)
 script = ExtResource("8_jk1qb")
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport/MainMenu/Path3D/PathFollow3D" unique_id=2070909499 node_paths=PackedStringArray("player")]
-transform = Transform3D(0.5346582, 0.16458002, 0.82889575, 6.6376597e-06, 0.9808519, -0.19475834, -0.8450774, 0.10413315, 0.52441895, -0.0020561218, -0.26727283, -0.0030374527)
+transform = Transform3D(0.5346581, 0.16458002, 0.8288957, 6.6376574e-06, 0.9808519, -0.19475831, -0.8450772, 0.104133144, 0.5244189, -0.0020561218, -0.26727283, -0.0030374527)
 current = true
 fov = 42.4
 script = ExtResource("2_tbmy8")

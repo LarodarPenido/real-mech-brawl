@@ -26,6 +26,11 @@ var direction: Vector3 = Vector3.ZERO
 
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
 
+@export var grants_health_pickup: bool = false
+@export var grants_ammo_pickup: bool = false
+
+@export var ammo_pickup: PackedScene
+@export var health_pickup: PackedScene
 
 # --- Signals ---
 signal died()
@@ -107,6 +112,7 @@ func _die():
 
 	await get_tree().create_timer(death_time).timeout
 	
+	grant_pickups()
 	
 	queue_free()
 
@@ -129,3 +135,10 @@ func spawn_explosion(world_position: Vector3) -> void:
 		"lifetime": 0.85
 	}
 )
+
+func grant_pickups() -> void:
+	if grants_ammo_pickup:
+		var _ammo = ammo_pickup.instantiate()
+		get_parent().add_child(_ammo)
+		_ammo.global_position = global_position
+		

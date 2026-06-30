@@ -31,6 +31,7 @@ SceneManager="*uid://bm6isxmh0dwp3"
 HitStopManager="*uid://c03q6eubrtg6"
 Audio="*uid://biiip0t7iaoin"
 Sounds="*uid://cpug2ygubmjgj"
+RunState="*uid://b8o61rqidofpb"
 
 [display]
 
@@ -51,6 +52,7 @@ enemy_manager=""
 weapon_manager=""
 missile_launcher=""
 listener=""
+ending=""
 
 [input]
 
