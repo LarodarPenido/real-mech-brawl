@@ -58,6 +58,9 @@ func _on_body_entered(body: Node) -> void:
 	if not body.is_in_group("player"):
 		return
 
+	if body.health >= body.max_health:
+		return
+
 	_picked_up = true
 	_collect(body)
 

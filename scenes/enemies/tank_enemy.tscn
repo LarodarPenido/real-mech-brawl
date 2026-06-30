@@ -93,7 +93,6 @@ aim_settle_time = 1.0
 
 [node name="LaserSight" type="Node3D" parent="." unique_id=1453113899]
 script = ExtResource("6_t1dfq")
-lifetime = 10.0
 width = 0.2
 color = Color(1.6976031, 0, 0.55785996, 1)
 material = ExtResource("7_8xbsu")
@@ -106,7 +105,6 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 5
 script = ExtResource("11_ioeaq")
 box_size = Vector3(0.3, 0.3, 0.3)
 box_spacing = 0.3
-face_camera = false
 
 [connection signal="timeout" from="TelegraphTimer" to="EnemyBrain" method="_on_telegraph_timer_timeout"]
 

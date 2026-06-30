@@ -70,7 +70,7 @@ var _legs_base_rotation: Vector3
 
 # --- Movement ---
 @export var rotation_speed: float = 1.0
-@export var max_speed: float = 8
+@export var max_speed: float = 10
 @export var afterburner_speed_multiplier: float = 4.0
 @export var afterburner_push_force: float = 300.0
 @export var afterburner_duration: float = 5.0
@@ -352,11 +352,11 @@ func _update_animations() -> void:
 		State.IDLE:
 			torso_animation_player.play("TorsoIdle")
 			legs_animation_player.play("LegsIdle")
-			legs_animation_player.speed_scale = 1.5
+			legs_animation_player.speed_scale = 2
 		State.WALKING:
 			torso_animation_player.play("TorsoWalk")
 			legs_animation_player.play("LegsWalk")
-			legs_animation_player.speed_scale = -1.5 if _moving_against_torso() else 1.5
+			legs_animation_player.speed_scale = -2 if _moving_against_torso() else 2
 		State.FIRING:
 			torso_animation_player.play("TorsoFire")
 			
@@ -592,6 +592,8 @@ func _die() -> void:
 	if explosion_scene:
 		spawn_explosion(global_position)
 
+	await get_tree().create_timer(1.0).timeout
+	SceneManager.go_to("res://scenes/defeat.tscn")
 
 func spawn_explosion(world_position: Vector3) -> void:
 	if explosion_scene == null:

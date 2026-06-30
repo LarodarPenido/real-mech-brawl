@@ -21,6 +21,8 @@
 [ext_resource type="PackedScene" uid="uid://142mmo8hkanh" path="res://scenes/scenario/mountain_02.tscn" id="14_jg26c"]
 [ext_resource type="PackedScene" uid="uid://fpfgnh5kbmid" path="res://scenes/pickups/missile_pickup.tscn" id="14_s61md"]
 [ext_resource type="PackedScene" uid="uid://cbp3r2r874j0m" path="res://scenes/pickups/health_pickup.tscn" id="15_tlvr8"]
+[ext_resource type="Theme" uid="uid://gyjwwsoc03yo" path="res://assets/themes/mech_brawl_theme.tres" id="15_w4cok"]
+[ext_resource type="Script" uid="uid://b8cxni4s026np" path="res://scripts/ui/overheat_label.gd" id="16_3kr23"]
 [ext_resource type="Script" uid="uid://b3tv3csnc758r" path="res://scripts/vfx/vfx_register.gd" id="18_s61md"]
 [ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="19_d46x6"]
 [ext_resource type="AudioStream" uid="uid://c383pif857rgj" path="res://assets/sfx/ambient/soundreality-wind-dry-low-sfx-521893.ogg" id="23_353n8"]
@@ -129,33 +131,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 95.07483, 193.00717)
 [node name="AimAssist" parent="SubViewportContainer/SubViewport/Player" index="4" unique_id=1053862583 node_paths=PackedStringArray("enemy_manager")]
 enemy_manager = NodePath("../../../../EnemyManager")
 
-[node name="SpawnPoints" type="Node3D" parent="SubViewportContainer/SubViewport/Player" unique_id=1208794979]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.566523, -149.04662)
-
-[node name="Marker3D" type="Marker3D" parent="SubViewportContainer/SubViewport/Player/SpawnPoints" unique_id=712595338]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 48.12371)
-
-[node name="Marker3D2" type="Marker3D" parent="SubViewportContainer/SubViewport/Player/SpawnPoints" unique_id=2031797423]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 37.44854)
-
-[node name="Marker3D3" type="Marker3D" parent="SubViewportContainer/SubViewport/Player/SpawnPoints" unique_id=539325002]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25.31102)
-
-[node name="Marker3D4" type="Marker3D" parent="SubViewportContainer/SubViewport/Player/SpawnPoints" unique_id=721210090]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14.782074)
-
-[node name="Marker3D5" type="Marker3D" parent="SubViewportContainer/SubViewport/Player/SpawnPoints" unique_id=840377496]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 216.365)
-
-[node name="Marker3D6" type="Marker3D" parent="SubViewportContainer/SubViewport/Player/SpawnPoints" unique_id=712534785]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 205.68983)
-
-[node name="Marker3D7" type="Marker3D" parent="SubViewportContainer/SubViewport/Player/SpawnPoints" unique_id=1049739326]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 193.55232)
-
-[node name="Marker3D8" type="Marker3D" parent="SubViewportContainer/SubViewport/Player/SpawnPoints" unique_id=1808563232]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 183.02338)
-
 [node name="LevelSkin" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=228400400]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -73.1665)
 
@@ -177,6 +152,33 @@ skeleton = NodePath("../../Sectors/Sector01/PlayArea")
 mesh = ExtResource("3_jg26c")
 
 [node name="Sectors" type="Node3D" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=2131128408]
+
+[node name="SpawnPoints" type="Node3D" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors" unique_id=1208794979]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 94.50831, 117.12705)
+
+[node name="Marker3D" type="Marker3D" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/SpawnPoints" unique_id=712595338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, -90.188034, -47.768784)
+
+[node name="Marker3D2" type="Marker3D" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/SpawnPoints" unique_id=2031797423]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, -90.188034, -58.443954)
+
+[node name="Marker3D3" type="Marker3D" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/SpawnPoints" unique_id=539325002]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, -90.188034, -70.581474)
+
+[node name="Marker3D4" type="Marker3D" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/SpawnPoints" unique_id=721210090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, -90.188034, -81.11042)
+
+[node name="Marker3D5" type="Marker3D" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/SpawnPoints" unique_id=840377496]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, -90.188034, 120.47252)
+
+[node name="Marker3D6" type="Marker3D" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/SpawnPoints" unique_id=712534785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, -90.188034, 109.79735)
+
+[node name="Marker3D7" type="Marker3D" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/SpawnPoints" unique_id=1049739326]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, -90.188034, 97.659836)
+
+[node name="Marker3D8" type="Marker3D" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/SpawnPoints" unique_id=1808563232]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, -90.188034, 87.130875)
 
 [node name="Sector01" type="Node3D" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors" unique_id=1958117989]
 
@@ -436,11 +438,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96.98932, 7.06534, 228.81247
 [node name="Mountain03" parent="SubViewportContainer/SubViewport/LevelSkin/Background" unique_id=598235319 instance=ExtResource("13_wqkcq")]
 transform = Transform3D(-0.6205073, 0, -0.78420067, 0, 1, 0, 0.78420067, 0, -0.6205073, -112.123314, 7.06534, 111.32491)
 
+[node name="Mountain08" parent="SubViewportContainer/SubViewport/LevelSkin/Background" unique_id=53558624 instance=ExtResource("13_wqkcq")]
+transform = Transform3D(-0.6205073, 0, -0.78420067, 0, 1, 0, 0.78420067, 0, -0.6205073, -151.72025, -10.717131, -343.3643)
+
+[node name="Mountain09" parent="SubViewportContainer/SubViewport/LevelSkin/Background" unique_id=826317497 instance=ExtResource("13_wqkcq")]
+transform = Transform3D(0.9261664, 0, -0.37711513, 0, 1, 0, 0.37711513, 0, 0.9261664, -101.33487, -10.717131, -626.79535)
+
 [node name="Mountain06" parent="SubViewportContainer/SubViewport/LevelSkin/Background" unique_id=1800294960 instance=ExtResource("13_wqkcq")]
 transform = Transform3D(-0.46031755, 0, 0.8877543, 0, 1, 0, -0.8877543, 0, -0.46031755, -117.0829, 7.06534, -121.77598)
 
 [node name="Mountain02" parent="SubViewportContainer/SubViewport/LevelSkin/Background" unique_id=1206227397 instance=ExtResource("14_jg26c")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -49.43548, 5.4303036, -159.79425)
+
+[node name="Mountain10" parent="SubViewportContainer/SubViewport/LevelSkin/Background" unique_id=1296652946 instance=ExtResource("14_jg26c")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -49.43548, -16.58642, -458.72473)
 
 [node name="Mountain07" parent="SubViewportContainer/SubViewport/LevelSkin/Background" unique_id=165282890 instance=ExtResource("14_jg26c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.43548, -18.57341, -248.88089)
@@ -483,6 +494,23 @@ aim_assist = NodePath("../../Player/AimAssist")
 weapon_manager = NodePath("../../Player/WeaponManager")
 dot_radius = 1.0
 
+[node name="Label" type="Label" parent="SubViewportContainer/SubViewport/CombatHUD" unique_id=606766217]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -91.0
+offset_top = -23.0
+offset_right = 91.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("15_w4cok")
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+text = "WEAPON OVERHEATED!"
+script = ExtResource("16_3kr23")
+
 [node name="CollectiblesContainer" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=507398721]
 
 [node name="HealthPickup2" parent="SubViewportContainer/SubViewport/CollectiblesContainer" unique_id=595357997 instance=ExtResource("15_tlvr8")]
@@ -524,7 +552,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 43.960556)
 script = ExtResource("2_llcge")
 enemy_scene = ExtResource("5_j60wy")
 enemy_parent = NodePath("../../SubViewportContainer/SubViewport/EnemyContainer")
-spawn_points_parent = NodePath("../../SubViewportContainer/SubViewport/Player/SpawnPoints")
+spawn_points_parent = NodePath("../../SubViewportContainer/SubViewport/LevelSkin/Sectors/SpawnPoints")
 enemy_manager = NodePath("..")
 start_delay = 2.0
 time_between_waves = 4.0
@@ -536,7 +564,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 43.960556)
 script = ExtResource("2_llcge")
 enemy_scene = ExtResource("13_cr2eh")
 enemy_parent = NodePath("../../SubViewportContainer/SubViewport/EnemyContainer")
-spawn_points_parent = NodePath("../../SubViewportContainer/SubViewport/Player/SpawnPoints")
+spawn_points_parent = NodePath("../../SubViewportContainer/SubViewport/LevelSkin/Sectors/SpawnPoints")
 enemy_manager = NodePath("..")
 start_delay = 2.0
 time_between_waves = 4.0
@@ -555,6 +583,8 @@ bus = &"SFX"
 script = ExtResource("24_4rfup")
 
 [node name="Ramp" parent="." unique_id=1386612067 instance=ExtResource("5_42ncp")]
+
+[node name="WaveTriggers" type="Node3D" parent="." unique_id=115445750]
 
 [editable path="SubViewportContainer/SubViewport/Player"]
 [editable path="SubViewportContainer/SubViewport/Player/Torso/TorsoPivot/MECHTORSO"]

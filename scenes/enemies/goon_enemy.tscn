@@ -83,11 +83,13 @@ shape = SubResource("CapsuleShape3D_7fw7d")
 
 [node name="TargetLabel" type="Label3D" parent="." unique_id=650475031]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.4611, 0)
+visible = false
 billboard = 1
 font_size = 256
 
 [node name="StateLabel" type="Label3D" parent="." unique_id=109158060]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65398, 0)
+visible = false
 billboard = 1
 text = "AAAA"
 font_size = 256
