@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-enum State { IDLE, WALKING, AIMING, FIRING }
+enum State { IDLE, WALKING, DASHING, AIMING, FIRING }
 
 var state := State.IDLE
 
@@ -102,8 +102,6 @@ var _legs_base_rotation: Vector3
 @onready var weapon_manager: Node = $WeaponManager
 
 @onready var mesh_health_bar: Node3D = $HealthBarPivot/MeshHealthBar
-
-
 
 #--- VISUALS
 @export var torso_animation_player: AnimationPlayer
@@ -340,6 +338,9 @@ func _update_animations() -> void:
 		is_moving = false
 		state_label.text = "IDLE"
 	
+	if is_dashing:
+		state = State.DASHING
+	
 	if weapon_manager and weapon_manager.has_method("is_primary_actively_firing"):
 		weapon_is_actually_firing = weapon_manager.is_primary_actively_firing()
 
@@ -356,9 +357,10 @@ func _update_animations() -> void:
 			torso_animation_player.play("TorsoWalk")
 			legs_animation_player.play("LegsWalk")
 			legs_animation_player.speed_scale = -2 if _moving_against_torso() else 2
+		State.DASHING:
+			legs_animation_player.play("LegsFire")
 		State.FIRING:
 			torso_animation_player.play("TorsoFire")
-			
 		State.AIMING:
 			torso_animation_player.play("TorsoAim")
 		_:
@@ -562,20 +564,6 @@ func heal(amount: float) -> void:
 
 	mesh_health_bar.update_health(health, max_health)
 
-#func land(pad_altitude: float) -> void:
-	#if is_landed:
-		#return
-	#is_landed = true
-	#_landed_altitude = pad_altitude
-	#entered_hangar.emit()
-
-
-#func take_off() -> void:
-	#if not is_landed:
-		#return
-	#is_landed = false
-	#exited_hangar.emit()
-
 func _die() -> void:
 	alive = false
 	game_over.emit()
@@ -583,11 +571,6 @@ func _die() -> void:
 	death_timer.start()
 	CameraShake.shake(0.5, 0.5)
 
-	
-	# Stop sounds
-	#TODO
-	#AudioManager.stop_loop("afterburner_01")
-	#AudioManager.stop_loop("rotor_light") 
 	if explosion_scene:
 		spawn_explosion(global_position)
 
@@ -609,28 +592,6 @@ func spawn_explosion(world_position: Vector3) -> void:
 		"lifetime": 1.85
 	}
 )
-
-
-# =============================================================================
-# SFX
-# =============================================================================
-
-#func _handle_sfx() -> void:
-	#if not is_landed:
-		#AudioManager.start_loop("rotor_light", global_position)
-	#else:
-		#AudioManager.stop_loop("rotor_light")
-#
-	#if afterburner_active:
-		#AudioManager.start_loop("afterburner_01", global_position)
-	#else:
-		#AudioManager.stop_loop("afterburner_01")
-
- ### -----
-
-#func _on_mode_changed(is_overhead: bool) -> void:
-	#set_input_enabled(not is_overhead)
-
 
 func _on_death_timer_timeout() -> void:
 	##TODO go to defeat screen

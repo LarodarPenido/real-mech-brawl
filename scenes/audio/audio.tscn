@@ -1,14 +1,18 @@
 [gd_scene format=3 uid="uid://biiip0t7iaoin"]
 
 [ext_resource type="Script" uid="uid://y7hj4e34ovlm" path="res://scripts/sfx/audio.gd" id="1_l3shp"]
+[ext_resource type="AudioStream" uid="uid://co3yi16aymgyp" path="res://assets/music/DavidKBD - Mach Overdrive - 06 - Molten Core Heavyweight (Vulcan)-essential-edition.ogg" id="3_l83wd"]
+[ext_resource type="AudioStream" uid="uid://co0wdg676m0rn" path="res://assets/music/DavidKBD - Mach Overdrive - 05 - Neon Pulse City (Metropolis)-essential-edition.ogg" id="5_d0wfh"]
 [ext_resource type="AudioStream" uid="uid://c2x2vt0r2fwfa" path="res://assets/music/DavidKBD - Mach Overdrive - 04 - Sub-Zero Friction (Ice)-essential-edition.ogg" id="6_l6crl"]
-[ext_resource type="AudioStream" uid="uid://co0wdg676m0rn" path="res://assets/music/DavidKBD - Mach Overdrive - 05 - Neon Pulse City (Metropolis)-essential-edition.ogg" id="7_a4pwl"]
 [ext_resource type="AudioStream" uid="uid://br1ms152jna7y" path="res://assets/music/DavidKBD - Mach Overdrive - 14 - Omega Finish Line-essential-edition.ogg" id="8_2xnne"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_ga1io"]
-stream_count = 2
+fade_time = 0.8
+stream_count = 4
 stream_0 = ExtResource("6_l6crl")
-stream_1 = ExtResource("7_a4pwl")
+stream_1 = ExtResource("3_l83wd")
+stream_2 = ExtResource("8_2xnne")
+stream_3 = ExtResource("5_d0wfh")
 
 [node name="Audio" type="Node" unique_id=838279772]
 script = ExtResource("1_l3shp")
@@ -82,8 +86,4 @@ bus = &"SFX"
 [node name="MusicA" type="AudioStreamPlayer" parent="Music" unique_id=1845735181]
 stream = SubResource("AudioStreamPlaylist_ga1io")
 autoplay = true
-bus = &"Music"
-
-[node name="MusicB" type="AudioStreamPlayer" parent="Music" unique_id=555921143]
-stream = ExtResource("8_2xnne")
 bus = &"Music"

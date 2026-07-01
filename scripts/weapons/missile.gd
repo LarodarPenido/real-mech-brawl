@@ -38,6 +38,7 @@ func setup(start_direction: Vector3, new_aim_assist: Node, new_owner_body: Node3
 	velocity = start_direction.normalized() * _current_speed
 	_face_velocity()
 
+	Audio.play_sfx_at_3d(Sounds.jets, global_position, 9)
 
 func _physics_process(delta: float) -> void:
 	_life_left -= delta

@@ -10,7 +10,7 @@ extends Node
 
 @export_group("Machinery")
 @export var coolant: AudioStream
-@export var servos: AudioStream
+@export var heal: AudioStream
 @export var reload: AudioStream
 
 
@@ -36,3 +36,34 @@ extends Node
 @export var click_button: AudioStream
 @export var confirm: AudioStream
 @export var cancel: AudioStream
+
+
+
+func get_all_streams() -> Array[AudioStream]:
+	return [
+		dash,
+		footstep,
+
+		coolant,
+		heal,
+		reload,
+
+		machine_gun_01,
+		missile_launch,
+		impact,
+
+		explosion_01,
+		explosion_02,
+
+		wind,
+		jets,
+		distant_gunfire,
+
+		alarm,
+		hover_button,
+		click_button,
+		confirm,
+		cancel,
+	].filter(func(stream: AudioStream) -> bool:
+		return stream != null
+	)

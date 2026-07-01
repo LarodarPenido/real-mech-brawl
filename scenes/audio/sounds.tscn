@@ -7,10 +7,12 @@
 [ext_resource type="AudioStream" uid="uid://c383pif857rgj" path="res://assets/sfx/ambient/soundreality-wind-dry-low-sfx-521893.ogg" id="3_hfjgb"]
 [ext_resource type="AudioStream" uid="uid://xyvp2mswv3p4" path="res://assets/sfx/machinery/dragon-studio-steam-hissing-2-386162.mp3" id="4_x5tjo"]
 [ext_resource type="AudioStream" uid="uid://r68rlxgdcdpy" path="res://assets/sfx/machinery/audiopapkin-sound-design-elements-robot-mechanism-014-336703.mp3" id="5_86c6v"]
+[ext_resource type="AudioStream" uid="uid://b8mwshr8vdkdd" path="res://assets/sfx/machinery/audiopapkin-sound-design-elements-robot-mechanism-020-344708.mp3" id="5_x7xmn"]
 [ext_resource type="AudioStream" uid="uid://b2m3rtn21bhp4" path="res://assets/sfx/combat/explosions/cartoon-music-game-sfx-bomb-explosion-close-517331.mp3" id="7_1k6lo"]
 [ext_resource type="AudioStream" uid="uid://bbqxa4bqegdvp" path="res://assets/sfx/machinery/alarm.ogg" id="8_1k6lo"]
 [ext_resource type="AudioStream" uid="uid://cbifieycab71p" path="res://assets/sfx/combat/explosions/cartoon-music-game-sfx-bomb-explosion-large-517330.mp3" id="8_eoqv8"]
 [ext_resource type="AudioStream" uid="uid://dtgiom2gqs2fd" path="res://assets/sfx/combat/explosions/cartoon-music-game-sfx-bomb-explosion-large-amp-short-517328.mp3" id="9_eoqv8"]
+[ext_resource type="AudioStream" uid="uid://cvi1ohjyianga" path="res://assets/sfx/combat/rocket.mp3" id="12_12rjh"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dlmf6"]
 random_pitch = 1.0256226
@@ -29,9 +31,11 @@ script = ExtResource("1_g4sqc")
 dash = ExtResource("2_hfjgb")
 footstep = ExtResource("3_ccqw6")
 coolant = ExtResource("4_x5tjo")
+heal = ExtResource("5_x7xmn")
 reload = ExtResource("5_86c6v")
 machine_gun_01 = ExtResource("2_bktbv")
 explosion_01 = SubResource("AudioStreamRandomizer_dlmf6")
 explosion_02 = ExtResource("8_eoqv8")
 wind = SubResource("AudioStreamRandomizer_d2wvv")
+jets = ExtResource("12_12rjh")
 alarm = ExtResource("8_1k6lo")

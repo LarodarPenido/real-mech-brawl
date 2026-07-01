@@ -68,6 +68,8 @@ func _on_body_entered(body: Node) -> void:
 func _collect(player: Node) -> void:
 	player.heal(bonus_health)
 
+	Audio.play_sfx(Sounds.heal)
+
 	set_deferred("monitoring", false)
 	set_deferred("monitorable", false)
 

@@ -1,3 +1,5 @@
 extends Node
 
-@onready var victory: bool = false
+var victory: bool = false
+
+var hard_mode: bool = false

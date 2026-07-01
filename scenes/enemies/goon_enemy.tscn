@@ -103,7 +103,7 @@ script = ExtResource("4_yd20o")
 burst_interval = 0.2
 burst_count = 3
 cooldown_duration = 3.0
-move_speed = 9.0
+move_speed = 11.0
 
 [node name="EnemyBrain" type="Node" parent="." unique_id=181073411 node_paths=PackedStringArray("weapon", "muzzle_point")]
 script = ExtResource("1_326vp")

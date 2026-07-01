@@ -24,7 +24,21 @@ signal all_waves_cleared()
 	{0: 3, 1: 1},
 	{0: 4, 1: 2},
 	{0: 5, 1: 3},
+	{0: 3, 1: 2, 2:1}
 ]
+
+@export var hard_mode_waves: Array[Dictionary] = [
+	{0: 3, 1: 1},
+	{0: 4, 1: 2, 2: 1},
+	{0: 4, 1: 1, 2: 1},
+	{0: 5, 1: 2, 2: 3},
+	{0: 6, 1: 3, 2: 4},
+	{0: 7, 1: 4, 2: 6},
+	{0: 12, 1: 8, 2: 8},
+	{0: 24, 1: 12, 2: 10},
+]
+
+
 
 @export var shuffle_wave_spawns: bool = true
 
@@ -35,6 +49,7 @@ var _spawn_points: Array[Marker3D] = []
 var _alive_wave_enemies: Array[Node3D] = []
 var _spawning_wave: bool = false
 
+var _active_waves: Array[Dictionary] = []
 
 func _ready() -> void:
 	_cache_spawn_points()
@@ -89,6 +104,13 @@ func start_waves() -> void:
 		push_warning("WaveSpawner: no Marker3D spawn points found.")
 		return
 
+	_active_waves = hard_mode_waves if RunState.hard_mode else waves
+
+	if _active_waves.is_empty():
+		push_warning("WaveSpawner: active wave list is empty.")
+		return
+
+	_wave_index = -1
 	_running = true
 	_start_next_wave()
 
@@ -109,7 +131,7 @@ func _start_next_wave() -> void:
 	print("wave spawner: new wave started")
 	_wave_index += 1
 
-	if _wave_index >= waves.size():
+	if _wave_index >= _active_waves.size():
 		_running = false
 		all_waves_cleared.emit()
 		return
@@ -117,7 +139,7 @@ func _start_next_wave() -> void:
 	var wave_number := _wave_index + 1
 	wave_started.emit(wave_number)
 
-	var wave_data: Dictionary = waves[_wave_index]
+	var wave_data: Dictionary = _active_waves[_wave_index]
 	_spawn_wave(wave_data)
 
 
@@ -197,3 +219,21 @@ func _finish_current_wave() -> void:
 
 	_running = true
 	_start_next_wave()
+
+func get_total_waves() -> int:
+	if not _active_waves.is_empty():
+		return _active_waves.size()
+
+	var selected_waves := hard_mode_waves if RunState.hard_mode else waves
+	return selected_waves.size()
+
+
+func get_current_wave_number() -> int:
+	if _wave_index < 0:
+		return 0
+
+	return clampi(_wave_index + 1, 0, get_total_waves())
+
+
+func get_wave_counter_text() -> String:
+	return "WAVE %d/%d" % [get_current_wave_number(), get_total_waves()]

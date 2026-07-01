@@ -4,7 +4,9 @@ extends Node3D
 @export var options_overlay: Control
 
 func _on_play_button_button_up() -> void:
-	SceneManager.go_to("res://scenes/level_01.tscn")
+	RunState.hard_mode = false
+	SceneManager.go_to("res://scenes/ui/loading.tscn")
+	#SceneManager.go_to("res://scenes/level_01.tscn")
 
 
 func _on_options_button_button_up() -> void:
@@ -14,3 +16,8 @@ func _on_options_button_button_up() -> void:
 
 func _on_quit_button_button_up() -> void:
 	get_tree().quit()
+
+
+func _on_hard_button_button_up() -> void:
+	RunState.hard_mode = true
+	SceneManager.go_to("res://scenes/ui/loading.tscn")

@@ -43,10 +43,11 @@ collision_mask = 2
 script = ExtResource("1_um2ku")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1910619241]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.2050781, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8186011, 0)
 shape = SubResource("BoxShape3D_7fw7d")
 
 [node name="VisualRoot" type="Node3D" parent="." unique_id=745431438]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.386477, 0)
 
 [node name="GlowCore" type="MeshInstance3D" parent="VisualRoot" unique_id=1141875962]
 transform = Transform3D(1, 0, 0, 0, 0.16, 0, 0, 0, 1, 0, -1.1996865, 0)

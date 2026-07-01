@@ -26,7 +26,6 @@ torso_pivot = NodePath("Torso/TorsoPivot")
 legs = NodePath("Legs")
 use_eight_way_rotation = false
 rotation_speed = 4.0
-max_speed = 10.0
 dash_duration = 0.3
 dash_cooldown = 1.0
 torso_animation_player = NodePath("Torso/TorsoPivot/MECHTORSO/AnimationPlayer")
@@ -40,8 +39,9 @@ shape = SubResource("CapsuleShape3D_um2ku")
 [node name="CameraPivot" type="Node3D" parent="." unique_id=2038021139]
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1088702525 groups=["camera"]]
+fov = 45.0
 script = ExtResource("2_qlg0r")
-follow_offset = Vector3(20.425, 11.335, 0)
+follow_offset = Vector3(54.465, 22.765, 0)
 camera_target_offset = 0.77
 
 [node name="Torso" type="Node3D" parent="." unique_id=1065867775]

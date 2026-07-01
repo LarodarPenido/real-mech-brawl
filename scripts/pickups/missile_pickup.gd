@@ -38,6 +38,8 @@ func _process(delta: float) -> void:
 
 	_update_mesh_glow(delta)
 
+	#move to ground height
+	global_position.y = lerp(global_position.y, 0.0, 0.5)
 
 func _update_mesh_glow(delta: float) -> void:
 	var pulse := 0.85 + sin(_time * 5.0) * 0.15
@@ -58,15 +60,23 @@ func _on_body_entered(body: Node) -> void:
 	if not body.is_in_group("player"):
 		return
 
+	if player_missile_launcher == null:
+		return
+
+	if player_missile_launcher.ammo >= player_missile_launcher.max_ammo:
+		return
+
 	_picked_up = true
 	_collect(body)
 
 
 func _collect(player: Node) -> void:
-	if player_missile_launcher.ammo >= player_missile_launcher.max_ammo:
-		return
-	
-	player_missile_launcher.ammo += bonus_ammo
+	Audio.play_sfx(Sounds.reload)
+
+	player_missile_launcher.ammo = min(
+		player_missile_launcher.ammo + bonus_ammo,
+		player_missile_launcher.max_ammo
+	)
 
 	set_deferred("monitoring", false)
 	set_deferred("monitorable", false)

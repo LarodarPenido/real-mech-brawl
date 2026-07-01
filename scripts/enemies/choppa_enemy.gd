@@ -33,6 +33,17 @@ var direction: Vector3 = Vector3.ZERO
 @export var ammo_pickup: PackedScene
 @export var health_pickup: PackedScene
 
+## Flight
+@export var altitude: float = 10
+@export var orbit_radius: float = 10
+
+const ORBIT_GRACE_DURATION: float = 1.0
+var _orbit_angle: float = 0.0
+var _orbit_direction: int = 1
+var _orbit_grace_timer: float = 0.0
+
+var player: Node3D
+
 # --- Signals ---
 signal died()
 signal damaged(amount: float, source_type: String)
@@ -47,6 +58,7 @@ func _ready() -> void:
 	enemy_manager.register_enemy(self)
 	#hp = max_hp
 	mesh_health_bar.update_health(hp, max_hp)
+	player = get_tree().get_first_node_in_group("player")
 	
 
 func _on_enemy_spawned():
@@ -60,15 +72,58 @@ func _apply_stats() -> void:
 
 func _physics_process(delta: float) -> void:
 
+	
+
 	if _is_stationery:
 		return
 	if not is_on_floor() and not _is_flying:
 		velocity.y -= 9.8
 	
 	if not is_dead:
+		_tick_orbit(delta)
+		#global_position.y = lerp(global_position.y, altitude, 0.5)
+	else:
+		global_position.y = lerp(global_position.y, 0.0, 0.03)
+		if global_position.y >= 0.5:
+			rotation.y += 1 * delta
+	
+	if not is_dead:
 		face_movement_direction(direction, delta, turn_speed)
 		move_and_slide()
 	
+	
+
+func _tick_orbit(delta: float) -> void:
+	# Tangential orbit: angular speed derived from linear speed / radius
+	var radius = orbit_radius
+	if radius < 0.001:
+		radius = 1.0
+	var angular_speed = stats.move_speed / radius
+	_orbit_angle += angular_speed * _orbit_direction * delta
+
+	# Desired position on the orbit circle around the target.
+	var target_pos: Vector3 = player.global_position
+	var desired: Vector3 = target_pos + Vector3(
+		cos(_orbit_angle) * radius,
+		0.0,
+		sin(_orbit_angle) * radius
+	)
+	desired.y = altitude
+
+	# Move toward the orbit point at unit speed (so a fleeing player can leash us).
+	var to_desired: Vector3 = desired - global_position
+	var step: float = stats.move_speed * delta
+	if to_desired.length() <= step:
+		global_position = desired
+	else:
+		global_position += to_desired.normalized() * step
+
+		# Grace period before the first lock kicks in — lets the heli visually settle.
+	if _orbit_grace_timer > 0.0:
+		_orbit_grace_timer -= delta
+		return
+
+
 func face_movement_direction(direction: Vector3, delta: float, turn_speed_override: float = -1.0) -> void:
 	direction.y = 0.0
 
@@ -104,6 +159,7 @@ func take_damage(amount: float) -> void:
 	## TODO add hit VFX
 
 func _die():
+	grant_pickups()
 	collision_shape_3d.disabled = true
 	mesh_health_bar.hide()
 	
@@ -114,7 +170,7 @@ func _die():
 
 	await get_tree().create_timer(death_time).timeout
 	
-	grant_pickups()
+	
 	
 	queue_free()
 
