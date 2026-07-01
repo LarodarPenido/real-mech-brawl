@@ -8,14 +8,24 @@ class_name MeshHealthBar3D
 @export var box_spacing: float = 0.035
 
 ## Position relative to the parent unit.
-## Put this close to the feet / base of the mesh.
-@export var local_offset: Vector3 = Vector3(0.0, 0.25, 0.0)
+
+@export var follow_target: Node3D
+@export var anchor_name: StringName = &"HealthBarAnchor"
+
+## Small final adjustment only.
+## Usually leave this as Vector3.ZERO.
+@export var world_offset: Vector3 = Vector3.ZERO
+
+@export var fixed_rotation_degrees: Vector3 = Vector3(0.0, 90.0, 0.0)
+@export var follow_in_physics: bool = true
+
+
 
 @export var full_color: Color = Color(0.1, 1.0, 0.25, 1.0)
 @export var lost_color: Color = Color(1.0, 0.1, 0.05, 1.0)
 
 ## Makes the boxes rotate horizontally toward the active camera.
-@export var face_camera: bool = true
+#@export var face_camera: bool = true
 
 var _boxes: Array[MeshInstance3D] = []
 var _full_material: StandardMaterial3D
@@ -24,13 +34,21 @@ var _last_full_boxes: int = -1
 
 
 func _ready() -> void:
+	top_level = true
+
+	if follow_target == null:
+		_find_follow_target()
+
 	_full_material = _make_material(full_color)
 	_lost_material = _make_material(lost_color)
 
 	_create_boxes()
 	update_health(1.0, 1.0)
 
-	set_process(face_camera)
+	call_deferred("_update_world_transform")
+
+	set_process(not follow_in_physics)
+	set_physics_process(follow_in_physics)
 
 
 func update_health(current_health: float, max_health: float) -> void:
@@ -53,21 +71,19 @@ func update_health(current_health: float, max_health: float) -> void:
 
 
 func _process(_delta: float) -> void:
-	if not face_camera:
+	_update_world_transform()
+
+
+func _physics_process(_delta: float) -> void:
+	_update_world_transform()
+
+
+func _update_world_transform() -> void:
+	if not is_instance_valid(follow_target):
 		return
 
-	var camera := get_viewport().get_camera_3d()
-	if camera == null:
-		return
-
-	var direction_to_camera: Vector3 = camera.global_position - global_position
-	direction_to_camera.y = 0.0
-
-	if direction_to_camera.length_squared() < 0.001:
-		return
-
-	var target_yaw: float = atan2(direction_to_camera.x, direction_to_camera.z)
-	global_rotation.y = target_yaw
+	global_position = follow_target.global_position + world_offset
+	global_rotation_degrees = fixed_rotation_degrees
 
 
 func _create_boxes() -> void:
@@ -87,7 +103,7 @@ func _create_boxes() -> void:
 		mesh.size = box_size
 		box.mesh = mesh
 
-		box.position = local_offset + Vector3(
+		box.position = Vector3(
 			start_x + float(i) * (box_size.x + box_spacing),
 			0.0,
 			0.0
@@ -102,3 +118,16 @@ func _make_material(color: Color) -> StandardMaterial3D:
 	material.albedo_color = color
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	return material
+
+func _find_follow_target() -> void:
+	var parent := get_parent()
+
+	if parent == null:
+		return
+
+	var anchor := parent.find_child(str(anchor_name), true, false) as Node3D
+
+	if anchor != null:
+		follow_target = anchor
+	else:
+		follow_target = parent as Node3D

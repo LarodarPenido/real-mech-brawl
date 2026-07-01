@@ -77,7 +77,7 @@ var _listener_2d: Node2D
 var _listener_3d: Node3D
 
 @onready var _music_a: AudioStreamPlayer = $Music/MusicA
-@onready var _music_b: AudioStreamPlayer = $Music/MusicB
+#@onready var _music_b: AudioStreamPlayer = $Music/MusicB
 var _music_active: AudioStreamPlayer
 
 

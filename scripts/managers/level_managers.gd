@@ -4,7 +4,7 @@ class_name GameManager
 
 @onready var ending_scene: Node
 
-
+@export var options_overlay: Control 
 
 func _ready() -> void:
 	ending_scene = get_tree().get_first_node_in_group("ending")
@@ -16,3 +16,7 @@ func _on_wave_manager_all_waves_cleared() -> void:
 func _on_player_game_over() -> void:
 	RunState.victory = false
 	SceneManager.go_to("res://scenes/ending.tscn")
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("escape"):
+		options_overlay.open()

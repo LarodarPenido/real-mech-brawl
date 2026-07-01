@@ -44,13 +44,14 @@ _surfaces = [{
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7fw7d"]
 radius = 1.5
-height = 6.0
+height = 5.17334
 
-[node name="Buggy" type="CharacterBody3D" unique_id=293757789 node_paths=PackedStringArray("stats")]
+[node name="Buggy" type="CharacterBody3D" unique_id=293757789 node_paths=PackedStringArray("stats", "mesh_health_bar")]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("2_ei0en")
 stats = NodePath("EnemyStats")
+mesh_health_bar = NodePath("MeshHealthBar")
 explosion_scene = ExtResource("2_b136v")
 time_freeze_duration = 0.05
 ammo_pickup = ExtResource("3_ww4kg")
@@ -82,7 +83,7 @@ surface_material_override/0 = ExtResource("7_ouojp")
 transform = Transform3D(-0.3, 0, 4.5298744e-08, 0, 0.3, 0, -4.5298744e-08, 0, -0.3, 0, 1.8787589, 1.2480788)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1887548664]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.4882092, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.2724855, 0.41333008)
 shape = SubResource("CapsuleShape3D_7fw7d")
 
 [node name="TargetLabel" type="Label3D" parent="." unique_id=650475031]
@@ -100,6 +101,7 @@ font_size = 256
 
 [node name="EnemyStats" type="Node" parent="." unique_id=1535198316]
 script = ExtResource("4_yd20o")
+weapon_range = 40.0
 burst_interval = 0.2
 burst_count = 3
 cooldown_duration = 3.0
@@ -118,15 +120,13 @@ width = 0.05
 color = Color(1.6976031, 0, 0.55785996, 1)
 material = ExtResource("7_yd20o")
 
-[node name="HealthBarPivot" type="Sprite3D" parent="." unique_id=1950300060]
-billboard = 1
-
-[node name="MeshHealthBar" type="Node3D" parent="HealthBarPivot" unique_id=1340848371]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 5.676186, 0)
+[node name="MeshHealthBar" type="Node3D" parent="." unique_id=1340848371]
 script = ExtResource("9_oxc3y")
 box_size = Vector3(0.3, 0.3, 0.3)
 box_spacing = 0.2
-face_camera = false
+
+[node name="HealthBarAnchor" type="Marker3D" parent="." unique_id=637399784]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9868374, 0)
 
 [connection signal="timeout" from="TelegraphTimer" to="EnemyBrain" method="_on_telegraph_timer_timeout"]
 

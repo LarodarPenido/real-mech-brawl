@@ -51,14 +51,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.386477, 0)
 
 [node name="GlowCore" type="MeshInstance3D" parent="VisualRoot" unique_id=1141875962]
 transform = Transform3D(1, 0, 0, 0, 0.16, 0, 0, 0, 1, 0, -1.1996865, 0)
+cast_shadow = 0
 mesh = SubResource("TorusMesh_4rfup")
 skeleton = NodePath("../..")
 
 [node name="GlowRingA" type="MeshInstance3D" parent="VisualRoot" unique_id=1918770295]
+cast_shadow = 0
 mesh = SubResource("TorusMesh_4b3kd")
 skeleton = NodePath("../..")
 
 [node name="GlowRingB" type="MeshInstance3D" parent="VisualRoot" unique_id=1603791908]
+cast_shadow = 0
 mesh = SubResource("TorusMesh_exckr")
 skeleton = NodePath("../..")
 

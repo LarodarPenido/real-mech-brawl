@@ -14,28 +14,57 @@ extends Area3D
 @export var shake_power: float = 0.2
 @export var shake_duration: float = 0.2
 
+# --- VFX
+@onready var after_image_trail: Node3D = $AfterImageTrail
+
+
+
 var aim_assist: Node = null
 var owner_body: Node3D = null
 var velocity: Vector3 = Vector3.ZERO
 var _current_speed: float = 0.0
 var _life_left: float = 0.0
 var _age: float = 0.0
+var _locked_target: Node3D = null
+
+
+var _fallback_dir: Vector3 = Vector3.FORWARD
+var _free_aim_point: Vector3 = Vector3.ZERO
+var _has_free_aim_point: bool = false
 
 func _ready() -> void:
 	_life_left = lifetime
 	body_entered.connect(_on_body_entered)
 
 
-func setup(start_direction: Vector3, new_aim_assist: Node, new_owner_body: Node3D) -> void:
+	if after_image_trail:
+		after_image_trail.start_emitting()
+
+func setup(
+	start_direction: Vector3,
+	new_aim_assist: Node,
+	new_owner_body: Node3D,
+	free_aim_point: Vector3 = Vector3.ZERO,
+	has_free_aim_point: bool = false,
+	locked_target: Node3D = null
+) -> void:
 	aim_assist = new_aim_assist
 	owner_body = new_owner_body
+	_locked_target = locked_target
+
 	_life_left = lifetime
+	_age = 0.0
 
 	if start_direction.length_squared() < 0.001:
 		start_direction = -global_transform.basis.z
 
+	_fallback_dir = start_direction.normalized()
+
+	_free_aim_point = free_aim_point
+	_has_free_aim_point = has_free_aim_point
+
 	_current_speed = launch_speed
-	velocity = start_direction.normalized() * _current_speed
+	velocity = _fallback_dir * _current_speed
 	_face_velocity()
 
 	Audio.play_sfx_at_3d(Sounds.jets, global_position, 9)
@@ -65,33 +94,48 @@ func _physics_process(delta: float) -> void:
 
 
 func _update_homing(delta: float) -> void:
-	if aim_assist == null:
-		return
+	var current_dir := _fallback_dir
 
-	if not aim_assist.has_method("has_lock"):
-		return
+	if velocity.length_squared() > 0.001:
+		current_dir = velocity.normalized()
 
-	if not aim_assist.has_lock():
-		return
+	var target_pos := Vector3.ZERO
+	var has_valid_target := false
 
-	if not aim_assist.has_method("get_fire_point"):
-		return
+	# 1. Prefer the target captured at launch.
+	if _locked_target != null and is_instance_valid(_locked_target):
+		target_pos = _locked_target.global_position + Vector3(0.0, 1.0, 0.0)
+		has_valid_target = true
 
-	var target_pos: Vector3 = aim_assist.get_fire_point()
-	if target_pos == Vector3.ZERO:
+	# 2. If there was no locked target, use the free aim point captured at launch.
+	if not has_valid_target and _has_free_aim_point:
+		var to_free_aim := _free_aim_point - global_position
+
+		if to_free_aim.length_squared() > 4.0:
+			target_pos = _free_aim_point
+			has_valid_target = true
+		else:
+			_has_free_aim_point = false
+
+	# 3. If there is no target, continue straight.
+	if not has_valid_target:
+		velocity = current_dir * _current_speed
+		_fallback_dir = current_dir
 		return
 
 	var desired_dir := target_pos - global_position
+
 	if desired_dir.length_squared() < 0.001:
+		velocity = current_dir * _current_speed
+		_fallback_dir = current_dir
 		return
 
-	var current_dir := velocity.normalized()
 	var target_dir := desired_dir.normalized()
-
 	var weight := clampf(turn_speed * delta, 0.0, 1.0)
 	var new_dir := current_dir.slerp(target_dir, weight).normalized()
 
 	velocity = new_dir * _current_speed
+	_fallback_dir = new_dir
 
 
 func _face_velocity() -> void:
@@ -118,6 +162,9 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func _explode() -> void:
+	if after_image_trail:
+		after_image_trail.stop_emitting()
+		after_image_trail.clear_trail()
 	if explosion_scene:
 		spawn_explosion(global_position)
 

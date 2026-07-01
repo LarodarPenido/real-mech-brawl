@@ -11,7 +11,7 @@ var hp: float = 0.0
 var max_hp: float = 0.0
 var is_dead: bool = false
 
-@onready var mesh_health_bar: Node3D = $HealthBarPivot/MeshHealthBar
+@export var mesh_health_bar: Node3D
 
 # --- VFX
 @export var explosion_scene: PackedScene

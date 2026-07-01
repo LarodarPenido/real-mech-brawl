@@ -11,7 +11,7 @@ var hp: float = 0.0
 var max_hp: float = 0.0
 var is_dead: bool = false
 
-@onready var mesh_health_bar: Node3D = $HealthBarPivot/MeshHealthBar
+@export var mesh_health_bar: Node3D 
 
 # --- VFX
 @export var explosion_scene: PackedScene
@@ -63,7 +63,7 @@ func _physics_process(delta: float) -> void:
 	if _is_stationery:
 		return
 	if not is_on_floor() and not _is_flying:
-		velocity.y -= 9.8
+		velocity.y -= 120
 	
 	if not is_dead:
 		face_movement_direction(direction, delta, turn_speed)

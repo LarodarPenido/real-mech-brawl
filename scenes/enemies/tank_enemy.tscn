@@ -30,10 +30,11 @@ _surfaces = [{
 [sub_resource type="BoxShape3D" id="BoxShape3D_4cdu3"]
 size = Vector3(4.9470215, 8.822266, 2.4519653)
 
-[node name="Tank" type="CharacterBody3D" unique_id=293757789 node_paths=PackedStringArray("stats")]
+[node name="Tank" type="CharacterBody3D" unique_id=293757789 node_paths=PackedStringArray("stats", "mesh_health_bar")]
 collision_layer = 4
 script = ExtResource("1_r7hkc")
 stats = NodePath("EnemyStats")
+mesh_health_bar = NodePath("MeshHealthBar")
 explosion_scene = ExtResource("2_0iv5n")
 turn_speed = 0.2
 time_freeze_duration = 0.5
@@ -102,14 +103,13 @@ width = 0.2
 color = Color(1.6976031, 0, 0.55785996, 1)
 material = ExtResource("7_8xbsu")
 
-[node name="HealthBarPivot" type="Sprite3D" parent="." unique_id=1727374630]
-billboard = 2
-
-[node name="MeshHealthBar" type="Node3D" parent="HealthBarPivot" unique_id=548045210]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 5.676186, 0)
+[node name="MeshHealthBar" type="Node3D" parent="." unique_id=548045210]
 script = ExtResource("11_ioeaq")
 box_size = Vector3(0.3, 0.3, 0.3)
 box_spacing = 0.3
+
+[node name="HealthBarAnchor" type="Marker3D" parent="." unique_id=1228828912]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.4530325, 0)
 
 [connection signal="timeout" from="TelegraphTimer" to="EnemyBrain" method="_on_telegraph_timer_timeout"]
 

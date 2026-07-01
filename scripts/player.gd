@@ -101,17 +101,20 @@ var _legs_base_rotation: Vector3
 @onready var aim_assist: Node = $AimAssist
 @onready var weapon_manager: Node = $WeaponManager
 
-@onready var mesh_health_bar: Node3D = $HealthBarPivot/MeshHealthBar
+@export var mesh_health_bar: Node3D
 
 #--- VISUALS
 @export var torso_animation_player: AnimationPlayer
 @export var legs_animation_player: AnimationPlayer
-@onready var afterimage_spawner: Node3D = get_node_or_null("Skin/AfterimageSpawner")
+@export var afterimage_spawner: Node3D 
 
 
 @export var explosion_scene: PackedScene
 
 @export var death_freeze_duration: float = 2.0
+
+@export var dash_shake_power: float = 0.1
+@export var dash_shake_duration: float = 0.1
 
 #const EXPLOSION = preload("uid://cqw67qekwu81w")
 
@@ -405,7 +408,9 @@ func _handle_dash_input() -> void:
 
 func _start_dash() -> void:
 	if afterimage_spawner:
-		afterimage_spawner.start_trail()
+		afterimage_spawner.start_burst()
+
+	CameraShake.shake(dash_shake_power, dash_shake_duration)
 
 	is_dashing = true
 	can_dash = false

@@ -31,17 +31,19 @@ _surfaces = [{
 [sub_resource type="BoxShape3D" id="BoxShape3D_xy4ja"]
 size = Vector3(8.09082, 6.1845703, 2.4260254)
 
-[node name="Choppa" type="CharacterBody3D" unique_id=293757789 node_paths=PackedStringArray("stats")]
+[node name="Choppa" type="CharacterBody3D" unique_id=293757789 node_paths=PackedStringArray("stats", "mesh_health_bar")]
 collision_layer = 4
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_jkdhw")
 stats = NodePath("EnemyStats")
 _is_flying = true
+mesh_health_bar = NodePath("MeshHealthBar")
 explosion_scene = ExtResource("2_birus")
 grants_ammo_pickup = true
 ammo_pickup = ExtResource("3_8j5os")
 health_pickup = ExtResource("4_joijo")
+orbit_radius = 20.0
 
 [node name="Skin" type="Node3D" parent="." unique_id=577763434]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.507772, 0)
@@ -78,6 +80,7 @@ font_size = 256
 
 [node name="EnemyStats" type="Node" parent="." unique_id=1535198316]
 script = ExtResource("11_35t4l")
+weapon_range = 40.0
 burst_interval = 0.2
 burst_count = 9
 cooldown_duration = 3.0
@@ -97,15 +100,13 @@ width = 0.05
 color = Color(1.6976031, 0, 0.55785996, 1)
 material = ExtResource("14_u3m07")
 
-[node name="HealthBarPivot" type="Sprite3D" parent="." unique_id=1950300060]
-billboard = 1
-
-[node name="MeshHealthBar" type="Node3D" parent="HealthBarPivot" unique_id=1340848371]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 5.676186, 0)
+[node name="MeshHealthBar" type="Node3D" parent="." unique_id=1340848371]
 script = ExtResource("15_e56jh")
 box_size = Vector3(0.3, 0.3, 0.3)
 box_spacing = 0.2
-face_camera = false
+
+[node name="HealthBarAnchor" type="Marker3D" parent="." unique_id=209017856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.525062, 0)
 
 [connection signal="timeout" from="TelegraphTimer" to="EnemyBrain" method="_on_telegraph_timer_timeout"]
 

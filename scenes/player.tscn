@@ -3,7 +3,9 @@
 [ext_resource type="Script" uid="uid://b5e7vfb4exyy6" path="res://scripts/player.gd" id="1_dqkch"]
 [ext_resource type="Script" uid="uid://bym6v5scqiwp5" path="res://scripts/camera.gd" id="2_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="2_ur7pv"]
+[ext_resource type="Script" uid="uid://cnj66si8nohqb" path="res://scripts/vfx/after_image.gd" id="3_d2wvv"]
 [ext_resource type="PackedScene" uid="uid://dblvqlplbyfdk" path="res://assets/models/mechs/mechtorso.tscn" id="3_dqkch"]
+[ext_resource type="PackedScene" uid="uid://657h3plrgl0j" path="res://scenes/vfx/mech_after_image.tscn" id="4_3v2ag"]
 [ext_resource type="PackedScene" uid="uid://dtp201kn85511" path="res://scenes/weapons/missile_launcher.tscn" id="5_smehm"]
 [ext_resource type="Script" uid="uid://d2v28gxl3w055" path="res://scripts/player/aim_assist.gd" id="5_tuyoq"]
 [ext_resource type="Script" uid="uid://e4ejbmw146ya" path="res://scripts/player/weapon_manager.gd" id="6_fjrip"]
@@ -17,7 +19,7 @@ height = 4.9750977
 
 [sub_resource type="SphereMesh" id="SphereMesh_7fw7d"]
 
-[node name="Player" type="CharacterBody3D" unique_id=1600219064 node_paths=PackedStringArray("torso", "torso_pivot", "legs", "torso_animation_player", "legs_animation_player") groups=["player"]]
+[node name="Player" type="CharacterBody3D" unique_id=1600219064 node_paths=PackedStringArray("torso", "torso_pivot", "legs", "mesh_health_bar", "torso_animation_player", "legs_animation_player", "afterimage_spawner") groups=["player"]]
 collision_layer = 2
 collision_mask = 37
 script = ExtResource("1_dqkch")
@@ -26,11 +28,22 @@ torso_pivot = NodePath("Torso/TorsoPivot")
 legs = NodePath("Legs")
 use_eight_way_rotation = false
 rotation_speed = 4.0
+max_speed = 16.0
 dash_duration = 0.3
 dash_cooldown = 1.0
+mesh_health_bar = NodePath("MeshHealthBar")
 torso_animation_player = NodePath("Torso/TorsoPivot/MECHTORSO/AnimationPlayer")
 legs_animation_player = NodePath("Legs/MECHLEGS2/AnimationPlayer")
+afterimage_spawner = NodePath("AfterImage")
 explosion_scene = ExtResource("2_ur7pv")
+
+[node name="AfterImage" type="Node3D" parent="." unique_id=383647568 node_paths=PackedStringArray("source_node")]
+script = ExtResource("3_d2wvv")
+ghost_scene = ExtResource("4_3v2ag")
+ghost_count = 4
+spawn_interval = 0.035
+visible_duration = 0.12
+source_node = NodePath("../Torso")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=288482197]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.240763, 0)
@@ -41,7 +54,7 @@ shape = SubResource("CapsuleShape3D_um2ku")
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1088702525 groups=["camera"]]
 fov = 45.0
 script = ExtResource("2_qlg0r")
-follow_offset = Vector3(54.465, 22.765, 0)
+follow_offset = Vector3(44.125, 28.445, 0)
 camera_target_offset = 0.77
 
 [node name="Torso" type="Node3D" parent="." unique_id=1065867775]
@@ -88,14 +101,13 @@ bones/9/position = Vector3(-0.93768907, -2.9614499, 0.14314464)
 visible = false
 mesh = SubResource("SphereMesh_7fw7d")
 
-[node name="AimAssist" type="Node" parent="." unique_id=1053862583 node_paths=PackedStringArray("player", "camera")]
+[node name="AimAssist" type="Node3D" parent="." unique_id=902848816 node_paths=PackedStringArray("player", "camera")]
 script = ExtResource("5_tuyoq")
 player = NodePath("..")
 camera = NodePath("../CameraPivot/Camera3D")
 
-[node name="WeaponManager" type="Node" parent="." unique_id=249720431 node_paths=PackedStringArray("aim_assist", "camera", "primary_weapons", "secondary_weapons") groups=["weapon_manager"]]
+[node name="WeaponManager" type="Node" parent="." unique_id=249720431 node_paths=PackedStringArray("camera", "primary_weapons", "secondary_weapons") groups=["weapon_manager"]]
 script = ExtResource("6_fjrip")
-aim_assist = NodePath("../AimAssist")
 camera = NodePath("../CameraPivot/Camera3D")
 primary_weapons = [NodePath("../Torso/TorsoPivot/MECHTORSO/Armature_001/Skeleton3D/Cube_012/Outline/Submachineguns")]
 secondary_weapons = [NodePath("../Torso/TorsoPivot/MECHTORSO/Armature_001/Skeleton3D/Cube_012/MissileLauncher")]
@@ -110,19 +122,17 @@ font_size = 256
 [node name="DeathTimer" type="Timer" parent="." unique_id=874672101]
 one_shot = true
 
-[node name="HealthBarPivot" type="Sprite3D" parent="." unique_id=157962778]
-billboard = 2
-
-[node name="MeshHealthBar" type="Node3D" parent="HealthBarPivot" unique_id=591368101]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 5.676186, 0)
+[node name="MeshHealthBar" type="Node3D" parent="." unique_id=591368101]
 script = ExtResource("10_y4r1p")
 box_size = Vector3(0.4, 0.3, 0.3)
 box_spacing = 0.3
-face_camera = false
 
 [node name="AudioListener3D" type="AudioListener3D" parent="." unique_id=84887117 groups=["listener"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8411016, 0)
 current = true
+
+[node name="HealthBarAnchor" type="Marker3D" parent="." unique_id=1084609890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.6180563, 0)
 
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
 

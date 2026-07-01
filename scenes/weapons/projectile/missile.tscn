@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://b6bcbk6jx4the" path="res://scripts/weapons/missile.gd" id="1_8fgg2"]
 [ext_resource type="PackedScene" uid="uid://c3ofn0ecdtr1c" path="res://scenes/vfx/explosion.tscn" id="2_24h2i"]
 [ext_resource type="PackedScene" uid="uid://gogppffhawcg" path="res://scenes/vfx/missile_skin.tscn" id="2_lhhpn"]
+[ext_resource type="Script" uid="uid://cnj66si8nohqb" path="res://scripts/vfx/after_image.gd" id="4_crd8f"]
+[ext_resource type="PackedScene" uid="uid://cneiptb36xyau" path="res://scenes/vfx/missile_ghost.tscn" id="5_wl26k"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7fw7d"]
 size = Vector3(0.51464844, 0.64038086, 0.6191406)
@@ -22,3 +24,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.7527851)
 shape = SubResource("BoxShape3D_7fw7d")
 
 [node name="MissileSkin" parent="." unique_id=1036262529 instance=ExtResource("2_lhhpn")]
+
+[node name="AfterImageTrail" type="Node3D" parent="." unique_id=1620635747 node_paths=PackedStringArray("source_node")]
+script = ExtResource("4_crd8f")
+ghost_scene = ExtResource("5_wl26k")
+ghost_count = 8
+spawn_interval = 0.035
+visible_duration = 0.22
+source_node = NodePath("../MissileSkin")

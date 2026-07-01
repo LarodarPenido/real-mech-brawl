@@ -2,7 +2,7 @@
 
 #   get_fire_point() -> Vector3    # Target world position, or Vector3.ZERO
 #   has_lock() -> bool
-extends Node
+extends Node3D
 
 ## Targeting
 @export var assist_radius: float = 20.0  ## Pixels — range to acquire lock
@@ -10,6 +10,9 @@ extends Node
 @export var max_lock_range: float = 70.0  ## World units — max distance from player
 @export var aim_height_adjustment: float = 1.0 ## adjustment to avoid firing at the ground
 @export var prefer_closest_to_cursor: bool = true  ## true = lock nearest cursor; false = lock lowest health
+
+@export var free_aim_ray_distance: float = 400.0
+@export var free_aim_arrival_distance: float = 2.0
 
 ### Faction filtering (matches missile_lock pattern)
 #@export var owner_faction: String = "player"
@@ -50,11 +53,42 @@ func get_fire_point() -> Vector3:
 		return locked_target.global_position + Vector3(0, aim_height_adjustment, 0)
 	return Vector3.ZERO
 
+func get_aim_point(fallback_origin: Vector3, fallback_direction: Vector3) -> Vector3:
+	# If there is a lock, use the locked enemy.
+	if has_lock():
+		return get_fire_point()
+
+	# If camera is missing, fall back to straight ahead.
+	if camera == null:
+		return fallback_origin + fallback_direction.normalized() * free_aim_ray_distance
+
+	var mouse_pos := get_viewport().get_mouse_position()
+	var ray_origin := camera.project_ray_origin(mouse_pos)
+	var ray_dir := camera.project_ray_normal(mouse_pos)
+	var ray_end := ray_origin + ray_dir * free_aim_ray_distance
+
+	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	query.collide_with_bodies = true
+	query.collide_with_areas = true
+
+	if player != null and player is CollisionObject3D:
+		query.exclude = [player.get_rid()]
+
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+
+	if not hit.is_empty():
+		return hit.position
+
+	# If the cursor ray hits nothing, aim far into the camera ray.
+	return ray_end
 
 func has_lock() -> bool:
 	return locked_target != null and is_instance_valid(locked_target)
 	
-
+func get_locked_target() -> Node3D:
+	if locked_target and is_instance_valid(locked_target):
+		return locked_target
+	return null
 
 # --- Acquisition ---
 

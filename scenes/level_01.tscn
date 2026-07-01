@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://qgo74etxvanb" path="res://scenes/enemies/choppa_enemy.tscn" id="3_3kr23"]
 [ext_resource type="ArrayMesh" uid="uid://dguopkpsd1lwm" path="res://assets/models/vegetation/tree.tres" id="3_jg26c"]
 [ext_resource type="PackedScene" uid="uid://imwh7n82s1bi" path="res://scenes/scenario/wall.tscn" id="3_nr3cb"]
-[ext_resource type="PackedScene" uid="uid://bw2ku6npyjwrs" path="res://scenes/scenario/ramp.tscn" id="5_42ncp"]
 [ext_resource type="Material" uid="uid://dvbiugh5kokbx" path="res://assets/materials/outline_only.tres" id="5_e6mo4"]
 [ext_resource type="PackedScene" uid="uid://tdmytnpgvmoe" path="res://scenes/enemies/goon_enemy.tscn" id="5_j60wy"]
 [ext_resource type="Script" uid="uid://dd1jpsyocy7e5" path="res://scripts/ui/aim_assist_indicator.gd" id="6_1b6n0"]
@@ -29,6 +28,8 @@
 [ext_resource type="Script" uid="uid://coa6wl0t3nbp1" path="res://scripts/ui/wave_counter_label.gd" id="20_oy082"]
 [ext_resource type="AudioStream" uid="uid://c383pif857rgj" path="res://assets/sfx/ambient/soundreality-wind-dry-low-sfx-521893.ogg" id="23_353n8"]
 [ext_resource type="Script" uid="uid://bqspp4ugkjvrv" path="res://scripts/sfx/volume_randomizer.gd" id="24_4rfup"]
+[ext_resource type="PackedScene" uid="uid://bdlac25vb46vn" path="res://scenes/ui/spawn_preview.tscn" id="25_oy082"]
+[ext_resource type="PackedScene" uid="uid://bemnwpainmcy7" path="res://scenes/ui/options_overlay.tscn" id="30_a577o"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3ybv4"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -158,8 +159,9 @@ buffer = PackedFloat32Array(-0.19991145, -0.8476248, -0.031259, -18.731094, -0.2
 stream_count = 1
 stream_0 = ExtResource("23_353n8")
 
-[node name="Level01" type="Node3D" unique_id=767856874]
+[node name="Level01" type="Node3D" unique_id=767856874 node_paths=PackedStringArray("options_overlay")]
 script = ExtResource("1_3kr23")
+options_overlay = NodePath("OptionsOverlay")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=2023190948]
 texture_filter = 1
@@ -190,7 +192,7 @@ shadow_enabled = true
 [node name="Player" parent="SubViewportContainer/SubViewport" unique_id=2122187641 instance=ExtResource("1_bpt1m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 95.07483, 193.00717)
 
-[node name="AimAssist" parent="SubViewportContainer/SubViewport/Player" index="4" unique_id=1053862583 node_paths=PackedStringArray("enemy_manager")]
+[node name="AimAssist" parent="SubViewportContainer/SubViewport/Player" index="5" unique_id=902848816 node_paths=PackedStringArray("enemy_manager")]
 enemy_manager = NodePath("../../../../EnemyManager")
 
 [node name="LevelSkin" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=228400400]
@@ -335,7 +337,7 @@ shape = SubResource("BoxShape3D_4b3kd")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.375, 5.55825, 164.808)
 
 [node name="Block" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/Sector01" unique_id=540429256 instance=ExtResource("8_px6rj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.643795, -2.3653584, 228.20099)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.254025, -2.3653584, 228.20099)
 
 [node name="Block8" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/Sector01" unique_id=197958854 instance=ExtResource("8_px6rj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.861042, 5.462288, -2.4380875)
@@ -407,15 +409,6 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21.75
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.38165283, 0)
 multimesh = SubResource("MultiMesh_2ucnx")
 
-[node name="Ramp" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/Sector01" unique_id=1331247521 instance=ExtResource("5_42ncp")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.0289307, -0.18397617, 242.285)
-
-[node name="Ramp2" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/Sector01" unique_id=207526635 instance=ExtResource("5_42ncp")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.0289125, -0.18397617, -142.9497)
-
-[node name="Ramp3" parent="SubViewportContainer/SubViewport/LevelSkin/Sectors/Sector01" unique_id=536598169 instance=ExtResource("5_42ncp")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.0289125, 4.9369955, -156.60077)
-
 [node name="Background" type="Node3D" parent="SubViewportContainer/SubViewport/LevelSkin" unique_id=1309348691]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.040787, 0)
 
@@ -465,6 +458,7 @@ missile_pip_size = Vector2(2, 2)
 missile_pip_gap = 2.0
 missile_pip_vertical_offset = 8.6
 missile_pip_color = Color(1, 1, 1, 0.9490196)
+missile_show_empty_slots = true
 
 [node name="AimAssistIndicator" type="Control" parent="SubViewportContainer/SubViewport/CombatHUD" unique_id=87881544 node_paths=PackedStringArray("camera", "aim_assist", "weapon_manager")]
 visible = false
@@ -541,36 +535,34 @@ enemy_scenes = Array[PackedScene]([ExtResource("5_j60wy"), ExtResource("13_cr2eh
 enemy_parent = NodePath("../../SubViewportContainer/SubViewport/EnemyContainer")
 spawn_points_parent = NodePath("SpawnPoints")
 enemy_manager = NodePath("..")
-start_delay = 2.0
-time_between_waves = 4.0
-time_between_spawns = 1.0
+spawn_indicator_scene = ExtResource("25_oy082")
 
 [node name="SpawnPoints" type="Node3D" parent="EnemyManager/WaveManager" unique_id=1208794979]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.8277855)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30.459808, -5.8277855)
 
 [node name="Marker3D" type="Marker3D" parent="EnemyManager/WaveManager/SpawnPoints" unique_id=712595338]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, 20.765331, -47.768784)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, 20.765331, -45)
 
 [node name="Marker3D2" type="Marker3D" parent="EnemyManager/WaveManager/SpawnPoints" unique_id=2031797423]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7131429, 20.765331, -47.57644)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7131429, 20.765331, -45)
 
 [node name="Marker3D3" type="Marker3D" parent="EnemyManager/WaveManager/SpawnPoints" unique_id=539325002]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.259886, 20.765331, -47.15593)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.259886, 20.765331, -45)
 
 [node name="Marker3D4" type="Marker3D" parent="EnemyManager/WaveManager/SpawnPoints" unique_id=721210090]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.020756, 20.765331, -47.976563)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.020756, 20.765331, -45)
 
 [node name="Marker3D5" type="Marker3D" parent="EnemyManager/WaveManager/SpawnPoints" unique_id=840377496]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.7419467, 20.765331, 110.10211)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.7419467, 20.765331, 110)
 
 [node name="Marker3D6" type="Marker3D" parent="EnemyManager/WaveManager/SpawnPoints" unique_id=712534785]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, 20.765331, 109.79735)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62847, 20.765331, 110)
 
 [node name="Marker3D7" type="Marker3D" parent="EnemyManager/WaveManager/SpawnPoints" unique_id=1049739326]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.218359, 20.765331, 110.08646)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.218359, 20.765331, 110)
 
 [node name="Marker3D8" type="Marker3D" parent="EnemyManager/WaveManager/SpawnPoints" unique_id=1808563232]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.62469, 20.765331, 94.3723)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.62469, 20.765331, 110)
 
 [node name="VFXRegister" type="Node3D" parent="." unique_id=1073069626]
 script = ExtResource("18_s61md")
@@ -583,6 +575,8 @@ autoplay = true
 bus = &"SFX"
 script = ExtResource("24_4rfup")
 max_volume_db = -15.0
+
+[node name="OptionsOverlay" parent="." unique_id=59319672 instance=ExtResource("30_a577o")]
 
 [connection signal="game_over" from="SubViewportContainer/SubViewport/Player" to="." method="_on_player_game_over"]
 [connection signal="all_waves_cleared" from="EnemyManager/WaveManager" to="." method="_on_wave_manager_all_waves_cleared"]

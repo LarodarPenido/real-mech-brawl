@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://r7dhs4ukx64r" path="res://scripts/managers/loading_scene.gd" id="1_esnvl"]
 [ext_resource type="PackedScene" uid="uid://cbp3r2r874j0m" path="res://scenes/pickups/health_pickup.tscn" id="1_w6lti"]
+[ext_resource type="PackedScene" uid="uid://gcjlq2bm2ucw" path="res://scenes/vfx/machinegun_impact.tscn" id="2_xifab"]
 [ext_resource type="Material" uid="uid://rruet4eblpd8" path="res://scenes/scenario/republic_red.tres" id="3_artno"]
 [ext_resource type="Material" uid="uid://dvgsgx2g7okvm" path="res://assets/materials/outline.tres" id="4_xifab"]
 [ext_resource type="PackedScene" uid="uid://crunayklf1313" path="res://scenes/weapons/autocannon.tscn" id="5_s1mj6"]
@@ -86,6 +87,8 @@ size = Vector3(4.9470215, 8.822266, 2.4519653)
 
 [node name="Loading" type="Node3D" unique_id=97008794]
 script = ExtResource("1_esnvl")
+
+[node name="MachinegunImpact" parent="." unique_id=1565906636 instance=ExtResource("2_xifab")]
 
 [node name="HealthPickup" parent="." unique_id=595357997 instance=ExtResource("1_w6lti")]
 script = null

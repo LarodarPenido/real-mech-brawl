@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cneiptb36xyau"]
+
+[ext_resource type="Material" uid="uid://dbcwd2ik274nt" path="res://assets/materials/afterimage_ghost.tres" id="1_6t1ne"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4b3kd"]
+top_radius = 0.3
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=1036262529]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_4b3kd")
+skeleton = NodePath("../CollisionShape3D")
+surface_material_override/0 = ExtResource("1_6t1ne")

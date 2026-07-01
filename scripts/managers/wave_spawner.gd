@@ -14,6 +14,10 @@ signal all_waves_cleared()
 @export var time_between_spawns: float = 0.25
 @export var auto_start: bool = true
 
+@export_group("Spawn Indicators")
+@export var spawn_indicator_scene: PackedScene
+@export var spawn_indicator_warning_time: float = 0.75
+@export var spawn_indicator_linger_time: float = 0.1
 
 @export var wave_spawn_position_offset: float = -30.0
 # Each Dictionary means:
@@ -126,7 +130,6 @@ func _cache_spawn_points() -> void:
 			print("wave spawner: spawn point added at:", child.global_position)
 			_spawn_points.append(child)
 
-
 func _start_next_wave() -> void:
 	print("wave spawner: new wave started")
 	_wave_index += 1
@@ -167,13 +170,26 @@ func _spawn_wave(wave_data: Dictionary) -> void:
 
 	for i in range(spawn_queue.size()):
 		var enemy_type_index := spawn_queue[i]
-		_spawn_enemy(enemy_type_index, i)
+		var spawn_point := _spawn_points[i % _spawn_points.size()]
+
+		var indicator := _spawn_spawn_indicator(spawn_point)
+
+		if spawn_indicator_warning_time > 0.0:
+			await get_tree().create_timer(spawn_indicator_warning_time).timeout
+
+		_spawn_enemy(enemy_type_index, spawn_point)
+
+		if spawn_indicator_linger_time > 0.0:
+			await get_tree().create_timer(spawn_indicator_linger_time).timeout
+
+		if is_instance_valid(indicator):
+			indicator.queue_free()
+
 		await get_tree().create_timer(time_between_spawns).timeout
 
 	_spawning_wave = false
 
-
-func _spawn_enemy(enemy_type_index: int, spawn_index: int) -> void:
+func _spawn_enemy(enemy_type_index: int, spawn_point: Marker3D) -> void:
 	if enemy_type_index < 0 or enemy_type_index >= enemy_scenes.size():
 		return
 
@@ -185,13 +201,10 @@ func _spawn_enemy(enemy_type_index: int, spawn_index: int) -> void:
 	if enemy == null:
 		return
 
-	var spawn_point := _spawn_points[spawn_index % _spawn_points.size()]
-
 	enemy_parent.add_child(enemy)
 	enemy.global_position = spawn_point.global_position
-	enemy.global_rotation = spawn_point.global_rotation
+	enemy.global_rotation = Vector3.ZERO #spawn_point.global_rotation
 
-	# Only enemies spawned here count toward wave completion.
 	_alive_wave_enemies.append(enemy)
 	enemy.add_to_group("wave_enemy")
 
@@ -237,3 +250,22 @@ func get_current_wave_number() -> int:
 
 func get_wave_counter_text() -> String:
 	return "WAVE %d/%d" % [get_current_wave_number(), get_total_waves()]
+
+func _spawn_spawn_indicator(spawn_point: Marker3D) -> Node3D:
+	if spawn_indicator_scene == null:
+		push_warning("WaveSpawner: spawn_indicator_scene is not assigned.")
+		return null
+
+	var new_indicator := spawn_indicator_scene.instantiate() as Node3D
+	if new_indicator == null:
+		push_warning("WaveSpawner: spawn_indicator_scene root must be Node3D.")
+		return null
+
+	spawn_point.add_child(new_indicator)
+
+	# Because it is a child of the marker, use local transform.
+	#new_indicator.position = Vector3.ZERO
+	new_indicator.visible = true
+
+	return new_indicator
+	

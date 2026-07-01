@@ -65,15 +65,6 @@ func can_fire() -> bool:
 	if _cooldown_left > 0.0:
 		return false
 
-	if aim_assist == null:
-		return false
-
-	if not aim_assist.has_method("has_lock"):
-		return false
-
-	if not aim_assist.has_lock():
-		return false
-
 	return true
 
 
@@ -94,7 +85,6 @@ func set_owner_node(new_owner: Node3D) -> void:
 func set_missile_lock(new_missile_lock: Node) -> void:
 	pass
 
-
 func _spawn_missile(muzzle: Marker3D) -> void:
 	if muzzle == null:
 		return
@@ -104,7 +94,35 @@ func _spawn_missile(muzzle: Marker3D) -> void:
 
 	missile.global_transform = muzzle.global_transform
 
-	var start_dir := -muzzle.global_transform.basis.z
+	var muzzle_pos := muzzle.global_position
+	var muzzle_forward := -muzzle.global_transform.basis.z
+
+	var aim_point := muzzle_pos + muzzle_forward * 400.0
+	var locked_target: Node3D = null
+
+	if aim_assist != null:
+		if aim_assist.has_method("get_aim_point"):
+			aim_point = aim_assist.get_aim_point(muzzle_pos, muzzle_forward)
+
+		if aim_assist.has_method("get_locked_target"):
+			locked_target = aim_assist.get_locked_target()
+	elif owner_body != null and "current_aim_point" in owner_body:
+		aim_point = owner_body.current_aim_point
+
+	var start_dir := aim_point - muzzle_pos
+
+	if start_dir.length_squared() < 0.001:
+		start_dir = muzzle_forward
+	else:
+		start_dir = start_dir.normalized()
 
 	if missile.has_method("setup"):
-		missile.setup(start_dir, aim_assist, owner_body)
+		missile.setup(
+			start_dir,
+			aim_assist,
+			owner_body,
+			aim_point,
+			true,
+			locked_target
+		)
+		
